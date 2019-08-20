@@ -1,0 +1,49 @@
+[my-icon="collect1"] {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url("../images/icon/collect.png");
+    background-size: cover;
+    z-index: 99;
+    margin-top: 8px;
+}
+
+[my-icon="collect2"] {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url("../images/icon/collect1.png");
+    background-size: cover;
+    z-index: 99;
+    margin-top: 8px;
+}
+
+[myicon="collect3"] {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url("../images/icon/collect.png");
+    background-size: cover;
+    z-index: 99;
+    margin-top: 8px;
+}
+
+[myicon="collect4"] {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url("../images/icon/collect1.png");
+    background-size: cover;
+    z-index: 99;
+    margin-top: 8px;
+}
+
+.collect {
+    float: right;
+    margin-right: 16px;
+}
+
+.collectAll {
+    float: right;
+    display: inline-block;
+}
