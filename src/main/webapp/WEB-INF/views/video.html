@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta property="qc:admins" content="77103107776553571676375">
+    <meta property="wb:webmaster" content="c4f857219bfae3cb">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="超酷的互联网、IT技术免费学习平台，创新的网络一站式学习、实践体验；服务及时贴心，内容专业、有趣易学。专注服务互联网工程师快速成为技术高手！">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>video</title>
+    <link rel="stylesheet" th:href="@{/static/css/videoplay02.css}">
+    <link rel="stylesheet" th:href="@{/static/css/videoplay01.css}">
+    <link rel="stylesheet" th:href="@{/static/css/video.css}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <!--视频播放器的link-->
+    <link th:href="@{/static/css/videodemo.css}" rel="stylesheet" media="all"/>
+    <script type="application/x-javascript">
+        addEventListener(
+            "load", function () {
+                setTimeout(hideURLbar, 0);
+            }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <style class="vjs-styles-defaults">
+        .video-js {
+            width: 300px;
+            height: 150px;
+        }
+
+        .vjs-fluid {
+            padding-top: 56.25%
+        }
+    </style>
+    <style class="vjs-styles-dimensions">
+        .video-box-mocoplayer-hls-video-dimensions {
+            width: 1280px;
+            height: 720px;
+        }
+
+        .video-box-mocoplayer-hls-video-dimensions.vjs-fluid {
+            padding-top: 56.25%;
+        }
+    </style>
+</head>
+<body>
+<div id="header" class="course-detail-header">
+    <div class="cd-inner clearfix">
+        <ul class="l">
+            <li class="nv nv-goback">
+                <a href="" class="revert l"><span my-icon="left"></span></a>
+            </li>
+            <li class="nv nv-menu">
+                <a href="javascript:;" class="chaptername J-chaptername" data-id="6160" style="cursor:text;">
+                    <em>7-1 课程总结</em>
+                </a>
+            </li>
+        </ul>
+        <div id="login-area">
+            <!--购物车，头像-->
+            <ul class="clearfix logined">
+                <li class="shop-cart" id="shop-cart">
+                    <a href="" class="shop-cart-icon" target="_blank">
+                        <span my-icon="cart01"></span>
+                        <span class="shopping_icon js-cart-num" data-ordernum="0" data-cartnum="0"
+                              style="display: none">0</span>
+                    </a>
+                    <div class="my-cart" id="js-my-cart"></div>
+                </li>
+                <li class="set_btn user-card-box" id="header-user-card">
+                    <a id="header-avator" class="user-card-item" action-type="my_menu" href="" target="_self">
+                        <img th:src="@{/static/images/avatar20.jpg}" width="40" height="40">
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="search-warp clearfix">
+            <!--搜索框-->
+            <div class="search-area" data-search="top-banner">
+                <input class="search-input" data-suggest-trigger="suggest-trigger" placeholder="搜索感兴趣的内容" type="text"
+                       autocomplete="off">
+                <input type="hidden" class="btn_search" data-search-btn="search-btn">
+                <ul class="search-area-result" data-suggest-result="suggest-result"></ul>
+            </div>
+            <div class="showhide-search" data-show="no">
+                <span my-icon="search02"></span>
+                <span my-icon="search01"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--视频播放-->
+<div class="wthree-row w3-agile">
+    <div id="videoContainer">
+        <div class="overlay">
+            <div class="button agileinfo"></div>
+        </div>
+        <div id="video">
+            <video th:src="@{/static/video/v02.mp4}"></video>
+            <p>Your user agent does not support this Video element.</p>
+        </div>
+        <div id="controls">
+            <div class="playButton">
+                <div class="playPause"></div>
+            </div>
+            <div class="ProgressContainer">
+                <div class="timer intialTime"> 00:00</div>
+                <div class="progressBar">
+                    <div class="progress"></div>
+                </div>
+                <div class="time"> 00:00</div>
+                <div class="timer fullTime"> 00:00</div>
+            </div>
+            <div class="volume">
+                <div class="icon"></div>
+                <div class="intensityBar">
+                    <div class="intensity"></div>
+                </div>
+            </div>
+            <div class="scale">
+                <div class="icon"></div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/static/js/jquery.js}"></script>
+    <script>
+        $(document).ready(function () {
+
+            'use strict';
+
+            var play_pause = $('.playButton'),
+                container = $('#videoContainer'),
+                playIcon = $('.playButton .playPause'),
+                video = $('video'),
+                play = $('.play'),
+                volume = $('.volume .icon'),
+                volumeIntesity = $('.volume .intensityBar'),
+                intensity = $('.intensity'),
+                progressBar = $('.progressBar'),
+                progress = $('.progressBar .progress'),
+                timer = $('.intialTime'),
+                vidDuration = $('.fullTime'),
+                expandButton = $('.scale .icon'),
+                overlayScreen = $('.overlay'),
+                timeState = $('.time'),
+                overlayButton = $('.overlay .button'),
+                update;
+
+
+            $(window).resize(function () {
+                resizeVid();
+            });
+
+            resizeVid();
+
+            updateplayer();
+
+            play_pause.add(video).click(function () {
+                playVid();
+            });
+
+            progressBar.click(function () {
+                skip();
+            });
+
+            progressBar.mousemove(function () {
+                timeState.text(getTimeState());
+            });
+
+            volume.click(function () {
+                toggleMute();
+            });
+
+            volumeIntesity.click(function () {
+                changeVolume();
+            });
+
+            expandButton.click(function () {
+                fullScreen();
+            });
+
+            overlayButton.click(function () {
+                playVid();
+            });
+
+            vidDuration.text(getFormatedFullTime());
+
+
+            function playVid() {
+                if (video.get(0).paused) {
+                    video.get(0).play();
+                    playIcon.css({
+                        'background': 'url(/known/static/images/pause.png)',
+                        'background-size': '100% 100%'
+                    });
+                    overlayScreen.hide();
+                    update = setInterval(updateplayer, 1);
+
+                } else {
+                    video.get(0).pause();
+                    playIcon.css({
+                        'background': 'url(/known/static/images/play.png)',
+                        'background-size': '100% 100%'
+                    });
+                    overlayScreen.show();
+                    clearInterval(update);
+                }
+            }
+
+            function updateplayer() {
+                var percentage = (video[0].currentTime / video[0].duration) * 100;
+                progress.css({'width': percentage + '%'});
+                timer.text(getFormatedTime());
+                vidDuration.text(getFormatedFullTime());
+
+                if (video[0].ended) {
+                    playIcon.css({
+                        'background': 'url(/known/static/images/play.png)',
+                        'background-size': '100% 100%'
+                    });
+                    overlayScreen.show();
+                    overlayButton.css({
+                        'background': 'url(/known/static/images/replay.png)',
+                        'background-size': '100% 100%'
+                    });
+                } else if (video[0].paused) {
+                    overlayButton.css({
+                        'background': 'url(/known/static/images/play-button.png)',
+                        'background-size': '100% 100%'
+                    });
+                }
+            }
+
+            function getTimeState() {
+
+                var mouseX = event.pageX - progressBar.offset().left,
+                    width = progressBar.outerWidth();
+
+                var currentSeconeds = Math.round((mouseX / width) * video[0].duration);
+                var currentMinutes = Math.floor(currentSeconeds / 60);
+
+                if (currentMinutes > 0) {
+                    currentSeconeds -= currentMinutes * 60;
+                }
+                if (currentSeconeds.toString().length === 1) {
+                    currentSeconeds = "0" + currentSeconeds;
+                }
+                if (currentMinutes.toString().length === 1) {
+                    currentMinutes = "0" + currentMinutes;
+                }
+
+                timeState.css('left', (mouseX / width) * progressBar.width() + 18 + 'px');
+
+                return currentMinutes + ':' + currentSeconeds;
+
+            }
+
+            function skip() {
+                var mouseX = event.pageX - progressBar.offset().left,
+                    width = progressBar.outerWidth();
+                video[0].currentTime = (mouseX / width) * video[0].duration;
+                updateplayer();
+            }
+
+            function getFormatedFullTime() {
+
+                var totalSeconeds = Math.round(video[0].duration);
+                var totalMinutes = Math.floor(totalSeconeds / 60);
+                if (totalMinutes > 0) {
+                    totalSeconeds -= totalMinutes * 60;
+                }
+                if (totalSeconeds.toString().length === 1) {
+                    totalSeconeds = "0" + totalSeconeds;
+                }
+                if (totalMinutes.toString().length === 1) {
+                    totalMinutes = "0" + totalMinutes;
+                }
+                return totalMinutes + ':' + totalSeconeds;
+            }
+
+            function getFormatedTime() {
+                var seconeds = Math.round(video[0].currentTime);
+                var minutes = Math.floor(seconeds / 60);
+
+                if (minutes > 0) {
+                    seconeds -= minutes * 60;
+                }
+                if (seconeds.toString().length === 1) {
+                    seconeds = "0" + seconeds;
+                }
+                if (minutes.toString().length === 1) {
+                    minutes = "0" + minutes;
+                }
+                return minutes + ':' + seconeds;
+            }
+
+            function toggleMute() {
+                if (!video[0].muted) {
+                    video[0].muted = true;
+                    volume.css({
+                        'background': 'url(/known/static/images/mute.png)',
+                        'background-size': '100% 100%'
+                    });
+                    intensity.hide();
+                } else {
+                    video[0].muted = false;
+                    volume.css({
+                        'background': 'url(/known/static/images/volume.png)',
+                        'background-size': '100% 100%'
+                    });
+                    intensity.show();
+                }
+            }
+
+            function changeVolume() {
+                var mouseX = event.pageX - volumeIntesity.offset().left,
+                    width = volumeIntesity.outerWidth();
+
+                video[0].volume = (mouseX / width);
+                intensity.css('width', (mouseX / width) * width + 'px');
+                video[0].muted = false;
+                volume.css({
+                    'background': 'url(/known/static/images/volume.png)',
+                    'background-size': '100% 100%'
+                });
+                intensity.show();
+            }
+
+            function fullScreen() {
+                if (video[0].requestFullscreen) {
+                    video[0].requestFullscreen();
+                } else if (video[0].webkitRequestFullscreen) {
+                    video[0].webkitRequestFullscreen();
+                } else if (video[0].mozRequestFullscreen) {
+                    video[0].mozRequestFullscreen();
+                } else if (video[0].msRequestFullscreen) {
+                    video[0].msRequestFullscreen();
+                } else {
+                    video.dblclick(function () {
+                        fullScreen();
+                    });
+                }
+
+            }
+
+            function resizeVid() {
+                if (container.width() < 600) {
+                    container.addClass('small');
+                } else {
+                    container.removeClass('small');
+                }
+            }
+
+            $(window).keypress(function (e) {
+                if (e.keyCode === 0 || e.keyCode === 32) {
+                    e.preventDefault()
+                    playVid();
+                }
+            });
+
+            for (var i = 0, l = videos.length; i < l; i++) {
+                var video = videos[i];
+                var src = video.src || (function () {
+                    var sources = video.querySelectorAll("source");
+                    for (var j = 0, sl = sources.length; j < sl; j++) {
+                        var source = sources[j];
+                        var type = source.type;
+                        var isMp4 = type.indexOf("mp4") != -1;
+                        if (isMp4) return source.src;
+                    }
+                    return null;
+                })();
+                if (src) {
+                    var isYoutube = src && src.match(/(?:youtu|youtube)(?:\.com|\.be)\/([\w\W]+)/i);
+                    if (isYoutube) {
+                        var id = isYoutube[1].match(/watch\?v=|[\w\W]+/gi);
+                        id = (id.length > 1) ? id.splice(1) : id;
+                        id = id.toString();
+                        var mp4url = "http://www.youtubeinmp4.com/redirect.php?video=";
+                        video.src = mp4url + id;
+                    }
+                }
+            }
+        });
+    </script>
+</div>
+
+<!--评论模块-->
+<div class="subcontainer">
+
+    <div class="course-subnav js-course-subnav">
+        <ul class="clearfix">
+            <li data-type="qa" class="" data-index="0">问答</li>
+            <li data-type="comment" data-index="1" class="current">评论</li>
+            <li data-index="3" class="">资料下载</li>
+        </ul>
+    </div>
+
+    <div class="course-subcontainer clearfix">
+        <div class="course-left">
+            <div id="tabwrap">
+                <!--问答---->
+                <div class="js-tab-item tab-item c-qalist current" data-type="qa" style="display: none;">
+                    <div class="comp-filter-bar clearfix">
+                        <a href="javascript:;" class="moco-change-smalle-btn active" data-t="/t/2">全部</a>
+                        <a href="javascript:;" class="moco-change-smalle-btn" data-t="/t/4">精华</a>
+                        <span class="js-pub-btn moco-btn moco-btn-gray-l">我要发布</span>
+                    </div>
+                    <div id="qaContainer" class="answertabcon">
+                        <div class="course_quescon mod-post">
+                            <div class="wenda-listcon mod-qa-list clearfix">
+                                <div class="icon-wenda"></div>
+                                <div class="headslider qa-medias l">
+                                    <a href="" class="media" target="_blank" title="菜鸟00001"><img
+                                            th:src="@{/static/images/avatar01.jpg}" width="40" height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <h2 class="wendaquetitle qa-header">
+                                        <div class="wendatitlecon qa-header-cnt clearfix"><a
+                                                href="https://www.imooc.com/qadetail/320648" target="_blank"
+                                                class="qa-tit"> 一直报 发生未知错误 200 </a></div>
+                                    </h2>
+                                    <div class="replycont qa-body clearfix">
+                                        <div class="l replydes"><span class="replysign">最新回答 / <a
+                                                href="https://www.imooc.com/u/7936252/courses" target="_blank"
+                                                title="qq_精慕门3409064" class="nickname">qq_精慕门3409064</a></span>
+                                            <div class="replydet">
+                                                你服务端最后一句，里面的PSOT应该是POST，拼错了echo'{"success":true,"msg":"员工:'.$_PSOT["name"].'信息保存成功！"}';
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a href="https://www.imooc.com/qadetail/320648" target="_blank"
+                                               class="replynumber static-count "> <span class="static-item answer">                             1 回答                         </span>
+                                                <span class="static-item">                             117 浏览                         </span>
+                                            </a>
+                                        </div>
+                                        <em class="r">2019-06-26</em></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list clearfix">
+                                <div class="icon-wenda"></div>
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/3770988/courses" class="media" target="_blank"
+                                       title="爱笑的小眼睛"><img th:src="@{/static/images/avatar02.jpg}" width="40"
+                                                           height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <h2 class="wendaquetitle qa-header">
+                                        <div class="wendatitlecon qa-header-cnt clearfix"><a
+                                                href="https://www.imooc.com/qadetail/232416" target="_blank"
+                                                class="qa-tit"> ajax执行问题 </a></div>
+                                    </h2>
+                                    <div class="replycont qa-body clearfix">
+                                        <div class="l replydes"><span class="replysign">最新回答 / <a
+                                                href="https://www.imooc.com/u/5541583/courses" target="_blank"
+                                                title="慕慕2585309" class="nickname">慕慕2585309</a></span>
+                                            <div class="replydet">readyState&nbsp;属性存有服务器响应的状态信息。每当&nbsp;readyState&nbsp;改变时，onreadystatechange&nbsp;函数就会被执行。下面是&nbsp;readyState&nbsp;属性可能的值：状态&nbsp;描述&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;请求未初始化（在调用&nbsp;open()&nbsp;之前）&nbsp;1&nbsp;...</div>
+                                        </div>
+                                    </div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a href="https://www.imooc.com/qadetail/232416" target="_blank"
+                                               class="replynumber static-count "> <span class="static-item answer">                             1 回答                         </span>
+                                                <span class="static-item">                             526 浏览                         </span>
+                                            </a>
+                                        </div>
+                                        <em class="r">2017-08-18</em></div>
+                                </div>
+                            </div>
+
+                            <div class="wenda-listcon mod-qa-list clearfix">
+                                <div class="icon-wenda"></div>
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/4984296/courses" class="media" target="_blank"
+                                       title="LittleBitch"><img th:src="@{/static/images/avatar03.jpg}" width="40"
+                                                                height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <h2 class="wendaquetitle qa-header">
+                                        <div class="wendatitlecon qa-header-cnt clearfix"><a
+                                                href="https://www.imooc.com/qadetail/213037" target="_blank"
+                                                class="qa-tit"> service.php </a></div>
+                                    </h2>
+                                    <div class="replycont qa-body clearfix">
+                                        <div class="l replydes"><span class="replysign">最新回答 / <a
+                                                href="https://www.imooc.com/u/235084/courses" target="_blank"
+                                                title="梦飞_0001" class="nickname">梦飞_0001</a></span>
+                                            <div class="replydet">&lt;...code...&gt;</div>
+                                        </div>
+                                    </div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a href="https://www.imooc.com/qadetail/213037" target="_blank"
+                                               class="replynumber static-count "> <span class="static-item answer">                             2 回答                         </span>
+                                                <span class="static-item">                             357 浏览                         </span>
+                                            </a>
+                                        </div>
+                                        <em class="r">2017-04-22</em></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list clearfix">
+                                <div class="icon-wenda"></div>
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/3811504/courses" class="media" target="_blank"
+                                       title="coco迷弟"><img th:src="@{/static/images/avatar04.jpg}" width="40"
+                                                           height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <h2 class="wendaquetitle qa-header">
+                                        <div class="wendatitlecon qa-header-cnt clearfix"><a
+                                                href="https://www.imooc.com/qadetail/200931" target="_blank"
+                                                class="qa-tit"> 动态填充数据 </a></div>
+                                    </h2>
+                                    <div class="replycont qa-body clearfix">
+                                        <div class="l replydes"><span class="replysign">最新回答 / <a
+                                                href="https://www.imooc.com/u/3118245/courses" target="_blank"
+                                                title="书旅" class="nickname">书旅</a></span>
+                                            <div class="replydet">嗯嗯，我觉得这只是Ajax的一小部分吧，使用Ajax的代码几乎格式固定</div>
+                                        </div>
+                                    </div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a href="https://www.imooc.com/qadetail/200931" target="_blank"
+                                               class="replynumber static-count "> <span class="static-item answer">                             1 回答                         </span>
+                                                <span class="static-item">                             222 浏览                         </span>
+                                            </a>
+                                        </div>
+                                        <em class="r">2017-02-26</em></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list clearfix">
+                                <div class="icon-wenda"></div>
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/2355574/courses" class="media" target="_blank"
+                                       title="qq_平_3"><img th:src="@{/static/images/avatar05.jpg}" width="40"
+                                                           height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <h2 class="wendaquetitle qa-header">
+                                        <div class="wendatitlecon qa-header-cnt clearfix"><a
+                                                href="https://www.imooc.com/qadetail/195814" target="_blank"
+                                                class="qa-tit"> 空格的问题 </a></div>
+                                    </h2>
+                                    <div class="replycont qa-body clearfix">
+                                        <div class="l replydes"><span class="replysign">最赞回答 / <a
+                                                href="https://www.imooc.com/u/261180/courses" target="_blank"
+                                                title="洋葱头" class="nickname">洋葱头</a></span>
+                                            <div class="replydet">url中有空格，那url不就不对了么</div>
+                                        </div>
+                                    </div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a href="https://www.imooc.com/qadetail/195814" target="_blank"
+                                               class="replynumber static-count "> <span class="static-item answer">                             3 回答                         </span>
+                                                <span class="static-item">                             216 浏览                         </span>
+                                            </a>
+                                        </div>
+                                        <em class="r">2017-08-02</em></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list clearfix">
+                                <div class="icon-wenda"></div>
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/2135900/courses" class="media" target="_blank"
+                                       title="QAQQQQ"><img th:src="@{/static/images/avatar06.jpg}" width="40"
+                                                           height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <h2 class="wendaquetitle qa-header">
+                                        <div class="wendatitlecon qa-header-cnt clearfix"><a
+                                                href="https://www.imooc.com/qadetail/182715" target="_blank"
+                                                class="qa-tit"> JSON出错 </a></div>
+                                    </h2>
+                                    <div class="replycont qa-body clearfix">
+                                        <div class="l replydes"><span class="replysign">最新回答 / <a
+                                                href="https://www.imooc.com/u/3519707/courses" target="_blank"
+                                                title="Greentea1120" class="nickname">Greentea1120</a></span>
+                                            <div class="replydet">把代码贴出来</div>
+                                        </div>
+                                    </div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a href="https://www.imooc.com/qadetail/182715" target="_blank"
+                                               class="replynumber static-count "> <span class="static-item answer">                             1 回答                         </span>
+                                                <span class="static-item">                             160 浏览                         </span>
+                                            </a>
+                                        </div>
+                                        <em class="r">2016-11-18</em></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list clearfix">
+                                <div class="icon-finish"></div>
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/2955190/courses" class="media" target="_blank"
+                                       title="qq_锡死亡骑士_0"><img th:src="@{/static/images/avatar07.jpg}" width="40"
+                                                               height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <h2 class="wendaquetitle qa-header">
+                                        <div class="wendatitlecon qa-header-cnt clearfix"><a
+                                                href="https://www.imooc.com/qadetail/167931" target="_blank"
+                                                class="qa-tit"> 为什么下载了源码运行后一直无法加载php文件 </a></div>
+                                    </h2>
+                                    <div class="replycont qa-body clearfix">
+                                        <div class="l replydes best"> <span class="replysign"><span
+                                                class="adopt">已采纳回答</span> /
+													<a href="https://www.imooc.com/u/2517462/courses" target="_blank"
+                                                       title="qq_生命的奇迹_0" class="nickname">qq_生命的奇迹_0</a>
+													</span>
+                                            <div class="replydet">还需要下载php的环境</div>
+                                        </div>
+                                    </div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a href="https://www.imooc.com/qadetail/167931" target="_blank"
+                                               class="replynumber static-count "> <span class="static-item answer">                             1 回答                         </span>
+                                                <span class="static-item">                             545 浏览                         </span>
+                                            </a>
+                                        </div>
+                                        <em class="r">2016-09-21</em></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="paginationwrap">
+                        <div class="pagination"></div>
+                    </div>
+                </div>
+
+                <!--评论-->
+                <div class="js-tab-item tab-item c-comment" data-type="comment" style="display:block;">
+                    <div class="comp-filter-bar clearfix">
+                        <a href="javascript:;" class="moco-change-smalle-btn active">全部</a>
+                        <span class="js-pub-btn moco-btn moco-btn-gray-l" id="send">我要发布</span>
+                    </div>
+                    <div id="commentContainer" class="answertabcon">
+                        <div class="course_quescon mod-post">
+                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="602734">
+                                <div class="headslider qa-medias l">
+                                    <a href="" class="media" target="_blank" title="Olivlia">
+                                        <img th:src="@{/static/images/avatar08.jpg}" width="40" height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <div class="tit">
+                                        <a href="" target="_blank">Olivlia</a>
+                                    </div>
+                                    <div class="cnt">不错，很适合新手入门</div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a title="赞" href="javascript:;"
+                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="602734">
+                                                <span my-icon="thumb01"></span><em>2</em></a>
+                                            <a href="javascript:;" data-id="602734" data-type="4" data-uid="7904351"
+                                               class="js-tip-off" data-src="/video/6160">举报</a>
+                                        </div>
+                                        <span class="r timeago">4天前</span></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="602634">
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/5569489/courses" class="media" target="_blank"
+                                       title="慕雪2089261"><img th:src="@{/static/images/avatar09.jpg}" width="40"
+                                                              height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <div class="tit">
+                                        <a href="https://www.imooc.com/u/5569489/courses" target="_blank">慕雪2089261</a>
+                                    </div>
+                                    <div class="cnt">老师讲的很细</div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a title="赞" href="javascript:;"
+                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="602634">
+                                                <span my-icon="thumb01"></span><em>3</em></a>
+                                            <a href="javascript:;" data-id="602634" data-type="4" data-uid="5569489"
+                                               class="js-tip-off" data-src="/video/6160">举报</a>
+                                        </div>
+                                        <span class="r timeago">5天前</span></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="602344">
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/7580529/courses" class="media" target="_blank"
+                                       title="IMUHERO"><img th:src="@{/static/images/avatar10.jpg}" width="40"
+                                                            height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <div class="tit">
+                                        <a href="https://www.imooc.com/u/7580529/courses" target="_blank">IMUHERO</a>
+                                    </div>
+                                    <div class="cnt">老师真的讲的很好，把我很多疑惑都点通了</div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a title="赞" href="javascript:;"
+                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="602344">
+                                                <span my-icon="thumb01"></span><em>1</em></a>
+                                            <a href="javascript:;" data-id="602344" data-type="4" data-uid="7580529"
+                                               class="js-tip-off" data-src="/video/6160">举报</a>
+                                        </div>
+                                        <span class="r timeago">2019-08-08</span></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="598912">
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/2110967/courses" class="media" target="_blank"
+                                       title="weibo_微天下微生活_0"><img th:src="@{/static/images/avatar11.jpg}" width="40"
+                                                                   height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <div class="tit">
+                                        <a href="https://www.imooc.com/u/2110967/courses"
+                                           target="_blank">weibo_微天下微生活_0</a>
+                                    </div>
+                                    <div class="cnt">讲的真好，直击每一个疑问，好老师</div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a title="赞" href="javascript:;"
+                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="598912">
+                                                <span my-icon="thumb01"></span><em>4</em></a>
+                                            <a href="javascript:;" data-id="598912" data-type="4" data-uid="2110967"
+                                               class="js-tip-off" data-src="/video/6160">举报</a>
+                                        </div>
+                                        <span class="r timeago">2019-06-05</span></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="597588">
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/3009866/courses" class="media" target="_blank"
+                                       title="假蛙工程师"><img th:src="@{/static/images/avatar12.jpg}" width="40"
+                                                          height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <div class="tit">
+                                        <a href="https://www.imooc.com/u/3009866/courses" target="_blank">假蛙工程师</a>
+                                    </div>
+                                    <div class="cnt">学完了。是“名称/值”对。不是“名称/值对”。嘿嘿</div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a title="赞" href="javascript:;"
+                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="597588">
+                                                <span my-icon="thumb01"></span><em>5</em></a>
+                                            <a href="javascript:;" data-id="597588" data-type="4" data-uid="3009866"
+                                               class="js-tip-off" data-src="/video/6160">举报</a>
+                                        </div>
+                                        <span class="r timeago">2019-05-14</span></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="595847">
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/7004930/courses" class="media" target="_blank"
+                                       title="慕神1111125"><img th:src="@{/static/images/avatar13.jpg}" width="40"
+                                                              height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <div class="tit">
+                                        <a href="https://www.imooc.com/u/7004930/courses" target="_blank">慕神1111125</a>
+                                    </div>
+                                    <div class="cnt">讲解很好！</div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a title="赞" href="javascript:;"
+                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="595847">
+                                                <span my-icon="thumb01"></span><em>2</em></a>
+                                            <a href="javascript:;" data-id="595847" data-type="4" data-uid="7004930"
+                                               class="js-tip-off" data-src="/video/6160">举报</a>
+                                        </div>
+                                        <span class="r timeago">2019-04-13</span></div>
+                                </div>
+                            </div>
+                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="594985">
+                                <div class="headslider qa-medias l">
+                                    <a href="https://www.imooc.com/u/7717646/courses" class="media" target="_blank"
+                                       title="慕沐风"><img th:src="@{/static/images/avatar14.jpg}" width="40" height="40"></a>
+                                </div>
+                                <div class="wendaslider qa-content">
+                                    <div class="tit">
+                                        <a href="https://www.imooc.com/u/7717646/courses" target="_blank">慕沐风</a>
+                                    </div>
+                                    <div class="cnt">谢谢老师</div>
+                                    <div class="replymegfooter qa-footer clearfix">
+                                        <div class="l-box l">
+                                            <a title="赞" href="javascript:;"
+                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="594985">
+                                                <span my-icon="thumb01"></span><em>2</em></a>
+                                            <a href="javascript:;" data-id="594985" data-type="4" data-uid="7717646"
+                                               class="js-tip-off" data-src="/video/6160">举报</a>
+                                        </div>
+                                        <span class="r timeago">2019-04-06</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="paginationwrap">
+                        <div class="pagination"><span class="current prev disabled">首页</span><span
+                                class="current prevclass prev">上一页</span>
+                            <span class="current p_interval">1</span>
+                            <a href="javascript:;" class="p_interval">2</a>
+                            <a href="javascript:;" class="p_interval">3</a>
+                            <span class="p_interval">...</span>
+                            <a href="javascript:;" class="p_interval">27</a>
+                            <a href="javascript:;" class="nextclass next">下一页</a>
+                            <a href="javascript:;" class="prev disabled lastclass">尾页</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--资料下载-->
+                <div class="js-tab-item tab-item c-download" style="display: none;">
+                    <ul>
+                        <li>
+                            <i class="imv2-folder"></i>
+                            <span title="ajax全接触(源代码)">ajax全接触(源代码)</span>
+                            <a href="" target="_blank" download="" class="clearfix">
+                                <i class="imv2-arrow3_d"></i>
+                                <span>立即下载</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="course-right clearfix">
+            <div id="courseVideoWendalistRight"></div>
+            <div class="js-commend-box">
+                <div class="mb40 recom-course-list-box">
+                    <h4>推荐课程</h4>
+                    <ul class="js-recom-course moco-aside-course clearfix">
+                        <li>
+                            <div class="aside-course-img"><img th:src="@{/static/images/course01.jpg}">
+                                <p class="aside-course-type">实战</p>
+                            </div>
+                            <div class="aside-course-content">
+                                <a href="" class="aside-course-name"
+                                   target="_blank">Vue.js2.5+cube-ui重构饿了么App（经典再升级）</a>
+                                <p class="aside-course-price"><span>￥198.00&nbsp;</span></p>
+                                <p class="aside-course-grade">中级&nbsp;</p>
+                                <p class="aside-course-people"><span>8496人在学</span></p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="aside-course-img"><img th:src="@{/static/images/course02.jpg}">
+                                <p class="aside-course-type">实战</p>
+                            </div>
+                            <div class="aside-course-content">
+                                <a href="" class="aside-course-name" target="_blank">微信小程序入门与实战 常用组件API开发技巧项目实战</a>
+                                <p class="aside-course-price"><span>￥149.00&nbsp;</span></p>
+                                <p class="aside-course-grade">初级&nbsp;</p>
+                                <p class="aside-course-people"><span>18348人在学</span></p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="aside-course-img"><img th:src="@{/static/images/course03.jpg}">
+                                <p class="aside-course-type">实战</p>
+                            </div>
+                            <div class="aside-course-content">
+                                <a href="" class="aside-course-name" target="_blank">从0开始 独立完成企业级Java电商网站服务端开发(长期维护)</a>
+                                <p class="aside-course-price"><span>￥348.00&nbsp;</span></p>
+                                <p class="aside-course-grade">中级&nbsp;</p>
+                                <p class="aside-course-people"><span>7724人在学</span></p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="aside-course-img"><img th:src="@{/static/images/course04.jpg}">
+                                <p class="aside-course-type">实战</p>
+                            </div>
+                            <div class="aside-course-content">
+                                <a href="https://coding.imooc.com/class/115.html" class="aside-course-name"
+                                   target="_blank">前端JavaScript面试技巧</a>
+                                <p class="aside-course-price"><span>￥149.00&nbsp;</span></p>
+                                <p class="aside-course-grade">初级&nbsp;</p>
+                                <p class="aside-course-people"><span>4090人在学</span></p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="aside-course-img">
+                                <img th:src="@{/static/images/course05.jpg}">
+                                <p class="aside-course-type">实战</p>
+                            </div>
+                            <div class="aside-course-content">
+                                <a href="https://coding.imooc.com/class/203.html" class="aside-course-name"
+                                   target="_blank">Vue2.5开发去哪儿网App 从零基础入门到实战项目</a>
+                                <p class="aside-course-price"><span>￥266.00&nbsp;</span></p>
+                                <p class="aside-course-grade">中级&nbsp;</p>
+                                <p class="aside-course-people"><span>6369人在学</span></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="js-tag-box">
+                <div class="box mb40 all-attention-box">
+                    <h4>热门专题标签</h4>
+                    <div class="js-all-attention all-attention">
+                        <a href="" target="_blank" data-id="26" class="yellow fs14 bold">Nodejs</a>
+                        <a href="" target="_blank" data-id="29" class="orange fs18 bold">全栈工程师是怎样炼成的</a>
+                        <a href="" target="_blank" data-id="25" class="green fs20 bold">更高级MySQL数据库教程</a>
+                        <a href="" target="_blank" data-id="24" class="blue fs16 bold">jQuery 实例教程</a>
+                        <a href="" target="_blank" data-id="10" class="lake-blue fs14 normal">入门微信小程序</a>
+                        <a href="" target="_blank" data-id="28" class="yellow fs18 bold">Android最新面试技巧</a>
+                        <a href="" target="_blank" data-id="27" class="orange fs20 normal">仿站开发</a>
+                    </div>
+                </div>
+            </div>
+            <div class="js-related-box">
+                <div class="mb40 recom-course-list-box">
+                    <h4>相关课程</h4>
+                    <ul class="js-recom-course moco-aside-course clearfix">
+                        <li>
+                            <div class="aside-course-img"><img th:src="@{/static/images/course06.jpg}"></div>
+                            <div class="aside-course-content">
+                                <a href="https://www.imooc.com/learn/1164" class="aside-course-name" target="_blank">Chrome
+                                    DevTools开发者工具调试指南</a>
+                                <p class="aside-course-grade">入门&nbsp;</p>
+                                <p class="aside-course-people"><span>1099人在学</span></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="aside-course-img"><img th:src="@{/static/images/course07.jpg}"></div>
+                            <div class="aside-course-content">
+                                <a href="https://www.imooc.com/learn/1151" class="aside-course-name" target="_blank">Golang微信小程序微商城系统原型</a>
+                                <p class="aside-course-grade">入门&nbsp;</p>
+                                <p class="aside-course-people"><span>3856人在学</span></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="aside-course-img"><img th:src="@{/static/images/course08.jpg}"></div>
+                            <div class="aside-course-content">
+                                <a href="https://www.imooc.com/learn/1148" class="aside-course-name" target="_blank">【告白神器】N种语言实现4版本抖音告白程序</a>
+                                <p class="aside-course-grade">入门&nbsp;</p>
+                                <p class="aside-course-people"><span>4110人在学</span></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="aside-course-img"><img th:src="@{/static/images/course09.jpg}"></div>
+                            <div class="aside-course-content">
+                                <a href="https://www.imooc.com/learn/1012" class="aside-course-name" target="_blank">mobx入门基础教程</a>
+                                <p class="aside-course-grade">入门&nbsp;</p>
+                                <p class="aside-course-people"><span>14763人在学</span></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="aside-course-img"><img th:src="@{/static/images/course10.jpg}"></div>
+                            <div class="aside-course-content">
+                                <a href="https://www.imooc.com/learn/1003" class="aside-course-name" target="_blank">从零做一个前端开源项目</a>
+                                <p class="aside-course-grade">高级&nbsp;</p>
+                                <p class="aside-course-people"><span>38711人在学</span></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--发布评论-->
+<div class="modal fade" id="commendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">添加评论</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="new_avatar_form">
+                    <div class="form-group">
+                        <div class="col-sm-12 cc-profile-image my-pic">
+                            <label for="new_commend">文本框</label>
+                            <textarea class="form-control" id="new_commend" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal_close" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default modal_modify" onclick="avatar()">提交评论</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<div id="footer">
+    <div class="waper">
+        <div class="footerwaper clearfix">
+            <div class="footer_intro l">
+                <div class="footer_link">
+                    <ul>
+                        <li>
+                            <a href="" target="_blank">网站首页</a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank" title="企业合作">企业合作</a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank">人才招聘</a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank">联系我们</a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank">关于我们</a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank">讲师招募</a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank">意见反馈</a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank">友情链接</a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Copyright © 2019 known.com All Rights Reserved | 京ICP备 13046642号-2</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/static/js/jquery.js}"></script>
+<script th:src="@{/static/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/video.js}"></script>
+</html>

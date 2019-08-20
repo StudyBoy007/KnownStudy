@@ -1,0 +1,299 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>teacher</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta property="qc:admins" content="77103107776157736375">
+<meta property="wb:webmaster" content="c4f857219bfae3cb">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta http-equiv="Cache-Control" content="no-transform ">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="keywords" content="HTML/CSS,JavaScript,基础语法,HTML DOM对象,jQuery,WebApp,前端工具,Bootstrap">
+<meta name="description" content="资深UI 前端 架构，互联网行业折腾10余年，前后端开发、敏捷过程、项目管理经验丰富，负责过多个产品和技术团队，一直奋斗在Full Stack的道路上，爱技术，爱创业，爱一切新事物，玩过乐队，喜欢折腾！">
+
+	<link rel="stylesheet" th:href="@{/static/css/teacherinfo01.css}">
+	<link rel="stylesheet" th:href="@{/static/css/teacherinfo02.css}">
+	<link rel="stylesheet" th:href="@{/static/css/teacher-less.css}">
+	
+	<!--导航栏css-->
+	<link rel="stylesheet" th:href="@{/static/css/templatemo-style.css}">
+	<link rel="stylesheet" th:href="@{/static/css/bootstrap.css}">
+	
+</head>
+
+<body>
+<!-- 窄条导航 -->
+ <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+	  <div class="container">
+
+		   <div class="navbar-header">
+				<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					 <span class="icon icon-bar"></span>
+					 <span class="icon icon-bar"></span>
+					 <span class="icon icon-bar"></span>
+				</button>
+
+				<!-- lOGO TEXT HERE -->
+				<a href="index.html" class="navbar-brand">Known</a>
+		   </div>
+
+		   <!-- MENU LINKS -->
+		  	   <div class="collapse navbar-collapse">
+				
+				<ul class="nav navbar-nav navbar-right">
+					 <li><a href="#"><i class="fa fa-phone"></i> +65 2244 1100</a></li>
+				</ul>
+		   </div>
+
+	  </div>
+ </section>
+
+<!--主页-->
+<div id="main">
+<div class="big-wrap">
+	<div class="top-box">
+		<div class="top-bg-mask">
+			<div class="top-content-wrap">
+				<div class="clearfix">
+					<div class="share-box r">
+					
+					</div>
+				</div>
+					<div class="teacher-box">
+					<img class="tea-header" th:src="@{/static/images/ti01.jpg}" alt="">
+					<div class="tea-title">
+						<p>慕课网官方认证</p>
+						<h3 id="teacher">精英讲师</h3>
+					</div>
+					<p class="tea-nickname">刘梦昊_Haoge</p>
+					<p class="tea-professional">Web前端工程师</p>
+										<a href="javascript:void(0);" class="moco-btn payattention-btn js-payattention-btn js-add-attention" data-id="102093">
+						<i class="icon-group_add"></i>
+						关注Ta 						
+					</a>
+					<p class="tea-desc">资深UI 前端 架构，互联网行业折腾10余年，前后端开发、敏捷过程、项目管理经验丰富，负责过多个产品和技术团队，一直奋斗在Full Stack的道路上，爱技术，爱创业，爱一切新事物，玩过乐队，喜欢折腾！</p>					<div class="tea-detail-box">
+						<ul class="clearfix">
+							<li>
+								<a href="">
+									<p class="num">1</p>
+									<p class="text">实战</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<p class="num">9</p>
+									<p class="text">课程</p>
+								</a>
+							</li>
+							<li>
+								<p class="num" id="js-tea-fan-num">3460</p>
+								<p class="text">粉丝</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			    			</div>
+		</div>
+		<div class="bottom-trangle"></div>
+	</div>
+	<div class="bottom-box">
+				<div class="shizhan-box">
+			<h2 id="Shizhan">实战</h2>
+			<p class="cato-desc">上进唯实战可得，突破绝技成长瓶颈</p>
+			<div class="shizhan-del-box">
+				<ul>
+					<li class="course01">
+						<div class="shizhan-mask">
+							<a href="">
+								<p class="shizhan-title" title="响应式开发一招致胜">响应式开发一招致胜</p>
+								<p class="shizhan-desc">用一套代码开发出不受设备型号、尺寸限制的互联网金融网站</p>
+								<div class="bottom-box clearfix">
+									<p class="shizhan-price l">￥128.00</p>
+									<p class="icon icon-right r"></p>
+								</div>
+							</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+						<div class="course-box">
+			<h2 id="Course">课程</h2>
+			<p class="cato-desc">精品课程应有尽有，快速入门助力成长</p>
+			<div class="course-del-box">
+				<ul>
+					<li class="moco-course-wrap">                                     
+                        <a href="">
+	                        <div class="moco-course-box">
+	                            <img alt="测试克隆慕课网" th:src="@{/static/images/ti03.jpg}" height="124" width="100%">
+	                            <div class="moco-course-intro">
+	                                <h3>
+	                                		                                	<i>中级</i>
+	                                		                                	FullPage.js全屏滚动插件</h3>
+	                                <p>fullPage.js 是一个基于 jQuery 的插件，它能够很方便、很轻松的制作出全屏网站。如今我们经常能见到全屏网站，在手机上也经常能看到一些活动页面。这些网站用几幅很大的图片或色块做背景，再添加一些简单的内容，通过滚动或者滑动来翻页，显得格外的高端大气上档次。</p>
+	                            </div>
+	                            <div class="moco-course-bottom"><span class="l"> 44600人在学</span></div>
+	                        </div>
+	                    </a>
+	                </li>
+                	
+					<li class="moco-course-wrap">                                     
+                        <a href="">
+	                        <div class="moco-course-box">
+	                            <img alt="测试克隆慕课网" th:src="@{/static/images/ti04.jpg}" height="124" width="100%">
+	                            <div class="moco-course-intro">
+	                                <h3>
+	                                		                                	<i>中级</i>
+	                                		                                	jQuery插件——Validation Plugin</h3>
+	                                <p>jQuery有很多有用的插件，其中Validation插件是最常用的插件之一。客户端表单验证是现代网站经常采用的方式，可以减少服务器压力，缩短用户等待时间和提升用户体验。jQuery Validation插件提供了很多的配置项目，还附带了很多验证方法及多语言提示。</p>
+	                            </div>
+	                            <div class="moco-course-bottom"><span class="l"> 64905人在学</span></div>
+	                        </div>
+	                    </a>
+	                </li>
+                	
+					<li class="moco-course-wrap">                                     
+                        <a href="">
+	                        <div class="moco-course-box">
+	                            <img alt="测试克隆慕课网" th:src="@{/static/images/ti05.jpg}" height="124" width="100%">
+	                            <div class="moco-course-intro">
+	                                <h3>
+	                                		                                	<i>中级</i>
+	                                		                                	Ajax全接触</h3>
+	                                <p>本课程通过一个简单的例子，由浅入深，循序渐进的介绍了Ajax的相关概念、原理、实现方式和应用方法，包含HTTP请求的概念、PHP的简单语法、JSON数据格式、Ajax的原生和jQuery实现、跨域等知识点。</p>
+	                            </div>
+	                            <div class="moco-course-bottom"><span class="l"> 220138人在学</span></div>
+	                        </div>
+	                    </a>
+	                </li>
+                	
+					<li class="moco-course-wrap">                                     
+                        <a href="">
+	                        <div class="moco-course-box">
+	                            <img alt="测试克隆慕课网" th:src="@{/static/images/ti06.jpg}" height="124" width="100%">
+	                            <div class="moco-course-intro">
+	                                <h3>
+	                                		                                	<i>中级</i>
+	                                		                                	jQM Web App –列车时刻表</h3>
+	                                <p>jQuery Mobile 是创建移动WEB应用程序的框架，使用广泛。本课程通过一个列车时刻表的简单案例，讲解了jQMobile的页面、事件、按钮、图标、导航栏、网格、列表、表单、Ajax等主要组件的使用方法，通过案例学习，举一反三，基本上可以开发简单的Web App应用。</p>
+	                            </div>
+	                            <div class="moco-course-bottom"><span class="l"> 37577人在学</span></div>
+	                        </div>
+	                    </a>
+	                </li>
+                	
+					<li class="moco-course-wrap">                                     
+                        <a href="">
+	                        <div class="moco-course-box">
+	                            <img alt="测试克隆慕课网" th:src="@{/static/images/ti07.jpg}" height="124" width="100%">
+	                            <div class="moco-course-intro">
+	                                <h3>
+	                                		                                	<i>中级</i>
+	                                		                                	基于bootstrap的网页开发</h3>
+	                                <p>Bootstrap是用于前端开发的工具包，提供了优雅的HTML和CSS规范，并基于jQuery开发了丰富的Web组件。课程介绍了Bootstrap框架的基本知识，并基于Bootstrap框架，实现了一个浏览器介绍的单页面网页，同时网页支持移动设备，通过案例的实现让您对Bootstrap有更深入的了解。</p>
+	                            </div>
+	                            <div class="moco-course-bottom"><span class="l"> 178766人在学</span></div>
+	                        </div>
+	                    </a>
+	                </li>
+                	
+					<li class="moco-course-wrap">                                     
+                        <a href="">
+	                        <div class="moco-course-box">
+	                            <img alt="测试克隆慕课网" th:src="@{/static/images/ti08.jpg}" height="124" width="100%">
+	                            <div class="moco-course-intro">
+	                                <h3>
+	                                		                                	<i>初级</i>
+	                                		                                	WEB调试工具---Firebug</h3>
+	                                <p>Firebug是WEB调试工具之一，是网页浏览器 Firefox 下的一款开发类插件。它集HTML查看和编辑、JS控制台、网络状况监视器于一体，是开发JavaScript、CSS、HTML和Ajax的得力助手。掌握Firebug的使用，可从各个不同的角度剖析Web页面内部的细节，给Web开发带来极大的便利。</p>
+	                            </div>
+	                            <div class="moco-course-bottom"><span class="l"> 75972人在学</span></div>
+	                        </div>
+	                    </a>
+	                </li>
+					
+					<li class="moco-course-wrap">                                     
+                        <a href="">
+	                        <div class="moco-course-box">
+	                            <img alt="测试克隆慕课网" th:src="@{/static/images/ti09.jpg}" height="124" width="100%">
+	                            <div class="moco-course-intro">
+	                                <h3>
+	                                		                                	<i>初级</i>
+	                                		                                	Tooltip浮动提示框效果</h3>
+	                                <p>本课程详细讲述使用原生JavaScript如何设计和实现Tooltip浮动提示框特效。并通过一步一步的代码实现和代码优化过程，不仅让您掌握特效的实现，还掌握解决问题的思路，了解诸如代码简化、事件绑定、事件冒泡等更多的JavaScript技巧和知识，提升编程兴趣和水平。</p>
+	                            </div>
+	                            <div class="moco-course-bottom"><span class="l"> 25510人在学</span></div>
+	                        </div>
+	                    </a>
+	                </li>
+                	
+					<li class="moco-course-wrap">                                     
+                        <a href="">
+	                        <div class="moco-course-box">
+	                            <img alt="测试克隆慕课网" th:src="@{/static/images/ti10.jpg}" height="124" width="100%">
+	                            <div class="moco-course-intro">
+	                                <h3>
+	                                		                                	<i>初级</i>
+	                                		                                	网页定位导航特效</h3>
+	                                <p>本课程我们将为大家介绍从静态布局到动态效果实现，从浅到深，循循渐进，讲解如何定位到所需位置，运用jQuery、JavaScript两种方式实现网页定位导航。赶快行动吧！</p>
+	                            </div>
+	                            <div class="moco-course-bottom"><span class="l"> 68992人在学</span></div>
+	                        </div>
+	                    </a>
+	                </li>
+                	
+					<li class="moco-course-wrap">                                     
+                        <a href="">
+	                        <div class="moco-course-box">
+	                            <img alt="测试克隆慕课网" th:src="@{/static/images/ti11.jpg}" height="124" width="100%">
+	                            <div class="moco-course-intro">
+	                                <h3>
+	                                		                                	<i>初级</i>
+	                                		                                	用JS实现放大镜特效</h3>
+	                                <p>本课程让我们了解了电商放大镜特效的整个实现过程，本案例将向您讲解如何分析和解决问题的思路，详细介绍了JavaScript相关的知识点，多浏览器调试等技能。</p>
+	                            </div>
+	                            <div class="moco-course-bottom"><span class="l"> 28023人在学</span></div>
+	                        </div>
+	                    </a>
+	                </li>
+                </ul>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<div id="footer" data="t,index">
+    <div class="waper">
+        <div class="footerwaper clearfix">
+            <div class="followus r">
+                <a class="followus-weixin" href="javascript:;" target="_blank" title="微信">
+                    <div class="flw-weixin-box"></div>
+                </a>
+                <a class="followus-weibo" href="" title="新浪微博"></a>
+                <a class="followus-qzone" href="" title="QQ空间"></a>
+            </div>
+            <div class="footer_intro l">
+                <div class="footer_link">
+                    <ul>
+                        <li><a href="index.html" >网站首页</a></li>
+                        <li><a href="" title="企业合作">企业合作</a></li>
+                        <li><a href="">人才招聘</a></li>
+                        <li><a href="">联系我们</a></li>
+                        <li><a href="" >讲师招募</a></li>
+                        <li><a href="">帮助中心</a></li>
+                        <li><a href="">意见反馈</a></li>                                       
+                        <li><a href="">友情链接</a></li>
+                        <li><a href="">合作专区</a></li>
+                        <li><a href="">关于我们</a></li>
+                    </ul>
+                </div>
+                <p>Copyright © 2019 known.com All Rights Reserved | 京ICP备 12003892号-11 北京Known在线教育有限公司</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

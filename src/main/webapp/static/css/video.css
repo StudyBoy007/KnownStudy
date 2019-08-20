@@ -1,0 +1,47 @@
+[my-icon="left"] {
+    display: block;
+    width: 50%;
+    height: 50%;
+    background-image: url("../images/icon/left01.png");
+    background-size: cover;
+    z-index: 99;
+    margin-left: 18px;
+    margin-top: 13px;
+}
+
+[my-icon="search01"] {
+    display: block;
+    width: 66%;
+    height: 88%;
+    background-image: url("../images/icon/search01.png");
+    background-size: cover;
+    z-index: 99;
+}
+
+[my-icon="search02"] {
+    display: block;
+    width: 66%;
+    height: 88%;
+    background: url("../images/icon/search02.png");
+    background-size: cover;
+    z-index: 99;
+    display: none;
+}
+
+[my-icon="cart01"] {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: url("../images/icon/cart01.png");
+    background-size: cover;
+    z-index: 99;
+}
+
+[my-icon="thumb01"] {
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: url("../images/icon/thumb01.png");
+    background-size: cover;
+    z-index: 99;
+}

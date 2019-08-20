@@ -1,0 +1,97 @@
+﻿<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>course</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/static/css/shouye.css}">
+
+    <script th:src="@{/static/js/jquery.js}"></script>
+    <script th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script th:src="@{/static/js/modernizr-custom-v2.7.1.min.js}"></script>
+    <script th:src="@{/static/js/CourseDisplay.js}"></script>
+
+</head>
+<body>
+
+<div class="Xcontent">
+    <ul class="Xcontent01">
+        <div class="Xcontent06"><img th:src="@{/static/images/courses-image4.jpg}"></div>
+        <ol class="Xcontent13">
+            <div class="Xcontent14"><a href="#"><p>web前端工程师</p></a></div>
+            <div class="Xcontent15"><img th:src="@{/static/images/shangpinxiangqing/X11.png}"></div>
+            <div class="Xcontent16"><p>充电5分钟，温暖2小时</p></div>
+            <div class="Xcontent17">
+                <p class="Xcontent18">售价</p>
+                <p class="Xcontent19">￥<span>69.00</span></p>
+                <div class="Xcontent20">
+                    <p class="Xcontent21">促销</p>
+                    <img th:src="@{/static/images/shangpinxiangqing/X12.png}">
+                    <p class="Xcontent22">领610元新年礼券，满再赠好礼</p>
+                </div>
+                <div class="Xcontent23">
+                    <p class="Xcontent24">服务</p>
+                    <p class="Xcontent25">名校讲师在线辅导&nbsp;&nbsp;&nbsp;&nbsp; 48小时快速退款 &nbsp;&nbsp;&nbsp;&nbsp; 课后有问必答</p>
+                </div>
+
+            </div>
+            <div class="Xcontent26">
+                <p class="Xcontent27">付款方式</p>
+                <div class="Xcontent28">
+                    <button class="btn btn-primary flower">蚂蚁花呗</button>
+                    <button class="white btn btn-danger">京东白条</button>
+                </div>
+            </div>
+            <div class="Xcontent30">
+                <div class="collect"><img class="collectOk" th:src="@{/static/images/shangpinxiangqing/collect.png}"
+                                          alt=""
+                                          width="30px"><img class="collectNo"
+                                                            th:src="@{/static/images/shangpinxiangqing/collect1.png}"
+                                                            alt=""
+                                                            width="30px"><span>立即收藏</span></div>
+            </div>
+            <div class="Xcontent34"><a href="#"><img class="buy"
+                                                     th:src="@{/static/images/shangpinxiangqing/X17.png}"></a></div>
+            <div class="Xcontent35"><a href="#"><img class="collectCar"
+                                                     th:src="@{/static/images/shangpinxiangqing/X18.png}"></a>
+            </div>
+        </ol>
+    </ul>
+</div>
+
+<!--是否进入购物车-->
+<div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">购物车</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="new_avatar_form">
+                    <div class="form-group">
+                        <div class="col-sm-12 cc-profile-image my-pic">
+                            添加购物车成功，是否查看购物车
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal_close" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default modal_modify" onclick="goCar()">进入购物车</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+    <p>适用浏览器：IE8、360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗.</p>
+</div>
+</body>
+</html>
+

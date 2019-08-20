@@ -1,0 +1,33 @@
+[my-icon="del"] {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-image: url("../images/icon/del.png");
+    background-size: cover;
+    z-index: 99;
+    margin-top: 30px;
+}
+
+[my-icon="select01"] {
+    display: block;
+    width: 25px;
+    height: 25px;
+    background-image: url("../images/icon/select01.png");
+    background-size: cover;
+    z-index: 99;
+    margin-left: 10px;
+}
+
+[my-icon="select02"] {
+    display: block;
+    width: 25px;
+    height: 25px;
+    background-image: url("../images/icon/select02.png");
+    background-size: cover;
+    z-index: 99;
+    margin-left: 10px;
+}
+
+.m_top {
+    margin-top: 80px;
+}

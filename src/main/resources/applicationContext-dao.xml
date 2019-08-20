@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder location="classpath:db.properties" system-properties-mode="FALLBACK"/>
+    <!--配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="url" value="${url}"/>
+        <property name="driverClassName" value="${driver}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+        <property name="maxActive" value="${maxactive}"/>
+        <property name="maxWait" value="${maxwait}"/>
+    </bean>
+    <!--扫描dao层-->
+    <!--sqlsessionfactory-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--配置Mybatis核心文件-->
+        <property name="configLocation" value="classpath:config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+
+        <!--给实体类所在包取别名,首字母小写-->
+        <property name="typeAliasesPackage" value="entity"/>
+        <!--配置映射文件-->
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+    </bean>
+
+    <!--dao层对象注入-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--mapper注册-->
+        <property name="basePackage" value="dao"/>
+    </bean>
+
+</beans>
