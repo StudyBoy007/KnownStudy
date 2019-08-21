@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TestCon {
     @RequestMapping("/")
     public String listDisplay() {
-        return "radioDisplay";
+        return "index";
     }
 
 

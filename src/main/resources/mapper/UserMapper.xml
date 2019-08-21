@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.UserMapper">
+    <resultMap id="BaseResultMap" type="entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+        <result column="study_direction" property="studyDirection" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="motto" property="motto" jdbcType="VARCHAR"/>
+        <result column="account" property="account" jdbcType="INTEGER"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="entity.User">
+        insert into user (id, username, password,
+                          sex, age, address,
+                          avatar, study_direction, phone,
+                          email, motto, account)
+        values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},
+                #{avatar,jdbcType=VARCHAR}, #{studyDirection,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR}, #{motto,jdbcType=VARCHAR}, #{account,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="entity.User">
+        update user
+        set username        = #{username,jdbcType=VARCHAR},
+            password        = #{password,jdbcType=VARCHAR},
+            sex             = #{sex,jdbcType=VARCHAR},
+            age             = #{age,jdbcType=INTEGER},
+            address         = #{address,jdbcType=VARCHAR},
+            avatar          = #{avatar,jdbcType=VARCHAR},
+            study_direction = #{studyDirection,jdbcType=VARCHAR},
+            phone           = #{phone,jdbcType=VARCHAR},
+            email           = #{email,jdbcType=VARCHAR},
+            motto           = #{motto,jdbcType=VARCHAR},
+            account         = #{account,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id,
+               username,
+               password,
+               sex,
+               age,
+               address,
+               avatar,
+               study_direction,
+               phone,
+               email,
+               motto,
+               account
+        from user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id,
+               username,
+               password,
+               sex,
+               age,
+               address,
+               avatar,
+               study_direction,
+               phone,
+               email,
+               motto,
+               account
+        from user
+        where username = #{username}
+    </select>
+
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               username,
+               password,
+               sex,
+               age,
+               address,
+               avatar,
+               study_direction,
+               phone,
+               email,
+               motto,
+               account
+        from user
+    </select>
+
+    <insert id="saveUser" parameterType="user">
+        insert into user(username, password, sex, study_direction, phone, email)
+        values (#{username}, #{password}, #{sex}, #{studyDirection}, #{phone}, #{email});
+    </insert>
+</mapper>

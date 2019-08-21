@@ -1,4 +1,5 @@
 # Project exclude paths
-/target/
-!/KnownStudy.iml
-!/.idea/
+target
+*.iml
+.idea
+test

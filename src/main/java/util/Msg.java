@@ -15,26 +15,29 @@ public class Msg {
     private String msg;
 
     //用户要返回给浏览器的数据
-    private Map<String, Object> extend = new HashMap<String, Object>();
+    private Object o;
 
-    public static Msg success(){
-        Msg result = new Msg();
-        result.setCode(100);
-        result.setMsg("处理成功！");
-        return result;
+    public Msg(int code, String msg, Object o) {
+        this.code = code;
+        this.msg = msg;
+        this.o = o;
     }
 
-    public static Msg fail(){
-        Msg result = new Msg();
-        result.setCode(200);
-        result.setMsg("处理失败！");
-        return result;
+    public static Msg result(int code, String msg, Object o) {
+        return new Msg(code, msg, o);
     }
 
-    public Msg add(String key, Object value){
-        this.getExtend().put(key, value);
-        return this;
-    }
+//    public static Msg fail() {
+//        Msg result = new Msg();
+//        result.setCode(200);
+//        result.setMsg("处理失败！");
+//        return result;
+//    }
+
+//    public Msg add(String key, Object value) {
+//        this.getExtend().put(key, value);
+//        return this;
+//    }
 
     public int getCode() {
         return code;
@@ -52,11 +55,19 @@ public class Msg {
         this.msg = msg;
     }
 
-    public Map<String, Object> getExtend() {
-        return extend;
+    public Object getO() {
+        return o;
     }
 
-    public void setExtend(Map<String, Object> extend) {
-        this.extend = extend;
+    public void setO(Object o) {
+        this.o = o;
     }
+
+    //    public Map<String, Object> getExtend() {
+//        return extend;
+//    }
+//
+//    public void setExtend(Map<String, Object> extend) {
+//        this.extend = extend;
+//    }
 }

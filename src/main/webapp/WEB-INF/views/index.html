@@ -18,7 +18,6 @@
     <div class="spinner">
 
         <span class="spinner-rotate"></span>
-
     </div>
 </section>
 
@@ -50,22 +49,18 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right information">
-                <li class="loginAndReg">
-                    <!--                    <button class="btn btn-success marginTop btn-lg" data-toggle="modal" data-target="#login">注册/登录-->
-                    <!--                    </button>-->
+                <li class="loginAndReg" th:if="${session.user}==null">
+                    <!--                <li class="loginAndReg">-->
+                    <button id="loginAndReg" class="btn btn-success marginTop btn-lg" data-toggle="modal"
+                            data-target="#login">注册/登录
+                    </button>
                 </li>
-                <!--                <li class="informationDisplay">-->
-                <!--                    <img src="images/author-image3.jpg" class="img-circle avatar" width="60px">-->
-                <!--                    <ul>-->
-                <!--                        <li>用户名:爱丽丝</li>-->
-                <!--                        <li>经验值：1000</li>-->
-                <!--                        <li>年龄：18</li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
-                <!--                <li class="exit">退出</li>-->
+                <li><a href="info.html" th:if="${session.user}!=null"><img th:src="|/pic/avatar/${session.user.avatar}|"
+                                                                           class="img-circle avatar"
+                                                                           width="38px"></a>
+                </li>
             </ul>
         </div>
-
     </div>
 </section>
 
@@ -159,7 +154,6 @@
 <section id="about">
     <div class="container">
         <div class="row">
-
             <div class="col-md-6 col-sm-12">
                 <div class="about-info">
                     <h2>Start your journey to a better life with online practical courses</h2>
@@ -193,14 +187,37 @@
             <div class="col-md-offset-1 col-md-4 col-sm-12">
                 <div class="entry-form">
                     <h2>Information</h2>
-                    <div class="text-center"><img th:src="@{/static/images/author-image3.jpg}" class="img-circle avatar"
-                                                  width="60px"></div>
-                    <input type="text" name="full name" class="form-control" placeholder="Full name" required=""
-                           readonly>
-
-                    <input type="email" name="email" class="form-control" placeholder="Your email address"
-                           required="" readonly>
-                    <button class="submit-btn form-control" id="form-submit-info">go info</button>
+                    <div class="text-center" th:if="${session.user!=null}">
+                        <!--                        <img th:src="@{/static/images/author-image3.jpg}" class="img-circle avatar"-->
+                        <!--                                                  width="60px">-->
+                        <img th:src="|/pic/avatar/${session.user.avatar}|" alt="" width="60px"
+                             class="img-circle avatar"
+                             id="avatar">
+                    </div>
+                    <div th:if="${session.user!=null}">
+                        <input id="fullName" type="text" name="full_name" class="form-control"
+                               placeholder="Full name"
+                               required=""
+                               readonly="readonly" th:value="${session.user.username}">
+                        <input id="user_email" type="email" name="email" class="form-control"
+                               placeholder="Your email address"
+                               required="" readonly th:value="${session.user.email}">
+                        <button class="submit-btn form-control" id="form-submit-info" th:name="${session.user.id}">go
+                            info
+                        </button>
+                    </div>
+                    <div th:if="${session.user==null}">
+                        <input type="text" name="full_name" class="form-control"
+                               placeholder="Full name"
+                               required=""
+                               readonly="readonly">
+                        <input type="email" name="email" class="form-control"
+                               placeholder="Your email address"
+                               required="" readonly>
+                        <button class="submit-btn form-control">go
+                            info
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -257,7 +274,7 @@
             <div class="col-md-3 col-sm-6">
                 <div class="team-thumb">
                     <div class="team-image">
-                        <img th:src="@{/static/images/author-image3.jpg}"  class="img-responsive" alt="">
+                        <img th:src="@{/static/images/author-image3.jpg}" class="img-responsive" alt="">
                     </div>
                     <div class="team-info">
                         <h3>Jessie Ca</h3>
@@ -311,7 +328,8 @@
                             <div class="courses-thumb">
                                 <div class="courses-top">
                                     <div class="courses-image">
-                                        <img th:src="@{/static/images/courses-image1.jpg}" class="img-responsive" alt="">
+                                        <!--                                        <img th:src="@{/static/images/courses-image1.jpg}" class="img-responsive" alt="">-->
+                                        <img src="/pic/p6.jpg" class="img-responsive" alt="">
                                     </div>
                                     <div class="courses-date">
                                         <span><i class="fa fa-calendar"></i> 12 / 7 / 2018</span>
@@ -342,7 +360,8 @@
                             <div class="courses-thumb">
                                 <div class="courses-top">
                                     <div class="courses-image">
-                                        <img th:src="@{/static/images/courses-image2.jpg}" class="img-responsive" alt="">
+                                        <img th:src="@{/static/images/courses-image2.jpg}" class="img-responsive"
+                                             alt="">
                                     </div>
                                     <div class="courses-date">
                                         <span><i class="fa fa-calendar"></i> 20 / 7 / 2018</span>
@@ -373,7 +392,8 @@
                             <div class="courses-thumb">
                                 <div class="courses-top">
                                     <div class="courses-image">
-                                        <img th:src="@{/static/images/courses-image3.jpg}" class="img-responsive" alt="">
+                                        <img th:src="@{/static/images/courses-image3.jpg}" class="img-responsive"
+                                             alt="">
                                     </div>
                                     <div class="courses-date">
                                         <span><i class="fa fa-calendar"></i> 15 / 8 / 2018</span>
@@ -404,7 +424,8 @@
                             <div class="courses-thumb">
                                 <div class="courses-top">
                                     <div class="courses-image">
-                                        <img th:src="@{/static/images/courses-image4.jpg}" class="img-responsive" alt="">
+                                        <img th:src="@{/static/images/courses-image4.jpg}" class="img-responsive"
+                                             alt="">
                                     </div>
                                     <div class="courses-date">
                                         <span><i class="fa fa-calendar"></i> 10 / 8 / 2018</span>
@@ -435,7 +456,8 @@
                             <div class="courses-thumb">
                                 <div class="courses-top">
                                     <div class="courses-image">
-                                        <img th:src="@{/static/images/courses-image5.jpg}" class="img-responsive" alt="">
+                                        <img th:src="@{/static/images/courses-image5.jpg}" class="img-responsive"
+                                             alt="">
                                     </div>
                                     <div class="courses-date">
                                         <span><i class="fa fa-calendar"></i> 5 / 10 / 2018</span>
@@ -618,10 +640,10 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active">
-                                <a href="#room" aria-controls="login" role="tab" data-toggle="tab">登录</a>
+                                <a href="#room" aria-controls="login" role="tab" data-toggle="tab" id="log">登录</a>
                             </li>
                             <li role="presentation">
-                                <a href="#tab" aria-controls="register" role="tab" data-toggle="tab">注册</a>
+                                <a href="#tab" aria-controls="register" role="tab" data-toggle="tab" id="reg">注册</a>
                             </li>
                         </ul>
                     </div>
@@ -652,15 +674,15 @@
                                            name="code">
                                 </div>
                                 <div class="col-sm-6 code" style="float: right">
-                                    <img th:src="@{/static/images/ia_10281.jpg}" onclick="changeCode()"/><a
-                                        href="javascript:changeCode()">看不清换一张</a><br>
+                                    <img th:src="@{/getJuifyCode}" id="safeCode" alt="验证码"/><a
+                                        href="javascript:reloadCode()">看不清换一张</a><br>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-success" onclick="loginUser()">登录</button>
+                        <button type="button" class="btn btn-success" id="loginSubmit">登录</button>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="tab">
@@ -670,32 +692,36 @@
                                 <label for="register_loginName" class="col-sm-2 control-label">账号</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="register_loginName" placeholder="账号"
-                                           name="loginName">
+                                           name="username">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="register_loginPwd" class="col-sm-2 control-label">密码</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="register_loginPwd" placeholder="密码"
-                                           name="loginPwd">
+                                           name="password">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="register_email" class="col-sm-2 control-label">方向</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control">
-                                        <option>移动开发</option>
-                                        <option>软件开发</option>
-                                        <option>网络工程</option>
-                                        <option>软件测试</option>
+                                    <select class="form-control" name="studyDirection">
+                                        <option value="软件">软件</option>
+                                        <option value="运动">运动</option>
+                                        <option value="音乐">音乐</option>
+                                        <option value="学龄教育">学龄教育</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="register_gender" class="col-sm-2 control-label">性别</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="register_gender" placeholder="性别"
-                                           name="gender">
+                                <label for="optionsRadios3" class="col-sm-2 control-label">性别</label>
+                                <div class="col-sm-2">
+                                    <input type="radio" name="sex" id="optionsRadios3" value="男"
+                                           checked> <label for="optionsRadios3" class="control-label">男</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="radio" name="sex" id="optionsRadios4" value="女"
+                                           checked> <label for="optionsRadios4" class="control-label">女</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -709,23 +735,106 @@
                                 <label for="register_telephone" class="col-sm-2 control-label">电话</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="register_telephone" placeholder="电话"
-                                           name="telephone">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="register_QQ" class="col-sm-2 control-label">QQ</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="register_QQ" placeholder="QQ账号"
-                                           name="QQ">
+                                           name="phone">
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-success" onclick="registerUser()">注册</button>
+                        <button type="button" class="btn btn-success" id="RegSubmit">注册</button>
                     </div>
                 </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!--登录提示消息-->
+<div class="modal fade" id="logInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel1">登录提示</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="new_avatar_form">
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <!--                            <input type="text" class="form-control" id="login_info" placeholder="电话"-->
+                            <!--                                   name="login_info" readonly>-->
+                            <p id="login_info"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal_close" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default modal_modify" onclick="oneMore()">登陆</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!--注册提示消息-->
+<div class="modal fade" id="regInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel11" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel11">注册提示</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <!--                            <input type="text" class="form-control" id="reg_info" placeholder="电话"-->
+                            <!--                                   name="reg_info" readonly>-->
+                            <p id="reg_info"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal_close" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default modal_modify" onclick="oneMoreReg()">重新注册</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!--注册成功消息-->
+<div class="modal fade" id="regSuccessInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel111"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel111">注册提示</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <!--                            <input type="text" class="form-control" id="reg_success_info" placeholder="电话"-->
+                            <!--                                   name="reg_success_info" readonly>-->
+                            <p id="reg_success_info"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal_close" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default modal_modify" onclick="gologin()">登录</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -804,21 +913,17 @@
     </div>
 </footer>
 
-
-<!-- SCRIPTS -->
-<!--<script src="js/jquery.js"></script>-->
-<!--<script src="js/bootstrap.min.js"></script>-->
-<!--<script src="js/owl.carousel.min.js"></script>-->
-<!--<script src="js/smoothscroll.js"></script>-->
-<!--<script src="js/custom.js"></script>-->
-<!--<script src="js/index.js"></script>-->
-
 <script type="text/javascript" th:src="@{/static/js/jquery.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/owl.carousel.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/smoothscroll.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/custom.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/index.js}"></script>
+<script th:inline="javascript">
+    $(function () {
+        var user = [[${session.user}]];
 
+    });
+</script>
 </body>
 </html>

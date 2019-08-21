@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.CommentMapper" >
+  <resultMap id="BaseResultMap" type="entity.Comment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="entity.Comment" >
+    insert into comment (id, user_id, course_id, 
+      content, time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="entity.Comment" >
+    update comment
+    set user_id = #{userId,jdbcType=INTEGER},
+      course_id = #{courseId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, user_id, course_id, content, time
+    from comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, user_id, course_id, content, time
+    from comment
+  </select>
+</mapper>

@@ -15,7 +15,7 @@
     </bean>
     <!--扫描dao层-->
     <!--sqlsessionfactory-->
-    <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sessionFactory">
         <!--配置Mybatis核心文件-->
         <property name="configLocation" value="classpath:config.xml"/>
         <property name="dataSource" ref="dataSource"/>
@@ -23,7 +23,7 @@
         <!--给实体类所在包取别名,首字母小写-->
         <property name="typeAliasesPackage" value="entity"/>
         <!--配置映射文件-->
-        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
     </bean>
 
     <!--dao层对象注入-->

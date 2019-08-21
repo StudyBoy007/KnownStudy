@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--
+        targetRuntime="MyBatis3Simple":生成简单版的CRUD
+        MyBatis3:豪华版
+
+     -->
+    <classPathEntry
+            location="F:\Program\LocalWareHouse\mysql\mysql-connector-java\8.0.12\mysql-connector-java-8.0.12.jar"/>
+    <context id="DB2Tables" targetRuntime="MyBatis3Simple">
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- jdbcConnection：指定如何连接到目标数据库 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/study?characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC&amp;rewriteBatchedStatements=true&amp;allowPublicKeyRetrieval=true&amp;allowMultiQueries=true"
+                        userId="root"
+                        password="root">
+            <!--MySQL 不支持 schema 或者 catalog 所以需要添加这个-->
+            <!-- 解决不同数据库下同名表重复创建。。-->
+            <!--参考 : http://www.mybatis.org/generator/usage/mysql.html-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+
+        </jdbcConnection>
+        <!--  -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- javaModelGenerator：指定javaBean的生成策略
+        targetPackage="test.model"：目标包名
+        targetProject="\MBGTestProject\src"：目标工程
+        -->
+        <javaModelGenerator targetPackage="entity"
+                            targetProject=".\src\main\java\">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- sqlMapGenerator：sql映射生成策略： -->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject=".\src\main\resources\">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- javaClientGenerator:指定mapper接口所在的位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="dao"
+                             targetProject=".\src\main\java\">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 指定要逆向分析哪些表：根据表要创建javaBean -->
+        <table tableName="user" domainObjectName="User"/>
+        <table tableName="teacher" domainObjectName="Teacher"/>
+        <table tableName="comment" domainObjectName="Comment"/>
+        <table tableName="course" domainObjectName="Course"/>
+        <table tableName="order" domainObjectName="Order"/>
+    </context>
+</generatorConfiguration>
