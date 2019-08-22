@@ -82,6 +82,7 @@ button:hover {
     transform: scale(1.1);
 }
 
+
 .entry-form .form-control {
     background: transparent;
     border: 0;
@@ -91,5 +92,9 @@ button:hover {
     height: 45px;
     margin: 10px 0;
     color: white;
+}
+
+.courses-date > span > i > span {
+    margin-left: 6px;
 }
 

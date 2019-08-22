@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 public class Teacher {
     private Integer id;
 
@@ -10,6 +12,10 @@ public class Teacher {
     private String introduction;
 
     private Integer teacherStatus;
+
+    private String avatar;
+
+    private List<Course> courses;
 
     public Integer getId() {
         return id;
@@ -49,5 +55,34 @@ public class Teacher {
 
     public void setTeacherStatus(Integer teacherStatus) {
         this.teacherStatus = teacherStatus;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", tname='" + tname + '\'' +
+                ", major='" + major + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", teacherStatus=" + teacherStatus +
+                ", avatar='" + avatar + '\'' +
+                ", courses=" + courses +
+                '}';
     }
 }

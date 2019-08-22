@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Course;
 import entity.User;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface UserMapper {
     List<User> selectAll();
 
     int updateByPrimaryKey(User record);
+
+
 }

@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class TestCon {
-    @RequestMapping("/")
-    public String listDisplay() {
-        return "index";
-    }
 
 
     @RequestMapping("/test1")

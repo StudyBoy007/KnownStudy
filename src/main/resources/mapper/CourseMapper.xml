@@ -1,50 +1,187 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="dao.CourseMapper" >
-  <resultMap id="BaseResultMap" type="entity.Course" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="cname" property="cname" jdbcType="VARCHAR" />
-    <result column="video" property="video" jdbcType="VARCHAR" />
-    <result column="chapter" property="chapter" jdbcType="VARCHAR" />
-    <result column="direction_id" property="directionId" jdbcType="INTEGER" />
-    <result column="isfress" property="isfress" jdbcType="INTEGER" />
-    <result column="price" property="price" jdbcType="DOUBLE" />
-    <result column="pic" property="pic" jdbcType="VARCHAR" />
-    <result column="course_status" property="courseStatus" jdbcType="INTEGER" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from course
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="entity.Course" >
-    insert into course (id, cname, video, 
-      chapter, direction_id, isfress, 
-      price, pic, course_status
-      )
-    values (#{id,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR}, 
-      #{chapter,jdbcType=VARCHAR}, #{directionId,jdbcType=INTEGER}, #{isfress,jdbcType=INTEGER}, 
-      #{price,jdbcType=DOUBLE}, #{pic,jdbcType=VARCHAR}, #{courseStatus,jdbcType=INTEGER}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="entity.Course" >
-    update course
-    set cname = #{cname,jdbcType=VARCHAR},
-      video = #{video,jdbcType=VARCHAR},
-      chapter = #{chapter,jdbcType=VARCHAR},
-      direction_id = #{directionId,jdbcType=INTEGER},
-      isfress = #{isfress,jdbcType=INTEGER},
-      price = #{price,jdbcType=DOUBLE},
-      pic = #{pic,jdbcType=VARCHAR},
-      course_status = #{courseStatus,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, cname, video, chapter, direction_id, isfress, price, pic, course_status
-    from course
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, cname, video, chapter, direction_id, isfress, price, pic, course_status
-    from course
-  </select>
+<mapper namespace="dao.CourseMapper">
+    <resultMap id="BaseResultMap" type="entity.Course">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="cname" property="cname" jdbcType="VARCHAR"/>
+        <result column="video" property="video" jdbcType="VARCHAR"/>
+        <result column="chapter" property="chapter" jdbcType="VARCHAR"/>
+        <result column="direction_id" property="directionId" jdbcType="INTEGER"/>
+        <result column="isfress" property="isfress" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="DOUBLE"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR"/>
+        <result column="course_status" property="courseStatus" jdbcType="INTEGER"/>
+        <result column="start_time" property="start_time" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="VARCHAR"/>
+        <result column="focus" property="focus" jdbcType="INTEGER"/>
+        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <association property="teacher" column="tid" javaType="entity.Teacher"
+                     select="dao.TeacherMapper.selectByPrimaryKey"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from course
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="entity.Course">
+        insert into course (id, cname, video,
+                            chapter, direction_id, isfress,
+                            price, pic, course_status)
+        values (#{id,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR},
+                #{chapter,jdbcType=VARCHAR}, #{directionId,jdbcType=INTEGER}, #{isfress,jdbcType=INTEGER},
+                #{price,jdbcType=DOUBLE}, #{pic,jdbcType=VARCHAR}, #{courseStatus,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="entity.Course">
+        update course
+        set cname         = #{cname,jdbcType=VARCHAR},
+            video         = #{video,jdbcType=VARCHAR},
+            chapter       = #{chapter,jdbcType=VARCHAR},
+            direction_id  = #{directionId,jdbcType=INTEGER},
+            isfress       = #{isfress,jdbcType=INTEGER},
+            price         = #{price,jdbcType=DOUBLE},
+            pic           = #{pic,jdbcType=VARCHAR},
+            course_status = #{courseStatus,jdbcType=INTEGER},
+            tid=#{tid},
+            start_time=#{start_time},
+            time=#{time},
+            focus=#{focus},
+            introduction=#{introduction}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id,
+               cname,
+               video,
+               chapter,
+               direction_id,
+               isfress,
+               price,
+               pic,
+               course_status,
+               tid,
+               start_time,
+               time,
+               focus,
+               introduction
+        from course
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               cname,
+               video,
+               chapter,
+               direction_id,
+               isfress,
+               price,
+               pic,
+               course_status,
+               tid,
+               start_time,
+               time,
+               focus,
+               introduction
+        from course
+    </select>
+
+    <select id="selectCourseIndex" resultMap="BaseResultMap">
+        select *
+        from course
+        where course_status = 1;
+    </select>
+
+
+    <!--    <select id="selectCourseByCondition" parameterType="entity.Course" resultMap="BaseResultMap">-->
+    <!--        select *-->
+    <!--        from course-->
+    <!--        <trim prefix="where" prefixOverrides="and | or">-->
+    <!--            <if test=" directionId!=null and directionId>0">-->
+    <!--                state=#{state}-->
+    <!--            </if>-->
+    <!--            <if test="tid !=null and tid>0">-->
+    <!--                and tid=#{tid}-->
+    <!--            </if>-->
+    <!--            <if test="focus !=null and focus>0">-->
+    <!--                and tid=#{tid}-->
+    <!--            </if>-->
+    <!--            <if test="price !=null">-->
+    <!--                and price=#{price}-->
+    <!--            </if>-->
+    <!--            <if test="state !=null and state !=''">-->
+    <!--                state=#{state}-->
+    <!--            </if>-->
+    <!--        </trim>-->
+    <!--    </select>-->
+
+
+    <!--    根据tid查找课程-->
+    <select id="selectByTid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id,
+               cname,
+               video,
+               chapter,
+               direction_id,
+               isfress,
+               price,
+               pic,
+               course_status,
+               start_time,
+               time,
+               focus,
+               introduction
+        from course
+        where tid = #{id,jdbcType=INTEGER}
+    </select>
+
+
+    <!--    用户收藏的课程-->
+    <select id="selectUerCourseCollect" parameterType="int" resultMap="BaseResultMap">
+        select course.id,
+               course.cname,
+               course.video,
+               course.chapter,
+               course.direction_id,
+               course.isfress,
+               course.price,
+               course.pic,
+               course.course_status,
+               course.tid,
+               course.start_time,
+               course.time,
+               course.focus,
+               course.introduction
+        FROM `user`,
+             user_course,
+             course
+        WHERE `user`.id = user_course.user_id
+          and course.id = user_course.course_id
+          AND user_course.collect_status = TRUE
+          AND `user`.id = #{id};
+    </select>
+
+    <!--    用户购买的课程-->
+    <select id="selectUserCourseBuy" parameterType="int" resultMap="BaseResultMap">
+        select course.id,
+               course.cname,
+               course.video,
+               course.chapter,
+               course.direction_id,
+               course.isfress,
+               course.price,
+               course.pic,
+               course.course_status,
+               course.tid,
+               course.start_time,
+               course.time,
+               course.focus,
+               course.introduction
+        FROM `user`,
+             user_course,
+             course
+        WHERE `user`.id = user_course.user_id
+          and course.id = user_course.course_id
+          AND user_course.buy_status = TRUE
+          AND `user`.id = #{id};
+    </select>
+
 </mapper>

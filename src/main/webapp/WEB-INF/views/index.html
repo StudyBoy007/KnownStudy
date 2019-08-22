@@ -55,9 +55,10 @@
                             data-target="#login">注册/登录
                     </button>
                 </li>
-                <li><a href="info.html" th:if="${session.user}!=null"><img th:src="|/pic/avatar/${session.user.avatar}|"
-                                                                           class="img-circle avatar"
-                                                                           width="38px"></a>
+                <li th:if="${session.user}!=null"><a th:href="@{/userInfo(userId=${session.user.id})}"><img
+                        th:src="|/pic/avatar/${session.user.avatar}|"
+                        class="img-circle avatar"
+                        width="38px"></a>
                 </li>
             </ul>
         </div>
@@ -202,9 +203,12 @@
                         <input id="user_email" type="email" name="email" class="form-control"
                                placeholder="Your email address"
                                required="" readonly th:value="${session.user.email}">
-                        <button class="submit-btn form-control" id="form-submit-info" th:name="${session.user.id}">go
-                            info
-                        </button>
+                        <a th:href="@{/userInfo(userId=${session.user.id})}">
+                            <button class="submit-btn form-control" id="form-submit-info" th:name="${session.user.id}">
+                                go
+                                info
+                            </button>
+                        </a>
                     </div>
                     <div th:if="${session.user==null}">
                         <input type="text" name="full_name" class="form-control"
@@ -220,7 +224,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
@@ -238,15 +241,17 @@
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-3 col-sm-6" th:each="teacher:${teachers}">
                 <div class="team-thumb">
-                    <div class="team-image">
-                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">
-                    </div>
-                    <div class="team-info">
-                        <h3>Mark Wilson</h3>
-                        <span>I love Teaching</span>
-                    </div>
+                    <a href="">
+                        <div class="team-image">
+                            <img th:src="|/pic/avatar/${teacher.avatar}|" class="img-responsive" alt="">
+                        </div>
+                        <div class="team-info">
+                            <h3 th:text="${teacher.tname}">Mark Wilson</h3>
+                            <span th:text="${teacher.introduction}">I love Teaching</span>
+                        </div>
+                    </a>
                     <ul class="social-icon">
                         <li><a href="#" class="fa fa-facebook-square" attr="facebook icon"></a></li>
                         <li><a href="#" class="fa fa-twitter"></a></li>
@@ -255,55 +260,55 @@
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6">
-                <div class="team-thumb">
-                    <div class="team-image">
-                        <img th:src="@{/static/images/author-image2.jpg}" class="img-responsive" alt="">
-                    </div>
-                    <div class="team-info">
-                        <h3>Catherine</h3>
-                        <span>Education is the key!</span>
-                    </div>
-                    <ul class="social-icon">
-                        <li><a href="#" class="fa fa-google"></a></li>
-                        <li><a href="#" class="fa fa-instagram"></a></li>
-                    </ul>
-                </div>
-            </div>
+            <!--            <div class="col-md-3 col-sm-6">-->
+            <!--                <div class="team-thumb">-->
+            <!--                    <div class="team-image">-->
+            <!--                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">-->
+            <!--                    </div>-->
+            <!--                    <div class="team-info">-->
+            <!--                        <h3>Catherine</h3>-->
+            <!--                        <span>Education is the key!</span>-->
+            <!--                    </div>-->
+            <!--                    <ul class="social-icon">-->
+            <!--                        <li><a href="#" class="fa fa-google"></a></li>-->
+            <!--                        <li><a href="#" class="fa fa-instagram"></a></li>-->
+            <!--                    </ul>-->
+            <!--                </div>-->
+            <!--            </div>-->
 
-            <div class="col-md-3 col-sm-6">
-                <div class="team-thumb">
-                    <div class="team-image">
-                        <img th:src="@{/static/images/author-image3.jpg}" class="img-responsive" alt="">
-                    </div>
-                    <div class="team-info">
-                        <h3>Jessie Ca</h3>
-                        <span>I like Online Courses</span>
-                    </div>
-                    <ul class="social-icon">
-                        <li><a href="#" class="fa fa-twitter"></a></li>
-                        <li><a href="#" class="fa fa-envelope-o"></a></li>
-                        <li><a href="#" class="fa fa-linkedin"></a></li>
-                    </ul>
-                </div>
-            </div>
+            <!--            <div class="col-md-3 col-sm-6">-->
+            <!--                <div class="team-thumb">-->
+            <!--                    <div class="team-image">-->
+            <!--                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">-->
+            <!--                    </div>-->
+            <!--                    <div class="team-info">-->
+            <!--                        <h3>Jessie Ca</h3>-->
+            <!--                        <span>I like Online Courses</span>-->
+            <!--                    </div>-->
+            <!--                    <ul class="social-icon">-->
+            <!--                        <li><a href="#" class="fa fa-twitter"></a></li>-->
+            <!--                        <li><a href="#" class="fa fa-envelope-o"></a></li>-->
+            <!--                        <li><a href="#" class="fa fa-linkedin"></a></li>-->
+            <!--                    </ul>-->
+            <!--                </div>-->
+            <!--            </div>-->
 
-            <div class="col-md-3 col-sm-6">
-                <div class="team-thumb">
-                    <div class="team-image">
-                        <img th:src="@{/static/images/author-image4.jpg}" class="img-responsive" alt="">
-                    </div>
-                    <div class="team-info">
-                        <h3>Andrew Berti</h3>
-                        <span>Learning is fun</span>
-                    </div>
-                    <ul class="social-icon">
-                        <li><a href="#" class="fa fa-twitter"></a></li>
-                        <li><a href="#" class="fa fa-google"></a></li>
-                        <li><a href="#" class="fa fa-behance"></a></li>
-                    </ul>
-                </div>
-            </div>
+            <!--            <div class="col-md-3 col-sm-6">-->
+            <!--                <div class="team-thumb">-->
+            <!--                    <div class="team-image">-->
+            <!--                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">-->
+            <!--                    </div>-->
+            <!--                    <div class="team-info">-->
+            <!--                        <h3>Andrew Berti</h3>-->
+            <!--                        <span>Learning is fun</span>-->
+            <!--                    </div>-->
+            <!--                    <ul class="social-icon">-->
+            <!--                        <li><a href="#" class="fa fa-twitter"></a></li>-->
+            <!--                        <li><a href="#" class="fa fa-google"></a></li>-->
+            <!--                        <li><a href="#" class="fa fa-behance"></a></li>-->
+            <!--                    </ul>-->
+            <!--                </div>-->
+            <!--            </div>-->
 
         </div>
     </div>
@@ -322,96 +327,45 @@
                     </h2>
                 </div>
 
+                <!--/*@thymesVar id="courses" type="java.util.List"*/-->
+                <!--/*@thymesVar id="course" type="entity.Course"*/-->
                 <div class="owl-carousel owl-theme owl-courses">
-                    <div class="col-md-4 col-sm-4">
+                    <div class="col-md-4 col-sm-4" th:each="course:${courses}">
                         <div class="item">
                             <div class="courses-thumb">
                                 <div class="courses-top">
                                     <div class="courses-image">
                                         <!--                                        <img th:src="@{/static/images/courses-image1.jpg}" class="img-responsive" alt="">-->
-                                        <img src="/pic/p6.jpg" class="img-responsive" alt="">
+                                        <img th:src="|/pic/course/${course.pic}|" class="img-responsive" alt="">
                                     </div>
                                     <div class="courses-date">
-                                        <span><i class="fa fa-calendar"></i> 12 / 7 / 2018</span>
-                                        <span><i class="fa fa-clock-o"></i> 7 Hours</span>
+                                        <span><i class="fa fa-calendar"><span
+                                                th:text="${course.start_time}"> 12 / 7 / 2018</span></i></span>
+                                        <span>   <i class="fa fa-clock-o"><span
+                                                th:text="|${course.time} Hours|"> 7 Hours</span></i></span>
+                                        <span>  <i class="fa fa-heart-o"><span
+                                                th:text="${course.focus}"> 66</span></i></span>
                                     </div>
                                 </div>
 
                                 <div class="courses-detail">
-                                    <h3><a href="#">Social Media Management</a></h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    <h3><a href="#" th:text="${course.cname}">Social Media Management</a></h3>
+                                    <p th:text="${course.introduction}">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing elit.</p>
                                 </div>
 
-                                <div class="courses-info">
+                                <div class="courses-info" th:switch="${course.isfress}">
                                     <div class="courses-author">
-                                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">
-                                        <span>Mark Wilson</span>
-                                    </div>
-                                    <div class="courses-price">
-                                        <a href="#"><span>USD 25</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-4">
-                        <div class="item">
-                            <div class="courses-thumb">
-                                <div class="courses-top">
-                                    <div class="courses-image">
-                                        <img th:src="@{/static/images/courses-image2.jpg}" class="img-responsive"
+                                        <img th:src="|/pic/avatar/${course.teacher.avatar}|" class="img-responsive"
                                              alt="">
+                                        <span th:text="${course.teacher.tname}">Mark Wilson</span>
                                     </div>
-                                    <div class="courses-date">
-                                        <span><i class="fa fa-calendar"></i> 20 / 7 / 2018</span>
-                                        <span><i class="fa fa-clock-o"></i> 4.5 Hours</span>
-                                    </div>
-                                </div>
 
-                                <div class="courses-detail">
-                                    <h3><a href="#">Graphic & Web Design</a></h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
+                                    <div class="courses-price" th:case="1">
+                                        <a href="#"><span th:text="'USD '+${course.price}">USD 25</span></a>
+                                    </div>
 
-                                <div class="courses-info">
-                                    <div class="courses-author">
-                                        <img th:src="@{/static/images/author-image2.jpg}" class="img-responsive" alt="">
-                                        <span>Jessica</span>
-                                    </div>
-                                    <div class="courses-price">
-                                        <a href="#"><span>USD 80</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-4">
-                        <div class="item">
-                            <div class="courses-thumb">
-                                <div class="courses-top">
-                                    <div class="courses-image">
-                                        <img th:src="@{/static/images/courses-image3.jpg}" class="img-responsive"
-                                             alt="">
-                                    </div>
-                                    <div class="courses-date">
-                                        <span><i class="fa fa-calendar"></i> 15 / 8 / 2018</span>
-                                        <span><i class="fa fa-clock-o"></i> 6 Hours</span>
-                                    </div>
-                                </div>
-
-                                <div class="courses-detail">
-                                    <h3><a href="#">Marketing Communication</a></h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-
-                                <div class="courses-info">
-                                    <div class="courses-author">
-                                        <img th:src="@{/static/images/author-image3.jpg}" class="img-responsive" alt="">
-                                        <span>Catherine</span>
-                                    </div>
-                                    <div class="courses-price free">
+                                    <div class="courses-price free" th:case="0">
                                         <a href="#"><span>Free</span></a>
                                     </div>
                                 </div>
@@ -419,69 +373,167 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-sm-4">
-                        <div class="item">
-                            <div class="courses-thumb">
-                                <div class="courses-top">
-                                    <div class="courses-image">
-                                        <img th:src="@{/static/images/courses-image4.jpg}" class="img-responsive"
-                                             alt="">
-                                    </div>
-                                    <div class="courses-date">
-                                        <span><i class="fa fa-calendar"></i> 10 / 8 / 2018</span>
-                                        <span><i class="fa fa-clock-o"></i> 8 Hours</span>
-                                    </div>
-                                </div>
+                    <!--                <div class="owl-carousel owl-theme owl-courses">-->
 
-                                <div class="courses-detail">
-                                    <h3><a href="#">Summer Kids</a></h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
+                    <!--                    <div class="col-md-4 col-sm-4">-->
+                    <!--                        <div class="item">-->
+                    <!--                            <div class="courses-thumb">-->
+                    <!--                                <div class="courses-top">-->
+                    <!--                                    <div class="courses-image">-->
+                    <!--                                        <img th:src="@{/static/images/courses-image1.jpg}" class="img-responsive"-->
+                    <!--                                             alt="">-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="courses-date">-->
+                    <!--                                        <span><i class="fa fa-calendar"></i> 20 / 7 / 2018</span>-->
+                    <!--                                        <span><i class="fa fa-clock-o"></i> 4.5 Hours</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
 
-                                <div class="courses-info">
-                                    <div class="courses-author">
-                                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">
-                                        <span>Mark Wilson</span>
-                                    </div>
-                                    <div class="courses-price">
-                                        <a href="#"><span>USD 45</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!--                                <div class="courses-detail">-->
+                    <!--                                    <h3><a href="#">Graphic & Web Design</a></h3>-->
+                    <!--                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+                    <!--                                </div>-->
 
-                    <div class="col-md-4 col-sm-4">
-                        <div class="item">
-                            <div class="courses-thumb">
-                                <div class="courses-top">
-                                    <div class="courses-image">
-                                        <img th:src="@{/static/images/courses-image5.jpg}" class="img-responsive"
-                                             alt="">
-                                    </div>
-                                    <div class="courses-date">
-                                        <span><i class="fa fa-calendar"></i> 5 / 10 / 2018</span>
-                                        <span><i class="fa fa-clock-o"></i> 10 Hours</span>
-                                    </div>
-                                </div>
+                    <!--                                <div class="courses-info">-->
+                    <!--                                    <div class="courses-author">-->
+                    <!--                                        <img th:src="@{/static/images/author-image2.jpg}" class="img-responsive" alt="">-->
+                    <!--                                        <span>Jessica</span>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="courses-price">-->
+                    <!--                                        <a href="#"><span>USD 80</span></a>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
-                                <div class="courses-detail">
-                                    <h3><a href="#">Business &amp; Management</a></h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
+                    <!--                    <div class="col-md-4 col-sm-4">-->
+                    <!--                        <div class="item">-->
+                    <!--                            <div class="courses-thumb">-->
+                    <!--                                <div class="courses-top">-->
+                    <!--                                    <div class="courses-image">-->
+                    <!--                                        <img th:src="@{/static/images/courses-image2.jpg}" class="img-responsive"-->
+                    <!--                                             alt="">-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="courses-date">-->
+                    <!--                                        <span><i class="fa fa-calendar"></i> 20 / 7 / 2018</span>-->
+                    <!--                                        <span><i class="fa fa-clock-o"></i> 4.5 Hours</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
 
-                                <div class="courses-info">
-                                    <div class="courses-author">
-                                        <img th:src="@{/static/images/author-image2.jpg}" class="img-responsive" alt="">
-                                        <span>Jessica</span>
-                                    </div>
-                                    <div class="courses-price free">
-                                        <a href="#"><span>Free</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!--                                <div class="courses-detail">-->
+                    <!--                                    <h3><a href="#">Graphic & Web Design</a></h3>-->
+                    <!--                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+                    <!--                                </div>-->
+
+                    <!--                                <div class="courses-info">-->
+                    <!--                                    <div class="courses-author">-->
+                    <!--                                        <img th:src="@{/static/images/author-image2.jpg}" class="img-responsive" alt="">-->
+                    <!--                                        <span>Jessica</span>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="courses-price">-->
+                    <!--                                        <a href="#"><span>USD 80</span></a>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+
+                    <!--                    <div class="col-md-4 col-sm-4">-->
+                    <!--                        <div class="item">-->
+                    <!--                            <div class="courses-thumb">-->
+                    <!--                                <div class="courses-top">-->
+                    <!--                                    <div class="courses-image">-->
+                    <!--                                        <img th:src="@{/static/images/courses-image3.jpg}" class="img-responsive"-->
+                    <!--                                             alt="">-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="courses-date">-->
+                    <!--                                        <span><i class="fa fa-calendar"></i> 15 / 8 / 2018</span>-->
+                    <!--                                        <span><i class="fa fa-clock-o"></i> 6 Hours</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+
+                    <!--                                <div class="courses-detail">-->
+                    <!--                                    <h3><a href="#">Marketing Communication</a></h3>-->
+                    <!--                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+                    <!--                                </div>-->
+
+                    <!--                                <div class="courses-info">-->
+                    <!--                                    <div class="courses-author">-->
+                    <!--                                        <img th:src="@{/static/images/author-image3.jpg}" class="img-responsive" alt="">-->
+                    <!--                                        <span>Catherine</span>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="courses-price free">-->
+                    <!--                                        <a href="#"><span>Free</span></a>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+
+                    <!--                    <div class="col-md-4 col-sm-4">-->
+                    <!--                        <div class="item">-->
+                    <!--                            <div class="courses-thumb">-->
+                    <!--                                <div class="courses-top">-->
+                    <!--                                    <div class="courses-image">-->
+                    <!--                                        <img th:src="@{/static/images/courses-image4.jpg}" class="img-responsive"-->
+                    <!--                                             alt="">-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="courses-date">-->
+                    <!--                                        <span><i class="fa fa-calendar"></i> 10 / 8 / 2018</span>-->
+                    <!--                                        <span><i class="fa fa-clock-o"></i> 8 Hours</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+
+                    <!--                                <div class="courses-detail">-->
+                    <!--                                    <h3><a href="#">Summer Kids</a></h3>-->
+                    <!--                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+                    <!--                                </div>-->
+
+                    <!--                                <div class="courses-info">-->
+                    <!--                                    <div class="courses-author">-->
+                    <!--                                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">-->
+                    <!--                                        <span>Mark Wilson</span>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="courses-price">-->
+                    <!--                                        <a href="#"><span>USD 45</span></a>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+
+                    <!--                    <div class="col-md-4 col-sm-4">-->
+                    <!--                        <div class="item">-->
+                    <!--                            <div class="courses-thumb">-->
+                    <!--                                <div class="courses-top">-->
+                    <!--                                    <div class="courses-image">-->
+                    <!--                                        <img th:src="@{/static/images/courses-image5.jpg}" class="img-responsive"-->
+                    <!--                                             alt="">-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="courses-date">-->
+                    <!--                                        <span><i class="fa fa-calendar"></i> 5 / 10 / 2018</span>-->
+                    <!--                                        <span><i class="fa fa-clock-o"></i> 10 Hours</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+
+                    <!--                                <div class="courses-detail">-->
+                    <!--                                    <h3><a href="#">Business &amp; Management</a></h3>-->
+                    <!--                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+                    <!--                                </div>-->
+
+                    <!--                                <div class="courses-info">-->
+                    <!--                                    <div class="courses-author">-->
+                    <!--                                        <img th:src="@{/static/images/author-image2.jpg}" class="img-responsive" alt="">-->
+                    <!--                                        <span>Jessica</span>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="courses-price free">-->
+                    <!--                                        <a href="#"><span>Free</span></a>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
                 </div>
             </div>
@@ -922,8 +974,16 @@
 <script th:inline="javascript">
     $(function () {
         var user = [[${session.user}]];
+        $(".submit-btn").click(function () {
+            if (user == null) {
+                $("#login_info").text("请先登录");
+                $("#logInfo").modal({
+                    backdrop: "static"
+                });
+            }
+        });
+    })
 
-    });
 </script>
 </body>
 </html>

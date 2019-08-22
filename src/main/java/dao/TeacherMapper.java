@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Teacher;
+
 import java.util.List;
 
 public interface TeacherMapper {
@@ -13,4 +14,8 @@ public interface TeacherMapper {
     List<Teacher> selectAll();
 
     int updateByPrimaryKey(Teacher record);
+
+
+    //展示在首页的老师信息
+    List<Teacher> selectTeacherIndex();
 }

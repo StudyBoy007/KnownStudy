@@ -1,4 +1,5 @@
 import dao.UserMapper;
+import entity.Course;
 import entity.User;
 import lombok.extern.log4j.Log4j;
 import org.apache.ibatis.session.SqlSession;
@@ -12,6 +13,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import util.MyBatisUtil;
+
+import java.util.List;
 
 /**
  * Create by czq
@@ -55,4 +58,16 @@ public class UserTest {
         int i = mapper.saveUser(user);
         System.out.println(i);
     }
+
+
+    @Test
+    public void testGetUserByPrimaryKey() {
+        SqlSession sqlSession = factory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        User tom = mapper.selectByPrimaryKey(1);
+        System.out.println(tom);
+    }
+
+
+
 }

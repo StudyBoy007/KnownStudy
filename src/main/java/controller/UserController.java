@@ -1,11 +1,16 @@
 package controller;
 
+import dao.UserMapper;
+import entity.Course;
+import entity.Teacher;
 import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import service.CourseService;
+import service.TeacherService;
 import service.UserService;
 import util.Msg;
 import util.RandomNum;
@@ -16,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -27,6 +33,26 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TeacherService teacherService;
+
+    @Autowired
+    CourseService courseService;
+
+
+    //加载首页信息
+    @RequestMapping("/")
+    public ModelAndView indexDisplay() {
+        List<Teacher> teachers = teacherService.selectTeacherIndexService();
+        List<Course> courses = courseService.selectCourseIndexService();
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("teachers", teachers);
+        mv.addObject("courses", courses);
+        mv.setViewName("index");
+        return mv;
+    }
+
 
     //获取登陆验证码
     @RequestMapping("/getJuifyCode")
@@ -105,8 +131,14 @@ public class UserController {
 
     //展示用户信息
     @RequestMapping("/userInfo")
-    public ModelAndView displayUserInfo(int id) {
-        System.out.println(id);
-        return null;
+    public ModelAndView displayUserInfo(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        List<Course> coursesCollect = courseService.selectUerCourseCollectService(user.getId());
+        List<Course> coursesBuy = courseService.selectUserCourseBuyService(user.getId());
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("collect", coursesCollect);
+        mv.addObject("buy", coursesBuy);
+        mv.setViewName("info");
+        return mv;
     }
 }

@@ -19,6 +19,16 @@ public class Course {
 
     private Integer courseStatus;
 
+    private String start_time;
+
+    private String time;
+
+    private Integer focus;
+
+    private Teacher teacher;
+
+    private String introduction;
+
     public Integer getId() {
         return id;
     }
@@ -89,5 +99,66 @@ public class Course {
 
     public void setCourseStatus(Integer courseStatus) {
         this.courseStatus = courseStatus;
+    }
+
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public String getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Integer getFocus() {
+        return focus;
+    }
+
+    public void setFocus(Integer focus) {
+        this.focus = focus;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", cname='" + cname + '\'' +
+                ", video='" + video + '\'' +
+                ", chapter='" + chapter + '\'' +
+                ", directionId=" + directionId +
+                ", isfress=" + isfress +
+                ", price=" + price +
+                ", pic='" + pic + '\'' +
+                ", courseStatus=" + courseStatus +
+                ", start_time='" + start_time + '\'' +
+                ", time='" + time + '\'' +
+                ", focus=" + focus +
+                ", teacher=" + teacher +
+                ", introduction='" + introduction + '\'' +
+                '}';
     }
 }

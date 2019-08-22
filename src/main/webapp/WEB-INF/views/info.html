@@ -57,11 +57,12 @@
                     <div class="container">
                         <div class="content-center">
                             <div class="cc-profile-image"><a href="#"><img id="avatarImg"
-                                                                           th:src="@{/static/images/anthony.jpg}"
+                                                                           th:src="|/pic/avatar/${session.user.avatar}|"
                                                                            alt="Image"/></a>
                             </div>
-                            <div id="username" class="h2 title">Anthony Barnett</div>
-                            <p class="category text-white">Web Developer, Graphic Designer, Photographer</p>
+                            <div id="username" class="h2 title" th:text="${session.user.username}">Anthony Barnett</div>
+                            <p class="category text-white" th:text="${session.user.studyDirection}">Web Developer,
+                                Graphic Designer, Photographer</p>
                             <a class="btn btn-primary smooth-scroll mr-2 modify_button" data-toggle="model"
                                data-target="#ModifyModal">Chang Info</a>
                         </div>
@@ -81,8 +82,11 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="card-body">
                                 <div class="h4 mt-0 title">About</div>
-                                <p>Hello! I am Anthony Barnett. Web Developer, Graphic Designer and Photographer.</p>
-                                <p>Creative CV is a HTML resume template for professionals. Built with Bootstrap 4, Now
+                                <p>你好! 我是 <span th:text="${session.user.username}">Anthony Barnett.</span> 我的专业是:<span
+                                        th:text="${session.user.studyDirection}">Web Developer, Graphic Designer and Photographer.</span>
+                                </p>
+                                <p th:text="${session.user.motto}">Creative CV is a HTML resume template for
+                                    professionals. Built with Bootstrap 4, Now
                                     UI Kit and FontAwesome, this modern and responsive design template is perfect to
                                     showcase your portfolio, skills and experience. </p>
                             </div>
@@ -92,23 +96,25 @@
                                 <div class="h4 mt-0 title">Basic Information</div>
                                 <div class="row">
                                     <div class="col-sm-4"><strong class="text-uppercase">Age:</strong></div>
-                                    <div class="col-sm-8">24</div>
+                                    <div class="col-sm-8" th:text="${session.user.age}">24</div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-4"><strong class="text-uppercase">Email:</strong></div>
-                                    <div class="col-sm-8">anthony@company.com</div>
+                                    <div class="col-sm-8" th:text="${session.user.email}">anthony@company.com</div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-4"><strong class="text-uppercase">Phone:</strong></div>
-                                    <div class="col-sm-8">+1718-111-0011</div>
+                                    <div class="col-sm-8" th:text="${session.user.phone}">+1718-111-0011</div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-4"><strong class="text-uppercase">Address:</strong></div>
-                                    <div class="col-sm-8">140, City Center, New York, U.S.A</div>
+                                    <div class="col-sm-8" th:text="${session.user.address}">140, City Center, New York,
+                                        U.S.A
+                                    </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-4"><strong class="text-uppercase">Account:</strong></div>
-                                    <div class="col-sm-8">$89</div>
+                                    <div class="col-sm-8" th:text="'$'+${session.user.account}">$89</div>
                                 </div>
                             </div>
                         </div>
@@ -528,10 +534,24 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="new_address" class="col-sm-2 control-label">住址</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="new_address" placeholder="联系方式"
+                                   name="new_address">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="new_money" class="col-sm-2 control-label">账户余额</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="new_money" placeholder="账户余额" name="money"
                                    readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new_motto" class="col-sm-2 control-label">座右铭</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="new_motto" rows="3"></textarea>
                         </div>
                     </div>
                 </form>

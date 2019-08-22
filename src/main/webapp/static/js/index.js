@@ -15,18 +15,10 @@ $(function () {
     })
 
 
-
-    $(".submit-btn").click(function () {
-        if (user != null) {
-            var userId = $("#form-submit-info").attr("name");
-            var str = getRootPath();
-            window.location.href = str + "/userInfo?id=" + userId;
-        } else {
-            $("#login_info").text("请先登录");
-            $("#logInfo").modal({
-                backdrop: "static"
-            });
-        }
+    $(".team-info>h3").mouseover(function () {
+        $(this).css("color", "#29CA8E");
+    }).mouseout(function () {
+        $(this).css("color", "black");
     })
 })
 
@@ -181,9 +173,17 @@ function oneMoreReg() {
     $("#reg").click();
 }
 
+
+//清空模态框表单
 function reset_form(ele) {
     $(ele)[0].reset();
     //清空表单样式
     $(ele).find("*").removeClass("has-error has-success");
     $(ele).find(".help-block").text("");
 }
+
+
+//点击跳转到个人信息
+//头像
+
+//按钮
