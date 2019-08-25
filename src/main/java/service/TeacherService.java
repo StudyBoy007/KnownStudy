@@ -22,4 +22,9 @@ public interface TeacherService {
 
     //展示在首页的老师信息
     List<Teacher> selectTeacherIndexService();
+
+    List<Teacher> selectTeacherIndex2Service();
+
+
+    List<Teacher> selectTeacherByDirectionService(Teacher teacher);
 }

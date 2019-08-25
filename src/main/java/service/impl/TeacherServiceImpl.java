@@ -48,4 +48,16 @@ public class TeacherServiceImpl implements TeacherService {
         List<Teacher> teachers = teacherMapper.selectTeacherIndex();
         return teachers;
     }
+
+    @Override
+    public List<Teacher> selectTeacherIndex2Service() {
+        List<Teacher> teachers = teacherMapper.selectTeacherIndex2();
+        return teachers;
+    }
+
+    @Override
+    public List<Teacher> selectTeacherByDirectionService(Teacher teacher) {
+        List<Teacher> teachers = teacherMapper.selectTeacherByDirection(teacher);
+        return teachers;
+    }
 }

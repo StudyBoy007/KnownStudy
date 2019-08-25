@@ -6,7 +6,7 @@
         <result column="cname" property="cname" jdbcType="VARCHAR"/>
         <result column="video" property="video" jdbcType="VARCHAR"/>
         <result column="chapter" property="chapter" jdbcType="VARCHAR"/>
-        <result column="direction_id" property="directionId" jdbcType="INTEGER"/>
+        <!--        <result column="direction_id" property="directionId" jdbcType="INTEGER"/>-->
         <result column="isfress" property="isfress" jdbcType="INTEGER"/>
         <result column="price" property="price" jdbcType="DOUBLE"/>
         <result column="pic" property="pic" jdbcType="VARCHAR"/>
@@ -14,7 +14,10 @@
         <result column="start_time" property="start_time" jdbcType="VARCHAR"/>
         <result column="time" property="time" jdbcType="VARCHAR"/>
         <result column="focus" property="focus" jdbcType="INTEGER"/>
+        <result column="buy_num" property="buy_num" jdbcType="INTEGER"/>
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <association property="courseDirection" column="direction_id" javaType="entity.CourseClass"
+                     select="dao.CourseClassMapper.selectByPrimaryKey"/>
         <association property="teacher" column="tid" javaType="entity.Teacher"
                      select="dao.TeacherMapper.selectByPrimaryKey"/>
     </resultMap>
@@ -26,17 +29,17 @@
     <insert id="insert" parameterType="entity.Course">
         insert into course (id, cname, video,
                             chapter, direction_id, isfress,
-                            price, pic, course_status)
+                            price, pic, course_status, buy_num)
         values (#{id,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR},
-                #{chapter,jdbcType=VARCHAR}, #{directionId,jdbcType=INTEGER}, #{isfress,jdbcType=INTEGER},
-                #{price,jdbcType=DOUBLE}, #{pic,jdbcType=VARCHAR}, #{courseStatus,jdbcType=INTEGER})
+                #{chapter,jdbcType=VARCHAR}, ${courseDirection.id}, #{isfress,jdbcType=INTEGER},
+                #{price,jdbcType=DOUBLE}, #{pic,jdbcType=VARCHAR}, #{courseStatus,jdbcType=INTEGER}, #{buy_num})
     </insert>
     <update id="updateByPrimaryKey" parameterType="entity.Course">
         update course
         set cname         = #{cname,jdbcType=VARCHAR},
             video         = #{video,jdbcType=VARCHAR},
             chapter       = #{chapter,jdbcType=VARCHAR},
-            direction_id  = #{directionId,jdbcType=INTEGER},
+            direction_id  = ${courseDirection.id},
             isfress       = #{isfress,jdbcType=INTEGER},
             price         = #{price,jdbcType=DOUBLE},
             pic           = #{pic,jdbcType=VARCHAR},
@@ -45,7 +48,8 @@
             start_time=#{start_time},
             time=#{time},
             focus=#{focus},
-            introduction=#{introduction}
+            introduction=#{introduction},
+            buy_num=#{buy_num}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -62,7 +66,8 @@
                start_time,
                time,
                focus,
-               introduction
+               introduction,
+               buy_num
         from course
         where id = #{id,jdbcType=INTEGER}
     </select>
@@ -80,7 +85,8 @@
                start_time,
                time,
                focus,
-               introduction
+               introduction,
+               buy_num
         from course
     </select>
 
@@ -89,29 +95,6 @@
         from course
         where course_status = 1;
     </select>
-
-
-    <!--    <select id="selectCourseByCondition" parameterType="entity.Course" resultMap="BaseResultMap">-->
-    <!--        select *-->
-    <!--        from course-->
-    <!--        <trim prefix="where" prefixOverrides="and | or">-->
-    <!--            <if test=" directionId!=null and directionId>0">-->
-    <!--                state=#{state}-->
-    <!--            </if>-->
-    <!--            <if test="tid !=null and tid>0">-->
-    <!--                and tid=#{tid}-->
-    <!--            </if>-->
-    <!--            <if test="focus !=null and focus>0">-->
-    <!--                and tid=#{tid}-->
-    <!--            </if>-->
-    <!--            <if test="price !=null">-->
-    <!--                and price=#{price}-->
-    <!--            </if>-->
-    <!--            <if test="state !=null and state !=''">-->
-    <!--                state=#{state}-->
-    <!--            </if>-->
-    <!--        </trim>-->
-    <!--    </select>-->
 
 
     <!--    根据tid查找课程-->
@@ -128,7 +111,8 @@
                start_time,
                time,
                focus,
-               introduction
+               introduction,
+               buy_num
         from course
         where tid = #{id,jdbcType=INTEGER}
     </select>
@@ -149,7 +133,8 @@
                course.start_time,
                course.time,
                course.focus,
-               course.introduction
+               course.introduction,
+               course.buy_num
         FROM `user`,
              user_course,
              course
@@ -174,7 +159,8 @@
                course.start_time,
                course.time,
                course.focus,
-               course.introduction
+               course.introduction,
+               course.buy_num
         FROM `user`,
              user_course,
              course
@@ -182,6 +168,45 @@
           and course.id = user_course.course_id
           AND user_course.buy_status = TRUE
           AND `user`.id = #{id};
+    </select>
+
+
+    <!--    查找对应方向的课程-->
+    <select id="selectCourseByDirection" parameterType="entity.Course" resultMap="BaseResultMap">
+        select *
+        from course
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="courseDirection.id !=0">
+                direction_id=${courseDirection.id}
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="selectCourseByDirectionAndTid" parameterType="entity.Course" resultMap="BaseResultMap">
+        select *
+        from course
+        <trim prefix="where" prefixOverrides="and | or">
+            true
+            <if test="courseDirection.id !=0">
+                and direction_id=${courseDirection.id}
+            </if>
+            <if test="teacher.id !=0">
+                and tid=${teacher.id}
+            </if>
+            <if test="focus!=null">
+                order by focus desc
+            </if>
+            <if test="price!=null">
+                order by price desc
+            </if>
+            <if test="buy_num!=null">
+                order by buy_num desc
+            </if>
+            <if test="start_time!=null">
+                ORDER BY STR_TO_DATE(start_time,'%Y/%m/%d') DESC
+            </if>
+        </trim>
     </select>
 
 </mapper>

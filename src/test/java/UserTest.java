@@ -69,5 +69,25 @@ public class UserTest {
     }
 
 
+    @Test
+    public void testUpdateUser() {
+        SqlSession sqlSession = factory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        User user = new User();
+//        user.setId(8);
+//        user.setUsername("123");
+//        user.setPassword("456");
+//        user.setAge(20);
+//        user.setAddress("家里蹲");
+//        user.setPhone("19980114");
+//        user.setEmail("8908098");
+//        user.setMotto("嘿嘿嘿");
+//        user.setAccount(9999);
+        user.setId(8);
+        user.setAvatar("test.jpg");
+        int i = mapper.updateUser(user);
+        System.out.println(i);
+    }
+
 
 }

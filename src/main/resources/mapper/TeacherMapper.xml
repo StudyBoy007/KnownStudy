@@ -4,11 +4,13 @@
     <resultMap id="BaseResultMap" type="entity.Teacher">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="tname" property="tname" jdbcType="VARCHAR"/>
-        <result column="major" property="major" jdbcType="VARCHAR"/>
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
         <result column="teacher_status" property="teacherStatus" jdbcType="INTEGER"/>
         <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
-        <collection property="courses" column="id" javaType="ArrayList" ofType="entity.Teacher"
+        <association property="major" column="major" jdbcType="INTEGER" javaType="entity.CourseClass"
+                     select="dao.CourseClassMapper.selectByPrimaryKey">
+        </association>
+        <collection property="courses" column="id" javaType="ArrayList" ofType="entity.Course"
                     select="dao.CourseMapper.selectByTid">
         </collection>
     </resultMap>
@@ -17,10 +19,11 @@
     <resultMap id="BaseResultMap2" type="entity.Teacher">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="tname" property="tname" jdbcType="VARCHAR"/>
-        <result column="major" property="major" jdbcType="VARCHAR"/>
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
         <result column="teacher_status" property="teacherStatus" jdbcType="INTEGER"/>
         <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+        <association property="major" column="major" javaType="entity.CourseClass"
+                     select="dao.CourseClassMapper.selectByPrimaryKey"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
@@ -30,13 +33,13 @@
     <insert id="insert" parameterType="entity.Teacher">
         insert into teacher (id, tname, major,
                              introduction, teacher_status, avatar)
-        values (#{id,jdbcType=INTEGER}, #{tname,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR},
-                #{introduction,jdbcType=VARCHAR}, #{teacherStatus,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR})
+        values (#{id}, #{tname}, ${major.id},
+                #{introduction}, #{teacherStatus}, #{avatar})
     </insert>
     <update id="updateByPrimaryKey" parameterType="entity.Teacher">
         update teacher
         set tname          = #{tname,jdbcType=VARCHAR},
-            major          = #{major,jdbcType=VARCHAR},
+            major          =${major.id},
             introduction   = #{introduction,jdbcType=VARCHAR},
             teacher_status = #{teacherStatus,jdbcType=INTEGER},
             avatar         = #{avatar,jdbcType=VARCHAR}
@@ -57,5 +60,20 @@
         from teacher
         where teacher_status = 1
         limit 4;
+    </select>
+
+    <select id="selectTeacherIndex2" resultMap="BaseResultMap">
+        select *
+        from teacher
+    </select>
+
+    <select id="selectTeacherByDirection" parameterType="entity.Teacher" resultMap="BaseResultMap">
+        select *
+        from teacher
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="major.id !=0">
+                major=${major.id}
+            </if>
+        </trim>
     </select>
 </mapper>

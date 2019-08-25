@@ -117,13 +117,14 @@ $(function () {
                 console.log(result);
                 if (result.code == 100) {
                     $("#login").modal('hide');
-                    $("#reg_success_info").val(result.msg);
+                    $("#reg_success_info").text(result.msg);
                     $("#regSuccessInfo").modal({
                         backdrop: "static"
                     });
                 } else {
                     $("#login").modal('hide');
-                    $("#reg_info").val(result.msg);
+                    console.log(result.msg);
+                    $("#reg_info").text(result.msg);
                     $("#regInfo").modal({
                         backdrop: "static"
                     });

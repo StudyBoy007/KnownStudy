@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Msg selectByUsernameService(String username, String password) {
+    public Msg selectByUsernameAndPwdService(String username, String password) {
         User user = userMapper.selectByUsername(username);
         if (user == null) {
             return Msg.result(200, "用户名或密码错误", null);
@@ -56,6 +56,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int updateUserService(User user) {
+        int i = userMapper.updateUser(user);
+        return i;
+    }
+
+
+
+    @Override
+    public Msg selectByUsernameService(String username) {
+        User user = userMapper.selectByUsername(username);
+        if (user != null) {
+            return Msg.result(200, "用户名已存在", null);
+        }
+        return Msg.result(100, "用户名不存在", null);
+    }
+
+
+    @Override
     public List<User> selectAllService() {
         return null;
     }
@@ -64,4 +82,5 @@ public class UserServiceImpl implements UserService {
     public int updateByPrimaryKeyService(User record) {
         return 0;
     }
+
 }

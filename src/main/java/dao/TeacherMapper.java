@@ -18,4 +18,11 @@ public interface TeacherMapper {
 
     //展示在首页的老师信息
     List<Teacher> selectTeacherIndex();
+
+    //优秀老师分类选择
+    List<Teacher> selectTeacherIndex2();
+
+
+    //对应方向的老师
+    List<Teacher> selectTeacherByDirection(Teacher teacher);
 }

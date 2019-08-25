@@ -7,15 +7,26 @@ public class Teacher {
 
     private String tname;
 
-    private String major;
-
     private String introduction;
 
     private Integer teacherStatus;
 
     private String avatar;
 
+    private CourseClass major;
+
     private List<Course> courses;
+
+    public Teacher(Integer id) {
+        this.id = id;
+    }
+
+    public Teacher() {
+    }
+
+    public Teacher(CourseClass major) {
+        this.major = major;
+    }
 
     public Integer getId() {
         return id;
@@ -33,12 +44,22 @@ public class Teacher {
         this.tname = tname == null ? null : tname.trim();
     }
 
-    public String getMajor() {
+
+//    public String getMajor() {
+//        return major;
+//    }
+//
+//    public void setMajor(String major) {
+//        this.major = major == null ? null : major.trim();
+//    }
+
+
+    public CourseClass getMajor() {
         return major;
     }
 
-    public void setMajor(String major) {
-        this.major = major == null ? null : major.trim();
+    public void setMajor(CourseClass major) {
+        this.major = major;
     }
 
     public String getIntroduction() {
@@ -78,7 +99,7 @@ public class Teacher {
         return "Teacher{" +
                 "id=" + id +
                 ", tname='" + tname + '\'' +
-                ", major='" + major + '\'' +
+                ", major=" + major +
                 ", introduction='" + introduction + '\'' +
                 ", teacherStatus=" + teacherStatus +
                 ", avatar='" + avatar + '\'' +

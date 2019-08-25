@@ -44,7 +44,7 @@
 
 button {
     transition: all 0.2s ease 0s;
-    background-color: #f24b28;
+    background-color: #29CA8E;
 
     border: none;
 
@@ -71,6 +71,10 @@ button:hover {
 
 .my-pic {
     text-align: center;
+}
+
+.courses-date > span > i > span {
+    margin-left: 6px;
 }
 
 /*.img-responsive,*/

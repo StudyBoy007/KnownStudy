@@ -21,10 +21,16 @@ public interface UserService {
 
     User selectByPrimaryKeyService(Integer id);
 
-    Msg selectByUsernameService(String username, String password);
+    Msg selectByUsernameService(String username);
 
 
     List<User> selectAllService();
 
     int updateByPrimaryKeyService(User record);
+
+    public Msg selectByUsernameAndPwdService(String username, String password);
+
+
+    int updateUserService(User user);
+
 }

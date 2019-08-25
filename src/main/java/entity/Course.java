@@ -9,7 +9,8 @@ public class Course {
 
     private String chapter;
 
-    private Integer directionId;
+    //    private Integer directionId;
+    private CourseClass courseDirection;
 
     private Integer isfress;
 
@@ -28,6 +29,20 @@ public class Course {
     private Teacher teacher;
 
     private String introduction;
+
+    private Integer buy_num;
+
+    public Course() {
+    }
+
+    public Course(CourseClass courseDirection, Teacher teacher) {
+        this.courseDirection = courseDirection;
+        this.teacher = teacher;
+    }
+
+    public Course(CourseClass courseDirection) {
+        this.courseDirection = courseDirection;
+    }
 
     public Integer getId() {
         return id;
@@ -61,12 +76,21 @@ public class Course {
         this.chapter = chapter == null ? null : chapter.trim();
     }
 
-    public Integer getDirectionId() {
-        return directionId;
+//    public Integer getDirectionId() {
+//        return directionId;
+//    }
+//
+//    public void setDirectionId(Integer directionId) {
+//        this.directionId = directionId;
+//    }
+
+
+    public CourseClass getCourseDirection() {
+        return courseDirection;
     }
 
-    public void setDirectionId(Integer directionId) {
-        this.directionId = directionId;
+    public void setCourseDirection(CourseClass courseDirection) {
+        this.courseDirection = courseDirection;
     }
 
     public Integer getIsfress() {
@@ -142,6 +166,15 @@ public class Course {
         this.introduction = introduction;
     }
 
+
+    public Integer getBuy_num() {
+        return buy_num;
+    }
+
+    public void setBuy_num(Integer buy_num) {
+        this.buy_num = buy_num;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -149,7 +182,7 @@ public class Course {
                 ", cname='" + cname + '\'' +
                 ", video='" + video + '\'' +
                 ", chapter='" + chapter + '\'' +
-                ", directionId=" + directionId +
+                ", courseDirection=" + courseDirection +
                 ", isfress=" + isfress +
                 ", price=" + price +
                 ", pic='" + pic + '\'' +
@@ -159,6 +192,7 @@ public class Course {
                 ", focus=" + focus +
                 ", teacher=" + teacher +
                 ", introduction='" + introduction + '\'' +
+                ", buy_num=" + buy_num +
                 '}';
     }
 }

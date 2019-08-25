@@ -24,4 +24,9 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
 
+    //更新用户
+    int updateUser(User user);
+
+
+
 }

@@ -55,7 +55,7 @@
                             data-target="#login">注册/登录
                     </button>
                 </li>
-                <li th:if="${session.user}!=null"><a th:href="@{/userInfo(userId=${session.user.id})}"><img
+                <li th:if="${session.user}!=null"><a th:href="@{/userInfo}"><img
                         th:src="|/pic/avatar/${session.user.avatar}|"
                         class="img-circle avatar"
                         width="38px"></a>
@@ -321,7 +321,9 @@
         <div class="row">
             <div class="col-md-12 col-sm-12">
                 <div class="section-title">
-                    <button id="AllCourses"><span>全部课程</span></button>
+                    <a th:href="@{/meant(id=0)}">
+                        <button id="AllCourses"><span>全部课程</span></button>
+                    </a>
                     <h2>Popular Courses
                         <small>Upgrade your skills with newest courses</small>
                     </h2>
@@ -761,7 +763,8 @@
                                         <option value="软件">软件</option>
                                         <option value="运动">运动</option>
                                         <option value="音乐">音乐</option>
-                                        <option value="学龄教育">学龄教育</option>
+                                        <option value="教育">教育</option>
+                                        <option value="金融">金融</option>
                                     </select>
                                 </div>
                             </div>

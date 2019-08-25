@@ -31,4 +31,11 @@ public interface CourseMapper {
 
     //用户购买的课程
     List<Course> selectUserCourseBuy(Integer id);
+
+
+    //对应方向的课程
+    List<Course> selectCourseByDirection(Course course);
+
+
+    List<Course> selectCourseByDirectionAndTid(Course course);
 }

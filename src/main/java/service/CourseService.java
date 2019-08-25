@@ -35,4 +35,9 @@ public interface CourseService {
 
     //用户购买的课程
     List<Course> selectUserCourseBuyService(Integer id);
+
+
+    List<Course> selectCourseByDirectionService(Course course);
+
+    List<Course> selectCourseByDirectionAndTidService(Course course);
 }

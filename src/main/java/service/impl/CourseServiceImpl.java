@@ -39,7 +39,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> selectAllService() {
-        return null;
+        List<Course> courses = courseMapper.selectAll();
+        return courses;
     }
 
     @Override
@@ -62,6 +63,18 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> selectUserCourseBuyService(Integer id) {
         List<Course> courses = courseMapper.selectUserCourseBuy(id);
+        return courses;
+    }
+
+    @Override
+    public List<Course> selectCourseByDirectionService(Course course) {
+        List<Course> courses = courseMapper.selectCourseByDirection(course);
+        return courses;
+    }
+
+    @Override
+    public List<Course> selectCourseByDirectionAndTidService(Course course) {
+        List<Course> courses = courseMapper.selectCourseByDirectionAndTid(course);
         return courses;
     }
 }

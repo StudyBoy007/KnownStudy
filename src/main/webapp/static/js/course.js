@@ -1,20 +1,57 @@
+function getRootPath() {
+    var pathName = window.location.pathname.substring(1);
+    var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));
+    return window.location.protocol + '//' + window.location.host + '/' + webName + '/';
+}
+
 $(function () {
-    $(".gamelist span").mouseover(function () {
-        $(this).addClass("label-select");
 
-    }).mouseout(function () {
-        $(this).removeClass("label-select")
-    });
+    $(".levels li").mouseover(function () {
+        if ($(this).hasClass("active") == false) {
+            $(this).addClass("activeFont");
+        }
+    }).mouseleave(function () {
+        $(this).removeClass("activeFont");
+    })
 
 
-    $(".gamelist span").click(function () {
-        $(this).addClass("label-active");
-        $(this).parent().siblings().find("span").removeClass("label-active");
-        console.log($(".gamelist span").each(function () {
-            if ($(this).hasClass("label-active")) {
-                console.log($(this).text());
+    // $(".levels li").click(function () {
+    //     $(this).addClass("active").siblings().removeClass("active");
+    // })
+
+
+    $(".courseClass li").click(function () {
+        var direction_id = $(this).attr("name");
+        window.location.href = getRootPath() + "meant?id=" + direction_id;
+    })
+
+    $(".teacherClass li").click(function () {
+        var tid = $(this).attr("name");
+        var direction_id;
+        $(".courseClass li").each(function () {
+            if ($(this).hasClass("active")) {
+                direction_id = $(this).attr("name");
             }
-        }))
+        })
+        window.location.href = getRootPath() + "teacherCourse?tid=" + tid + "&direction_id=" + direction_id;
+    })
+
+    $(".condition li").click(function () {
+        var condition = $(this).attr("name");
+        var direction_id;
+        var tid;
+        $(".teacherClass li").each(function () {
+            if ($(this).hasClass("active")) {
+                tid = $(this).attr("name");
+            }
+        })
+
+        $(".courseClass li").each(function () {
+            if ($(this).hasClass("active")) {
+                direction_id = $(this).attr("name");
+            }
+        })
+        window.location.href = getRootPath() + "conditionCourse?tid=" + tid + "&direction_id=" + direction_id + "&condition=" + condition;
     })
 
     // $(".collectAll").mouseover(function () {
@@ -46,4 +83,5 @@ $(function () {
     // })
 
 
+    //动态添加课程
 })

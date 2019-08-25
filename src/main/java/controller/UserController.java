@@ -7,7 +7,9 @@ import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import service.CourseService;
 import service.TeacherService;
@@ -20,9 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Create by czq
@@ -44,6 +48,18 @@ public class UserController {
     //加载首页信息
     @RequestMapping("/")
     public ModelAndView indexDisplay() {
+        List<Teacher> teachers = teacherService.selectTeacherIndexService();
+        List<Course> courses = courseService.selectCourseIndexService();
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("teachers", teachers);
+        mv.addObject("courses", courses);
+        mv.setViewName("index");
+        return mv;
+    }
+
+    @RequestMapping("/exit")
+    public ModelAndView exitIndexDisplay(HttpServletRequest request) {
+        request.getSession().invalidate();
         List<Teacher> teachers = teacherService.selectTeacherIndexService();
         List<Course> courses = courseService.selectCourseIndexService();
         ModelAndView mv = new ModelAndView();
@@ -105,7 +121,7 @@ public class UserController {
             return Msg.result(400, "验证码错误", null);
         }
         if (picCode.toLowerCase().equals(code.toLowerCase())) {
-            Msg msg = userService.selectByUsernameService(loginName, loginPwd);
+            Msg msg = userService.selectByUsernameAndPwdService(loginName, loginPwd);
             User user = (User) msg.getO();
             request.getSession().setAttribute("user", user);
             return msg;
@@ -119,13 +135,18 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/regUser")
     public Msg reg(User user) {
-        System.out.println(user);
-        int i = userService.saveUserService(user);
-        if (i == 1) {
-            return Msg.result(100, "注册成功", null);
+        Msg msg = userService.selectByUsernameService(user.getUsername());
+        if (msg.getCode() == 100) {
+            int i = userService.saveUserService(user);
+            if (i == 1) {
+                return Msg.result(100, "注册成功", null);
+            } else {
+                return Msg.result(400, "注册失败", null);
+            }
         } else {
-            return Msg.result(400, "注册失败", null);
+            return msg;
         }
+
     }
 
 
@@ -136,9 +157,68 @@ public class UserController {
         List<Course> coursesCollect = courseService.selectUerCourseCollectService(user.getId());
         List<Course> coursesBuy = courseService.selectUserCourseBuyService(user.getId());
         ModelAndView mv = new ModelAndView();
-        mv.addObject("collect", coursesCollect);
-        mv.addObject("buy", coursesBuy);
+        mv.addObject("collects", coursesCollect);
+        mv.addObject("buys", coursesBuy);
         mv.setViewName("info");
         return mv;
+    }
+
+    @ResponseBody
+    @RequestMapping("/changAvatar")
+    public Msg updateAvatar(HttpServletRequest request, @RequestParam("avatar") MultipartFile multipartFile) {
+        //使用HttpServletRequest接收普通类型的参数，用MultiPart接收文件类型的参数
+        //用MultiPart接收文件类型的参数
+        String fileName = multipartFile.getOriginalFilename(); //得到文件的名字
+        //获取文件原名的后缀
+        String substring = fileName.substring(fileName.lastIndexOf("."));
+        //获取一个随机的32位的字符串
+        String newFileName = UUID.randomUUID().toString();
+//        文件的内容写到目标的地址
+        File dest = new File("F:\\eplayimg\\avatar\\" + newFileName + substring);
+        try {
+            //写入到地址
+            multipartFile.transferTo(dest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        User user = (User) request.getSession().getAttribute("user");
+        user.setAvatar(newFileName + substring);
+        request.getSession().setAttribute("user", user);
+        int i = userService.updateUserService(user);
+        if (i == 1) {
+            return Msg.result(100, "头像修改成功", user);
+        } else {
+            return Msg.result(400, "头像修改失败", user);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/updateUserInfo")
+    public Msg updateUserInfo(User user, HttpServletRequest request) {
+        User user1 = (User) request.getSession().getAttribute("user");
+        if (user1.getUsername().equals(user.getUsername())) {
+            int i = userService.updateUserService(user);
+            if (i == 1) {
+                User user2 = userService.selectByPrimaryKeyService(user.getId());
+                request.getSession().setAttribute("user", user2);
+                return Msg.result(100, "修改成功", user2);
+            } else {
+                return Msg.result(400, "修改失败", null);
+            }
+        } else {
+            Msg msg = userService.selectByUsernameService(user.getUsername());
+            if (msg.getCode() == 100) {
+                int i = userService.updateUserService(user);
+                if (i == 1) {
+                    User user2 = userService.selectByPrimaryKeyService(user.getId());
+                    request.getSession().setAttribute("user", user2);
+                    return Msg.result(100, "修改成功", user2);
+                } else {
+                    return Msg.result(400, "修改失败", null);
+                }
+            } else {
+                return msg;
+            }
+        }
     }
 }

@@ -79,6 +79,23 @@
         where username = #{username}
     </select>
 
+    <select id="selectByUsernameTwo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id,
+               username,
+               password,
+               sex,
+               age,
+               address,
+               avatar,
+               study_direction,
+               phone,
+               email,
+               motto,
+               account
+        from user
+        where username = #{username}
+    </select>
+
 
     <select id="selectAll" resultMap="BaseResultMap">
         select id,
@@ -100,4 +117,44 @@
         insert into user(username, password, sex, study_direction, phone, email)
         values (#{username}, #{password}, #{sex}, #{studyDirection}, #{phone}, #{email});
     </insert>
+
+    <update id="updateUser" parameterType="user">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username !=null and username !=''">
+                username=#{username},
+            </if>
+            <if test="password !=null and password !=''">
+                password=#{password},
+            </if>
+            <if test="sex !=null and sex !=''">
+                sex=#{sex},
+            </if>
+            <if test="age !=null and age !=''">
+                age=#{age},
+            </if>
+            <if test="address !=null and address !='' ">
+                address=#{address},
+            </if>
+            <if test="avatar !=null and avatar !='' ">
+                avatar=#{avatar},
+            </if>
+            <if test="studyDirection !=null and studyDirection !='' ">
+                study_direction=#{studyDirection},
+            </if>
+            <if test="phone !=null and phone !='' ">
+                phone=#{phone},
+            </if>
+            <if test="email !=null and email !='' ">
+                email=#{email},
+            </if>
+            <if test="motto !=null and motto !='' ">
+                motto=#{motto},
+            </if>
+            <if test="account !=null and account !='' ">
+                account=#{account}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
 </mapper>

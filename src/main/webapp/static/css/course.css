@@ -1,0 +1,48 @@
+.levels ul {
+    float: left;
+}
+
+.marginBottom{
+    margin-bottom: 20px;
+}
+
+.content {
+    width: 92%;
+}
+
+.contentClass {
+    float: left;
+    margin-top: 13px;
+    width: 8%;
+}
+
+.levels .nav > li {
+    width: 100px;
+    /*border: 1px solid red;*/
+    margin-right: 20px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    text-align: center;
+    border-radius: 20px;
+    padding: 6px 6px;
+}
+
+.active {
+    background: #29CA8E;
+    color: white;
+}
+
+.activeFont {
+    color: #29CA8E;
+}
+
+.courses-date > span > i > span {
+    margin-left: 4px;
+}
+
+#courseContent{
+    margin-bottom: 90px;
+    height: 900px;
+    overflow: auto;
+}
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.CourseClassMapper">
+    <resultMap id="BaseResultMap" type="entity.CourseClass">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="course_direction" property="courseDirection" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from course_direction
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="entity.CourseClass">
+        insert into course_direction (id, course_direction)
+        values (#{id,jdbcType=INTEGER}, #{courseDirection,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="entity.CourseClass">
+        update course_direction
+        set course_direction = #{courseDirection,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, course_direction
+        from course_direction
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, course_direction
+        from course_direction
+    </select>
+
+    <select id="selectCourseClass" resultMap="BaseResultMap">
+        SELECT *
+        from course_direction
+    </select>
+</mapper>
