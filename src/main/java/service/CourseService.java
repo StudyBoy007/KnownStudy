@@ -40,4 +40,7 @@ public interface CourseService {
     List<Course> selectCourseByDirectionService(Course course);
 
     List<Course> selectCourseByDirectionAndTidService(Course course);
+
+
+    List<Course> selectCourseByDirectionRecommendService(Integer mid, Integer oid);
 }

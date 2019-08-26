@@ -194,6 +194,9 @@
             <if test="teacher.id !=0">
                 and tid=${teacher.id}
             </if>
+            <if test="isfress!=null">
+                and isfress = 0
+            </if>
             <if test="focus!=null">
                 order by focus desc
             </if>
@@ -207,6 +210,16 @@
                 ORDER BY STR_TO_DATE(start_time,'%Y/%m/%d') DESC
             </if>
         </trim>
+    </select>
+
+
+    <!--    查找对应方向的课程-->
+    <select id="selectCourseByDirectionRecommend" parameterType="entity.Course" resultMap="BaseResultMap">
+        select *
+        from course
+        where direction_id = #{oid}
+          and id != #{mid}
+        limit 4;
     </select>
 
 </mapper>

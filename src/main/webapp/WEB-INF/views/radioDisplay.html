@@ -5,9 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>course</title>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.css}">
-    <link rel="stylesheet" th:href="@{/static/css/list.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/zzsc-demo.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/jquery-accordion-menu.css}">
+    <link rel="stylesheet" th:href="@{/static/css/zzsc-demo.css}">
+    <link rel="stylesheet" th:href="@{/static/css/jquery-accordion-menu.css}">
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/owl.carousel.css}">
@@ -15,6 +14,7 @@
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" th:href="@{/static/css/templatemo-style.css}">
+    <link rel="stylesheet" th:href="@{/static/css/list.css}">
     <link rel="stylesheet" th:href="@{/static/css/videoDisplay.css}">
 </head>
 
@@ -22,7 +22,6 @@
 <!-- MENU -->
 <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
     <div class="container">
-
         <div class="navbar-header">
             <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon icon-bar"></span>
@@ -31,15 +30,18 @@
             </button>
 
             <!-- lOGO TEXT HERE -->
-            <a href="index.html" class="navbar-brand"><img th:src="@{/static/images/png/logoko.png}" width="80px"
-                                                           alt=""></a>
+            <a th:href="@{/}" class="navbar-brand"><img th:src="@{/static/images/png/logoko.png}" width="80px"
+                                                        alt=""></a>
         </div>
 
         <!-- MENU LINKS -->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><img th:src="@{/static/images/author-image3.jpg}" class="img-circle avatar"
-                                     width="38px"></a></li>
+                <li id="cover"><a th:href="@{/userInfo}"><img
+                        th:src="|/pic/avatar/${session.user.avatar}|"
+                        class="img-circle avatar"
+                        width="38px" height="38px"></a>
+                </li>
             </ul>
         </div>
 
@@ -54,66 +56,49 @@
 <div class="zzsc-container">
     <div class="content">
         <div id="jquery-accordion-menu" class="jquery-accordion-menu red">
-            <div class="jquery-accordion-menu-header" id="form">Known ssm框架教学
+            <div class="jquery-accordion-menu-header" id="form"><span th:text="${course.cname}">Known ssm框架教学</span>
                 <div class="collectAll"><span class="collect" my-icon="collect1"></span><span class="collect">收藏</span>
                 </div>
             </div>
             <ul id="demo-list">
-                <li class="active"><a href="#"><i class="fa fa-video-camera"></i>Home </a></li>
-                <li><a href="#"><i class="fa fa-video-camera"></i>Events </a></li>
-                <li><a href="#"><i class="fa fa-video-camera"></i>Gallery</a></li>
-                <li><a href="#"><i class="fa fa-video-camera"></i>Services </a></li>
-                <li><a href="#"><i class="fa fa-video-camera"></i>System </a></li>
-                <li><a href="#"><i class="fa fa-video-camera"></i>Portfolio </a></li>
-                <li><a href="#"><i class="fa fa-video-camera"></i>About </a></li>
-                <li><a href="#"><i class="fa fa-video-camera"></i>Contact </a></li>
+                <li th:each="display,displayS:${displays}"><a
+                        th:href="@{/showVideo(courseId=${course.id},videoName=${display.value},chapter=${display.key})}"><i
+                        class="fa fa-video-camera"></i><span th:text="${display.key}">Home</span> </a></li>
             </ul>
             <div class="jquery-accordion-menu-footer">
                 Footer
             </div>
         </div>
     </div>
+
+
     <div class="otherCourse">
         <h3>推荐课程</h3>
         <ul class="nav nav-stacked recommendCourse">
-            <li>
-                <div class="courseImg"><img th:src="@{/static/images/courses-image1.jpg}" alt="" width="150px"></div>
-                <div class="courseInfo">
-                    <ul class="nav nav-stacked">
-                        <li>课程名称</li>
-                        <li>课程方向</li>
-                        <li>课程价格</li>
-                    </ul>
+            <li th:each="recommend:${recommends}" th:switch="${recommend.isfress}">
+                <div th:case="0">
+                    <a th:href="@{/displayCourse(id=${recommend.id})}">
+                        <div class="courseImg"><img th:src="|/pic/course/${recommend.pic}|" alt="" width="150px"></div>
+                        <div class="courseInfo">
+                            <ul class="nav nav-stacked">
+                                <li th:text="${recommend.cname}">课程名称</li>
+                                <li th:text="${recommend.courseDirection.courseDirection}">课程方向</li>
+                                <li>免费</li>
+                            </ul>
+                        </div>
+                    </a>
                 </div>
-            </li>
-            <li>
-                <div class="courseImg"><img th:src="@{/static/images/courses-image2.jpg}" alt="" width="150px"></div>
-                <div class="courseInfo">
-                    <ul class="nav nav-stacked">
-                        <li>课程名称</li>
-                        <li>课程方向</li>
-                        <li>课程价格</li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <div class="courseImg"><img th:src="@{/static/images/courses-image3.jpg}" alt="" width="150px"></div>
-                <div class="courseInfo">
-                    <ul class="nav nav-stacked">
-                        <li>课程名称</li>
-                        <li>课程方向</li>
-                        <li>课程价格</li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <div class="courseImg"><img th:src="@{/static/images/courses-image4.jpg}" alt="" width="150px"></div>
-                <div class="courseInfo">
-                    <ul class="nav nav-stacked">
-                        <li>课程名称</li>
-                        <li>课程方向</li>
-                        <li>课程价格</li>
-                    </ul>
+                <div th:case="1">
+                    <a href="#">
+                        <div class="courseImg"><img th:src="|/pic/course/${recommend.pic}|" alt="" width="150px"></div>
+                        <div class="courseInfo">
+                            <ul class="nav nav-stacked">
+                                <li th:text="${recommend.cname}">课程名称</li>
+                                <li th:text="${recommend.courseDirection.courseDirection}">课程方向</li>
+                                <li th:text="'USD '+${recommend.price}">课程价格</li>
+                            </ul>
+                        </div>
+                    </a>
                 </div>
             </li>
         </ul>

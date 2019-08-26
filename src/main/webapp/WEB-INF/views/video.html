@@ -52,11 +52,11 @@
     <div class="cd-inner clearfix">
         <ul class="l">
             <li class="nv nv-goback">
-                <a href="" class="revert l"><span my-icon="left"></span></a>
+                <a href="javascript:history.go(-1);" class="revert l"><span my-icon="left"></span></a>
             </li>
             <li class="nv nv-menu">
                 <a href="javascript:;" class="chaptername J-chaptername" data-id="6160" style="cursor:text;">
-                    <em>7-1 课程总结</em>
+                    <em th:text="${chapter}">7-1 课程总结</em>
                 </a>
             </li>
         </ul>
@@ -102,7 +102,7 @@
             <div class="button agileinfo"></div>
         </div>
         <div id="video">
-            <video th:src="@{/static/video/v02.mp4}"></video>
+            <video th:src="|/pic/video/${videoName}|"></video>
             <p>Your user agent does not support this Video element.</p>
         </div>
         <div id="controls">
@@ -835,67 +835,32 @@
                 <div class="mb40 recom-course-list-box">
                     <h4>推荐课程</h4>
                     <ul class="js-recom-course moco-aside-course clearfix">
-                        <li>
-                            <div class="aside-course-img"><img th:src="@{/static/images/course01.jpg}">
+                        <li th:each="recommend:${recommends}">
+                            <div class="aside-course-img"><img th:src="|/pic/course/${recommend.pic}|">
                                 <p class="aside-course-type">实战</p>
                             </div>
-                            <div class="aside-course-content">
-                                <a href="" class="aside-course-name"
-                                   target="_blank">Vue.js2.5+cube-ui重构饿了么App（经典再升级）</a>
-                                <p class="aside-course-price"><span>￥198.00&nbsp;</span></p>
-                                <p class="aside-course-grade">中级&nbsp;</p>
-                                <p class="aside-course-people"><span>8496人在学</span></p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="aside-course-img"><img th:src="@{/static/images/course02.jpg}">
-                                <p class="aside-course-type">实战</p>
-                            </div>
-                            <div class="aside-course-content">
-                                <a href="" class="aside-course-name" target="_blank">微信小程序入门与实战 常用组件API开发技巧项目实战</a>
-                                <p class="aside-course-price"><span>￥149.00&nbsp;</span></p>
-                                <p class="aside-course-grade">初级&nbsp;</p>
-                                <p class="aside-course-people"><span>18348人在学</span></p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="aside-course-img"><img th:src="@{/static/images/course03.jpg}">
-                                <p class="aside-course-type">实战</p>
-                            </div>
-                            <div class="aside-course-content">
-                                <a href="" class="aside-course-name" target="_blank">从0开始 独立完成企业级Java电商网站服务端开发(长期维护)</a>
-                                <p class="aside-course-price"><span>￥348.00&nbsp;</span></p>
-                                <p class="aside-course-grade">中级&nbsp;</p>
-                                <p class="aside-course-people"><span>7724人在学</span></p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="aside-course-img"><img th:src="@{/static/images/course04.jpg}">
-                                <p class="aside-course-type">实战</p>
-                            </div>
-                            <div class="aside-course-content">
-                                <a href="https://coding.imooc.com/class/115.html" class="aside-course-name"
-                                   target="_blank">前端JavaScript面试技巧</a>
-                                <p class="aside-course-price"><span>￥149.00&nbsp;</span></p>
-                                <p class="aside-course-grade">初级&nbsp;</p>
-                                <p class="aside-course-people"><span>4090人在学</span></p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="aside-course-img">
-                                <img th:src="@{/static/images/course05.jpg}">
-                                <p class="aside-course-type">实战</p>
-                            </div>
-                            <div class="aside-course-content">
-                                <a href="https://coding.imooc.com/class/203.html" class="aside-course-name"
-                                   target="_blank">Vue2.5开发去哪儿网App 从零基础入门到实战项目</a>
-                                <p class="aside-course-price"><span>￥266.00&nbsp;</span></p>
-                                <p class="aside-course-grade">中级&nbsp;</p>
-                                <p class="aside-course-people"><span>6369人在学</span></p>
+                            <div class="aside-course-content" th:switch="${recommend.isfress}">
+                                <div th:case="0">
+                                    <a th:href="@{/displayCourse(id=${recommend.id})}"
+                                       class="aside-course-name"
+                                       target="_blank" th:text="${recommend.cname}">Vue.js2.5+cube-ui重构饿了么App（经典再升级）</a>
+                                    <p class="aside-course-price"><span>免费</span></p>
+                                    <p class="aside-course-grade margin_left">中级</p>
+                                    <p class="aside-course-people margin_left"><span
+                                            th:text="${recommend.focus+recommend.buy_num}+'人在学'">8496人在学</span>
+                                    </p>
+                                </div>
+                                <div th:case="1">
+                                    <a href="#"
+                                       class="aside-course-name"
+                                       target="_blank" th:text="${recommend.cname}">Vue.js2.5+cube-ui重构饿了么App（经典再升级）</a>
+                                    <p class="aside-course-price"><span
+                                            th:text="'USD '+${recommend.price}">USD 100</span></p>
+                                    <p class="aside-course-grade margin_left">中级</p>
+                                    <p class="aside-course-people margin_left"><span
+                                            th:text="${recommend.focus+recommend.buy_num}+'人在学'">8496人在学</span>
+                                    </p>
+                                </div>
                             </div>
                         </li>
                     </ul>

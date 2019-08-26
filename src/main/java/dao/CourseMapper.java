@@ -2,6 +2,7 @@ package dao;
 
 import entity.Course;
 import entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -38,4 +39,8 @@ public interface CourseMapper {
 
 
     List<Course> selectCourseByDirectionAndTid(Course course);
+
+
+    //mid是展示课程的id oid是课程推荐的方向的id
+    List<Course> selectCourseByDirectionRecommend(@Param("mid") Integer mid, @Param("oid") Integer oid);
 }

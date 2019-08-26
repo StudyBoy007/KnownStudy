@@ -29,7 +29,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course selectByPrimaryKeyService(Integer id) {
-        return null;
+        Course course = courseMapper.selectByPrimaryKey(id);
+        return course;
     }
 
     @Override
@@ -75,6 +76,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> selectCourseByDirectionAndTidService(Course course) {
         List<Course> courses = courseMapper.selectCourseByDirectionAndTid(course);
+        return courses;
+    }
+
+    @Override
+    public List<Course> selectCourseByDirectionRecommendService(Integer mid, Integer oid) {
+        List<Course> courses = courseMapper.selectCourseByDirectionRecommend(mid, oid);
         return courses;
     }
 }

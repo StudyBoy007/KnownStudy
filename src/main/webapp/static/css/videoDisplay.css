@@ -47,3 +47,7 @@
     float: right;
     display: inline-block;
 }
+
+#cover img {
+    object-fit: cover;
+}

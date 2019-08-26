@@ -98,3 +98,7 @@ button:hover {
     margin-left: 6px;
 }
 
+#cover img {
+    object-fit: cover;
+}
+

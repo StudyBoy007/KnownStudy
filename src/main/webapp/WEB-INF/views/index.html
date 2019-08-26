@@ -55,10 +55,10 @@
                             data-target="#login">注册/登录
                     </button>
                 </li>
-                <li th:if="${session.user}!=null"><a th:href="@{/userInfo}"><img
+                <li id="cover" th:if="${session.user}!=null"><a th:href="@{/userInfo}"><img
                         th:src="|/pic/avatar/${session.user.avatar}|"
                         class="img-circle avatar"
-                        width="38px"></a>
+                        width="38px" height="38px"></a>
                 </li>
             </ul>
         </div>
@@ -259,57 +259,6 @@
                     </ul>
                 </div>
             </div>
-
-            <!--            <div class="col-md-3 col-sm-6">-->
-            <!--                <div class="team-thumb">-->
-            <!--                    <div class="team-image">-->
-            <!--                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">-->
-            <!--                    </div>-->
-            <!--                    <div class="team-info">-->
-            <!--                        <h3>Catherine</h3>-->
-            <!--                        <span>Education is the key!</span>-->
-            <!--                    </div>-->
-            <!--                    <ul class="social-icon">-->
-            <!--                        <li><a href="#" class="fa fa-google"></a></li>-->
-            <!--                        <li><a href="#" class="fa fa-instagram"></a></li>-->
-            <!--                    </ul>-->
-            <!--                </div>-->
-            <!--            </div>-->
-
-            <!--            <div class="col-md-3 col-sm-6">-->
-            <!--                <div class="team-thumb">-->
-            <!--                    <div class="team-image">-->
-            <!--                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">-->
-            <!--                    </div>-->
-            <!--                    <div class="team-info">-->
-            <!--                        <h3>Jessie Ca</h3>-->
-            <!--                        <span>I like Online Courses</span>-->
-            <!--                    </div>-->
-            <!--                    <ul class="social-icon">-->
-            <!--                        <li><a href="#" class="fa fa-twitter"></a></li>-->
-            <!--                        <li><a href="#" class="fa fa-envelope-o"></a></li>-->
-            <!--                        <li><a href="#" class="fa fa-linkedin"></a></li>-->
-            <!--                    </ul>-->
-            <!--                </div>-->
-            <!--            </div>-->
-
-            <!--            <div class="col-md-3 col-sm-6">-->
-            <!--                <div class="team-thumb">-->
-            <!--                    <div class="team-image">-->
-            <!--                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">-->
-            <!--                    </div>-->
-            <!--                    <div class="team-info">-->
-            <!--                        <h3>Andrew Berti</h3>-->
-            <!--                        <span>Learning is fun</span>-->
-            <!--                    </div>-->
-            <!--                    <ul class="social-icon">-->
-            <!--                        <li><a href="#" class="fa fa-twitter"></a></li>-->
-            <!--                        <li><a href="#" class="fa fa-google"></a></li>-->
-            <!--                        <li><a href="#" class="fa fa-behance"></a></li>-->
-            <!--                    </ul>-->
-            <!--                </div>-->
-            <!--            </div>-->
-
         </div>
     </div>
 </section>
@@ -335,6 +284,7 @@
                     <div class="col-md-4 col-sm-4" th:each="course:${courses}">
                         <div class="item">
                             <div class="courses-thumb">
+
                                 <div class="courses-top">
                                     <div class="courses-image">
                                         <!--                                        <img th:src="@{/static/images/courses-image1.jpg}" class="img-responsive" alt="">-->

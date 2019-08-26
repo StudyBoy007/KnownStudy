@@ -28,12 +28,19 @@ $(function () {
     $(".teacherClass li").click(function () {
         var tid = $(this).attr("name");
         var direction_id;
+        var condition;
         $(".courseClass li").each(function () {
             if ($(this).hasClass("active")) {
                 direction_id = $(this).attr("name");
             }
         })
-        window.location.href = getRootPath() + "teacherCourse?tid=" + tid + "&direction_id=" + direction_id;
+
+        $(".condition li").each(function () {
+            if ($(this).hasClass("active")) {
+                condition = $(this).attr("name");
+            }
+        })
+        window.location.href = getRootPath() + "conditionCourse?tid=" + tid + "&direction_id=" + direction_id + "&condition=" + condition;
     })
 
     $(".condition li").click(function () {
@@ -85,3 +92,4 @@ $(function () {
 
     //动态添加课程
 })
+

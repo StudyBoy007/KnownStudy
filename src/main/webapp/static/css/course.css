@@ -2,7 +2,7 @@
     float: left;
 }
 
-.marginBottom{
+.marginBottom {
     margin-bottom: 20px;
 }
 
@@ -17,7 +17,7 @@
 }
 
 .levels .nav > li {
-    width: 100px;
+    width: 110px;
     /*border: 1px solid red;*/
     margin-right: 20px;
     margin-top: 8px;
@@ -40,9 +40,13 @@
     margin-left: 4px;
 }
 
-#courseContent{
+#courseContent {
     margin-bottom: 90px;
     height: 900px;
     overflow: auto;
+}
+
+#cover img {
+    object-fit: cover;
 }
 

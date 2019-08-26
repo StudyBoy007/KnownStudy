@@ -121,6 +121,6 @@ $(function () {
 
 function exitUser() {
     var str = getRootPath();
-    window.location.href = str + "/exit";
+    window.location.href = str + "exit";
 }
 

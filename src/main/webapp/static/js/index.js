@@ -68,21 +68,12 @@ $(function () {
 
         //发送ajax请求到后台去进行校验
         $.ajax({
-            url: str + "/juifyUser",
+            url: str + "juifyUser",
             type: "POST",
             data: $("#room form").serialize(),
             success: function (result) {
                 console.log(result);
                 if (result.code == 100) {
-                    // $("#login").modal('hide');
-                    // var user = result.o;
-                    // $("#user_email").val(user.email);
-                    // $("#fullName").val(user.username);
-                    // $("#avatar").attr("src", "/pic/avatar/" + user.avatar);
-                    // console.log("用户的id为：" + user.id);
-                    // $("#form-submit-info").attr("name", user.id);
-                    // $("html").animate({scrollTop: $("#about").offset().top}, 1000);
-                    // $("#loginAndReg").hide();
                     window.location.reload();
                 } else {
                     //显示失败信信息
@@ -110,7 +101,7 @@ $(function () {
         console.log($("#tab form").serialize());
         //发送ajax请求到后台去进行校验
         $.ajax({
-            url: str + "/regUser",
+            url: str + "regUser",
             type: "POST",
             data: $("#tab form").serialize(),
             success: function (result) {

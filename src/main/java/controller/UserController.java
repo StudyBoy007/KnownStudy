@@ -58,15 +58,9 @@ public class UserController {
     }
 
     @RequestMapping("/exit")
-    public ModelAndView exitIndexDisplay(HttpServletRequest request) {
+    public String exitIndexDisplay(HttpServletRequest request) {
         request.getSession().invalidate();
-        List<Teacher> teachers = teacherService.selectTeacherIndexService();
-        List<Course> courses = courseService.selectCourseIndexService();
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("teachers", teachers);
-        mv.addObject("courses", courses);
-        mv.setViewName("index");
-        return mv;
+        return "redirect:/";
     }
 
 

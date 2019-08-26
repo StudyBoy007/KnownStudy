@@ -53,7 +53,7 @@ h1 {
 }
 p {
     text-align: center;
-    color: #fff;
+    color: #000000;
     font-weight: 300;
 }
 #videoContainer { 
@@ -559,5 +559,9 @@ h1 {
 #videoContainer {
     height: 13em;
 } 
+}
+
+.margin_left{
+	margin-left: 12px;
 }
 /*-- //responsive-design --*/
