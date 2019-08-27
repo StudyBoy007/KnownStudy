@@ -124,3 +124,7 @@ function exitUser() {
     window.location.href = str + "exit";
 }
 
+function goCart() {
+    window.location.href = getRootPath() + "displayCart";
+}
+

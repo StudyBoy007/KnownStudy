@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.VideoMapper" >
+  <resultMap id="BaseResultMap" type="entity.Video" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="chapterid" property="chapterid" jdbcType="INTEGER" />
+    <result column="video_name" property="videoName" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from video
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="entity.Video" >
+    insert into video (id, chapterid, video_name, 
+      path)
+    values (#{id,jdbcType=INTEGER}, #{chapterid,jdbcType=INTEGER}, #{videoName,jdbcType=VARCHAR}, 
+      #{path,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="entity.Video" >
+    update video
+    set chapterid = #{chapterid,jdbcType=INTEGER},
+      video_name = #{videoName,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, chapterid, video_name, path
+    from video
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, chapterid, video_name, path
+    from video
+  </select>
+
+  <select id="selectByChapterID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, chapterid, video_name, path
+    from video
+    where chapterid = #{chapterid,jdbcType=INTEGER}
+  </select>
+</mapper>

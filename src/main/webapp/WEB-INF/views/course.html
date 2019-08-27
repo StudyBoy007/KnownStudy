@@ -113,7 +113,8 @@
                     <div class="courses-top">
                         <div class="courses-image">
                             <!--                                        <img th:src="@{/static/images/courses-image1.jpg}" class="img-responsive" alt="">-->
-                            <img th:src="|/pic/course/${course.pic}|" class="img-responsive" alt="">
+                            <img th:src="|/pic/course/${course.courseDirection.courseDirection}/${course.pic}|"
+                                 class="img-responsive" alt="">
                         </div>
                         <div class="courses-date">
                                         <span><i class="fa fa-calendar"><span
@@ -129,7 +130,8 @@
                         <h3 th:switch="${course.isfress}">
                             <a th:href="@{/displayCourse(id=${course.id})}" th:case="0" th:text="${course.cname}">Social
                                 Media Management</a>
-                            <a href="#" th:case="1" th:text="${course.cname}">Social Media Management</a>
+                            <a th:href="@{/shopCart(courseId=${course.id})}" th:case="1" th:text="${course.cname}">Social
+                                Media Management</a>
                         </h3>
                         <p th:text="${course.introduction}">Lorem ipsum dolor sit amet, consectetur
                             adipiscing elit.</p>
@@ -143,7 +145,7 @@
                         </div>
 
                         <div class="courses-price" th:case="1">
-                            <a href="#"><span th:text="'USD '+${course.price}">USD 25</span></a>
+                            <a th:href="@{/shopCart(courseId=${course.id})}"><span th:text="'USD '+${course.price}">USD 25</span></a>
                         </div>
 
                         <div class="courses-price free" th:case="0">

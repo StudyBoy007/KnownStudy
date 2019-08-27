@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Order;
+
 import java.util.List;
 
 public interface OrderMapper {
@@ -13,4 +14,6 @@ public interface OrderMapper {
     List<Order> selectAll();
 
     int updateByPrimaryKey(Order record);
+
+    List<Order> selectUserAllOrder(Integer uid);
 }

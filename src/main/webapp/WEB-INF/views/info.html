@@ -33,11 +33,16 @@
 
         <!-- MENU LINKS -->
         <div class="collapse navbar-collapse">
+            <!--            <ul class="nav navbar-nav navbar-nav-first">-->
+            <!--                <li><a href="#courses" class="smoothScroll">Course</a></li>-->
+            <!--                <li><a href="#collect" class="smoothScroll">Collect</a></li>-->
+            <!--            </ul>-->
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <button onclick="exitUser()">退出
                     </button>
                 </li>
+                <li><span my-icon="cart01" id="cart" onclick="goCart()"></span></li>
             </ul>
         </div>
 
@@ -151,7 +156,8 @@
                                 <div class="courses-top">
                                     <div class="courses-image">
                                         <!--                                        <img th:src="@{/static/images/courses-image1.jpg}" class="img-responsive" alt="">-->
-                                        <img th:src="|/pic/course/${buy.pic}|" class="img-responsive" alt="">
+                                        <img th:src="|/pic/course/${buy.courseDirection.courseDirection}/${buy.pic}|"
+                                             class="img-responsive" alt="">
                                     </div>
                                     <div class="courses-date">
                                         <span><i class="fa fa-calendar"><span
@@ -213,7 +219,8 @@
                                 <div class="courses-top">
                                     <div class="courses-image">
                                         <!--                                        <img th:src="@{/static/images/courses-image1.jpg}" class="img-responsive" alt="">-->
-                                        <img th:src="|/pic/course/${collect.pic}|" class="img-responsive" alt="">
+                                        <img th:src="|/pic/course/${collect.courseDirection.courseDirection}/${collect.pic}|"
+                                             class="img-responsive" alt="">
                                     </div>
                                     <div class="courses-date">
                                         <span><i class="fa fa-calendar"><span

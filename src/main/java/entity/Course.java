@@ -1,15 +1,19 @@
 package entity;
 
+import java.util.List;
+
 public class Course {
     private Integer id;
 
     private String cname;
 
-    private String video;
-
-    private String chapter;
+//    private String video;
+//
+private String course_path;
 
     //    private Integer directionId;
+    private List<Chapter> chapters;
+
     private CourseClass courseDirection;
 
     private Integer isfress;
@@ -33,6 +37,10 @@ public class Course {
     private Integer buy_num;
 
     public Course() {
+    }
+
+    public Course(Integer id) {
+        this.id = id;
     }
 
     public Course(CourseClass courseDirection, Teacher teacher) {
@@ -60,21 +68,37 @@ public class Course {
         this.cname = cname == null ? null : cname.trim();
     }
 
-    public String getVideo() {
-        return video;
+    public List<Chapter> getChapters() {
+        return chapters;
     }
 
-    public void setVideo(String video) {
-        this.video = video == null ? null : video.trim();
+    public void setChapters(List<Chapter> chapters) {
+        this.chapters = chapters;
     }
 
-    public String getChapter() {
-        return chapter;
+    public String getCourse_path() {
+        return course_path;
     }
 
-    public void setChapter(String chapter) {
-        this.chapter = chapter == null ? null : chapter.trim();
+    public void setCourse_path(String course_path) {
+        this.course_path = course_path;
     }
+
+    //    public String getVideo() {
+//        return video;
+//    }
+//
+//    public void setVideo(String video) {
+//        this.video = video == null ? null : video.trim();
+//    }
+//
+//    public String getChapter() {
+//        return chapter;
+//    }
+//
+//    public void setChapter(String chapter) {
+//        this.chapter = chapter == null ? null : chapter.trim();
+//    }
 
 //    public Integer getDirectionId() {
 //        return directionId;
@@ -180,8 +204,8 @@ public class Course {
         return "Course{" +
                 "id=" + id +
                 ", cname='" + cname + '\'' +
-                ", video='" + video + '\'' +
-                ", chapter='" + chapter + '\'' +
+                ", course_path='" + course_path + '\'' +
+                ", chapters=" + chapters +
                 ", courseDirection=" + courseDirection +
                 ", isfress=" + isfress +
                 ", price=" + price +

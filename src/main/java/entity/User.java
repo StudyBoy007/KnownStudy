@@ -28,6 +28,10 @@ public class User {
     public User() {
     }
 
+    public User(Integer id) {
+        this.id = id;
+    }
+
     public User(String username, String password, String sex, String studyDirection, String phone, String email) {
         this.username = username;
         this.password = password;

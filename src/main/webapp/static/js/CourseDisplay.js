@@ -14,9 +14,44 @@ $(function () {
     //     // });
     //     alert(123);
     // })
+    function getRootPath() {
+        var pathName = window.location.pathname.substring(1);
+        var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));
+        return window.location.protocol + '//' + window.location.host + '/' + webName + '/';
+    }
+
+
     $(".collectCar").click(function () {
-        $("#carModal").modal({
-            backdrop: "static"
+
+        var str = getRootPath();
+
+        //获取商品id
+        var courseId = Number($(this).attr("name"));
+
+        //把加入购物车的物品添加
+        $.ajax({
+            url: str + "addCart",
+            type: "POST",
+            data: {"courseId": courseId},
+            success: function (result) {
+                $("#replay").text(result.msg);
+                if (result.code == 200) {
+                    $("#buttonContent").remove();
+                } else if (result.code == 101) {
+                    $("#buttonContent").text("前往观看")
+                    $("#buttonContent").click(function () {
+                        window.location.href = getRootPath() + "displayCourse?id=" + courseId;
+                    })
+                } else if (result.code == 100) {
+                    $("#buttonContent").click(function () {
+                        window.location.href = getRootPath() + "displayCart"
+                    })
+                }
+                $("#carModal").modal({
+                    backdrop: "static"
+                });
+            }
         });
     })
 })
+

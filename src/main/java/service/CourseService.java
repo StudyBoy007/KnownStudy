@@ -43,4 +43,7 @@ public interface CourseService {
 
 
     List<Course> selectCourseByDirectionRecommendService(Integer mid, Integer oid);
+
+
+    int juifyCourseIsOrNotBuyService( int uid, int cid);
 }

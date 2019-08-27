@@ -1,6 +1,7 @@
 package controller;
 
 import dao.CourseClassMapper;
+import entity.Chapter;
 import entity.Course;
 import entity.CourseClass;
 import entity.Teacher;
@@ -83,19 +84,11 @@ public class CourseController {
     public ModelAndView displayCourse(int id) {
         //获取展示的课程信息
         Course course = courseService.selectByPrimaryKeyService(id);
-        //将couse中video和chapter拆分成两个集合
-        List<String> videos = Arrays.asList(course.getVideo().split(";"));
-        List<String> chapters = Arrays.asList(course.getChapter().split(";"));
-        Map<String, String> displays = new HashMap<>();
-        for (int i = 0; i < videos.size(); i++) {
-            displays.put(chapters.get(i), videos.get(i));
-        }
 
         //获取展示课程学习方向一致的推荐课程信息
         List<Course> recommends = courseService.selectCourseByDirectionRecommendService(course.getId(), course.getCourseDirection().getId());
         ModelAndView mv = new ModelAndView();
         mv.addObject("course", course);
-        mv.addObject("displays", displays);
         mv.addObject("recommends", recommends);
         mv.setViewName("radioDisplay");
         return mv;
@@ -103,16 +96,24 @@ public class CourseController {
 
 
     @RequestMapping("/showVideo")
-    public ModelAndView showVideo(int courseId, String videoName, String chapter) {
+    public ModelAndView showVideo(int courseId, int chapter, int video) {
         ModelAndView mv = new ModelAndView();
         //获取展示的课程信息
         Course course = courseService.selectByPrimaryKeyService(courseId);
 
+//        获取视频信息
+        Chapter chapter1 = course.getChapters().get(chapter);
+        String chapterName = chapter1.getChapterName();
+        String coursePath = course.getCourse_path();
+        String chapterPath = chapter1.getPath();
+        String videoPath = chapter1.getVideos().get(video).getPath();
+
+
         //推荐课程
         List<Course> recommends = courseService.selectCourseByDirectionRecommendService(course.getId(), course.getCourseDirection().getId());
         mv.addObject("recommends", recommends);
-        mv.addObject("chapter", chapter);
-        mv.addObject("videoName", course.getCourseDirection().getCourseDirection() + "/" + videoName);
+        mv.addObject("chapter", chapterName);
+        mv.addObject("videoName", course.getCourseDirection().getCourseDirection() + "/" + coursePath + "/" + chapterPath + "/" + videoPath);
         mv.setViewName("video");
         return mv;
     }

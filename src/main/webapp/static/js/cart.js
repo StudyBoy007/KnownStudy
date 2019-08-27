@@ -1,3 +1,9 @@
+function getRootPath() {
+    var pathName = window.location.pathname.substring(1);
+    var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));
+    return window.location.protocol + '//' + window.location.host + '/' + webName + '/';
+}
+
 $(function () {
     $(".js-coures-num").text($(".hook").length);
     $(".js-choice-num").text($(".hook").length);
@@ -37,6 +43,18 @@ $(function () {
         var sum = AllMoney();
         $(".jsAltogether").text(sum);
         juifyAllSelect()
+
+        var str = getRootPath();
+        var cartId = $(this).attr("name");
+
+        //去删除对呀的cart记录
+        $.ajax({
+            url: str + "delCart",
+            type: "POST",
+            data: {"cartId": cartId},
+        });
+
+
     })
 
 })

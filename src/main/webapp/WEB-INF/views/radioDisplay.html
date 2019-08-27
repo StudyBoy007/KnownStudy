@@ -61,9 +61,16 @@
                 </div>
             </div>
             <ul id="demo-list">
-                <li th:each="display,displayS:${displays}"><a
-                        th:href="@{/showVideo(courseId=${course.id},videoName=${display.value},chapter=${display.key})}"><i
-                        class="fa fa-video-camera"></i><span th:text="${display.key}">Home</span> </a></li>
+                <li th:each="chapter,chapterState:${course.chapters}"><a href="javascript:volid(0);"><i
+                        class="fa fa-video-camera"></i><span
+                        th:text="'第'+${chapterState.index+1}+'章  '+${chapter.chapterName}">system</span> </a>
+                    <ul class="submenu">
+                        <li th:each="video,videoState:${chapter.videos}"><a
+                                th:href="@{/showVideo(courseId=${course.id},chapter=${chapterState.index},video=${videoState.index})}"><span
+                                th:text="${chapterState.index+1}+'-'+${videoState.index+1}+'  '+${video.videoName}">666</span>
+                        </a></li>
+                    </ul>
+                </li>
             </ul>
             <div class="jquery-accordion-menu-footer">
                 Footer
@@ -78,7 +85,7 @@
             <li th:each="recommend:${recommends}" th:switch="${recommend.isfress}">
                 <div th:case="0">
                     <a th:href="@{/displayCourse(id=${recommend.id})}">
-                        <div class="courseImg"><img th:src="|/pic/course/${recommend.pic}|" alt="" width="150px"></div>
+                        <div class="courseImg"><img th:src="|/pic/course/${recommend.courseDirection.courseDirection}/${recommend.pic}|" alt="" width="150px"></div>
                         <div class="courseInfo">
                             <ul class="nav nav-stacked">
                                 <li th:text="${recommend.cname}">课程名称</li>

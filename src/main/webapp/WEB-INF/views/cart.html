@@ -17,8 +17,6 @@
     <link rel="stylesheet" th:href="@{/static/css/cart02.css}">
     <link rel="stylesheet" th:href="@{/static/css/cart.css}">
     <link rel="stylesheet" th:href="@{/static/css/cart03.css}">
-
-
 </head>
 
 <body>
@@ -40,8 +38,10 @@
         <!-- MENU LINKS -->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="info.html"><img th:src="@{/static/images/author-image3.jpg}" class="img-circle avatar"
-                                             width="38px"></a>
+                <li id="cover" th:if="${session.user}!=null"><a th:href="@{/userInfo}"><img
+                        th:src="|/pic/avatar/${session.user.avatar}|"
+                        class="img-circle avatar"
+                        width="38px" height="38px"></a>
                 </li>
             </ul>
         </div>
@@ -57,7 +57,8 @@
                 <h1 class="left">我的购物车</h1>
 
                 <div class="left js-number-box-cart">
-                    共<span class="js-coures-num">3</span>门，已选择<span class="js-choice-num">3</span>门
+                    共<span class="js-coures-num" th:text="${carts.size()}">3</span>门，已选择<span
+                        class="js-choice-num">3</span>门
                 </div>
 
             </div>
@@ -91,86 +92,35 @@
             </div>
         </div>
         <div id="js-cart-body-table" class="cart-body-table">
+
+
             <div class="item clearfix js-item-cart js-each-217" data-type="1" data-typeid="217" data-goodsid="879"
-                 data-price="348.00">
+                 data-price="348.00" th:each="cart:${carts}">
                 <div class="item-1">
                     <span class="hook" my-icon="select01"></span>
                 </div>
                 <div class="item-2 clearfix">
                     <a href="" target="_blank" class="img-box l">
-                        <img th:src="@{/static/images/course11.jpg}" width="160" height="90">
+                        <img th:src="|/pic/course/${cart.course.courseDirection.courseDirection}/${cart.course.pic}|"
+                             width="160" height="90">
                     </a>
                     <dl class="l has-package">
                         <a href="" target="_blank">
-                            <dt>【实战课程】Spring Boot仿抖音短视频小程序开发 全栈式实战项目</dt>
+                            <dt>【实战课程】<span th:text="${cart.course.cname}">Spring Boot仿抖音短视频小程序开发 全栈式实战项目</span></dt>
                         </a>
-                        <!-- 组合套餐 -->
-                        <p class="package-item js-package-item" data-cid="217"
-                           data-packageid="529,509,413,521,485,585,758">7个组合套餐可选择</p>
                     </dl>
                 </div>
                 <div class="item-3">
                     <div class="price clearfix">
-                        <em>￥</em>
-                        <span>348.00</span>
+                        <em>$</em>
+                        <span th:text="${cart.course.price}">348.00</span>
                     </div>
                 </div>
                 <div class="item-4">
-                    <span class="delete" my-icon="del"></span>
+                    <span class="delete" my-icon="del" th:name="${cart.id}"></span>
                 </div>
             </div>
 
-            <div class="item clearfix js-item-cart js-each-304" data-type="1" data-typeid="304" data-goodsid="1303"
-                 data-price="399.00">
-                <div class="item-1">
-                    <span class="hook" my-icon="select01"></span>
-                </div>
-                <div class="item-2 clearfix">
-                    <a href="" target="_blank" class="img-box l">
-                        <img th:src="@{/static/images/course12.jpg}" width="160" height="90">
-                    </a>
-                    <dl class="l has-package">
-                        <a href="" target="_blank">
-                            <dt>【实战课程】新版React Native+Redux打造高质量上线App</dt>
-                        </a>
-                    </dl>
-                </div>
-                <div class="item-3">
-                    <div class="price clearfix">
-                        <em>￥</em>
-                        <span>399.00</span>
-                    </div>
-                </div>
-                <div class="item-4">
-                    <span class="delete" my-icon="del"></span>
-                </div>
-            </div>
-
-            <div class="item clearfix js-item-cart js-each-362" data-type="1" data-typeid="362" data-goodsid="1633"
-                 data-price="288.00">
-                <div class="item-1">
-                    <span class="hook" my-icon="select01"></span>
-                </div>
-                <div class="item-2 clearfix">
-                    <a href="" target="_blank" class="img-box l">
-                        <img th:src="@{/static/images/course13.jpg}" width="160" height="90">
-                    </a>
-                    <dl class="l has-package">
-                        <a href="" target="_blank">
-                            <dt>【实战课程】Java并发编程精讲</dt>
-                        </a>
-                    </dl>
-                </div>
-                <div class="item-3">
-                    <div class="price clearfix">
-                        <em>￥</em>
-                        <span>288.00</span>
-                    </div>
-                </div>
-                <div class="item-4">
-                    <span class="delete" my-icon="del"></span>
-                </div>
-            </div>
 
             <div id="Anchor"></div>
             <div class="cart-body-bot js-cart-body-bot fixed">
@@ -182,7 +132,7 @@
                             <li class="li-2">
                                 <div class="topdiv">总计金额：</div>
                                 <div class="price price-red clearfix">
-                                    <em>￥</em>
+                                    <em>$</em>
                                     <span class="jsAltogether">0</span>
                                 </div>
                             </li>

@@ -43,4 +43,9 @@ public interface CourseMapper {
 
     //mid是展示课程的id oid是课程推荐的方向的id
     List<Course> selectCourseByDirectionRecommend(@Param("mid") Integer mid, @Param("oid") Integer oid);
+
+
+    int juifyCourseIsOrNotBuy(@Param("uid") int uid, @Param("cid") int cid);
+
+
 }

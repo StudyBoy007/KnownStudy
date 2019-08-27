@@ -1,46 +1,85 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="dao.OrderMapper" >
-  <resultMap id="BaseResultMap" type="entity.Order" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="order_id" property="orderId" jdbcType="INTEGER" />
-    <result column="course_id" property="courseId" jdbcType="INTEGER" />
-    <result column="course_count" property="courseCount" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="price_total" property="priceTotal" jdbcType="DOUBLE" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="pic" property="pic" jdbcType="VARCHAR" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from order
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="entity.Order" >
-    insert into order (id, order_id, course_id, 
-      course_count, status, price_total, 
-      user_id, pic)
-    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, 
-      #{courseCount,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{priceTotal,jdbcType=DOUBLE}, 
-      #{userId,jdbcType=INTEGER}, #{pic,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="entity.Order" >
-    update order
-    set order_id = #{orderId,jdbcType=INTEGER},
-      course_id = #{courseId,jdbcType=INTEGER},
-      course_count = #{courseCount,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      price_total = #{priceTotal,jdbcType=DOUBLE},
-      user_id = #{userId,jdbcType=INTEGER},
-      pic = #{pic,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, order_id, course_id, course_count, status, price_total, user_id, pic
-    from order
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, order_id, course_id, course_count, status, price_total, user_id, pic
-    from order
-  </select>
+<mapper namespace="dao.OrderMapper">
+    <resultMap id="BaseResultMap" type="entity.Order">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="course_count" property="courseCount" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="price_total" property="priceTotal" jdbcType="DOUBLE"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <collection property="courses" javaType="ArrayList" ofType="Course">
+            <id column="courseid" property="id" jdbcType="INTEGER"/>
+            <result column="cname" property="cname" jdbcType="VARCHAR"/>
+            <result column="isfress" property="isfress" jdbcType="INTEGER"/>
+            <result column="price" property="price" jdbcType="DOUBLE"/>
+            <result column="pic" property="pic" jdbcType="VARCHAR"/>
+            <result column="course_path" property="course_path" jdbcType="VARCHAR"/>
+            <result column="course_status" property="courseStatus" jdbcType="INTEGER"/>
+            <result column="start_time" property="start_time" jdbcType="VARCHAR"/>
+            <result column="time" property="time" jdbcType="VARCHAR"/>
+            <result column="focus" property="focus" jdbcType="INTEGER"/>
+            <result column="buy_num" property="buy_num" jdbcType="INTEGER"/>
+            <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+            <association property="courseDirection" column="direction_id" javaType="entity.CourseClass"
+                         select="dao.CourseClassMapper.selectByPrimaryKey"/>
+        </collection>
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap1" type="entity.Order">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="course_count" property="courseCount" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="price_total" property="priceTotal" jdbcType="DOUBLE"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order
+        where id = #{id,jdbcType=INTEGER}k
+    </delete>
+    <insert id="insert" parameterType="entity.Order">
+        insert into order (id, course_count, status,
+                           price_total, user_id)
+        values (#{id,jdbcType=INTEGER}, #{courseCount,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+                #{priceTotal,jdbcType=DOUBLE}, #{userId,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="entity.Order">
+        update order
+        set course_count = #{courseCount,jdbcType=INTEGER},
+            status       = #{status,jdbcType=INTEGER},
+            price_total  = #{priceTotal,jdbcType=DOUBLE},
+            user_id      = #{userId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap1" parameterType="java.lang.Integer">
+        select id, course_count, status, price_total, user_id
+        from order
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap1">
+        select id, course_count, status, price_total, user_id
+        from order
+    </select>
+
+    <select id="selectUserAllOrder" parameterType="int" resultMap="BaseResultMap">
+        select o.*,
+               c.id AS courseid,
+               cname,
+               course_path,
+               direction_id,
+               isfress,
+               course_status,
+               price,
+               pic,
+               tid,
+               focus,
+               start_time,
+               time,
+               introduction,
+               buy_num
+        FROM `order` o
+                 INNER JOIN order_course m ON o.id = m.oid
+                 INNER JOIN course c ON c.id = m.cid AND o.user_id = #{id};
+    </select>
 </mapper>

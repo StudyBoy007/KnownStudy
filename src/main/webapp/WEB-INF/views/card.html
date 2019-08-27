@@ -7,6 +7,9 @@
     <title>course</title>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.css}">
     <link rel="stylesheet" th:href="@{/static/css/shouye.css}">
+    <link rel="stylesheet" th:href="@{/static/css/owl.carousel.css}">
+    <link rel="stylesheet" th:href="@{/static/css/templatemo-style.css}">
+
 
     <script th:src="@{/static/js/jquery.js}"></script>
     <script th:src="@{/static/js/bootstrap.min.js}"></script>
@@ -16,16 +19,52 @@
 </head>
 <body>
 
+<section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+            </button>
+
+
+            <!-- lOGO TEXT HERE -->
+            <a th:href="@{/}" class="navbar-brand"><img th:src="@{/static/images/png/logoko.png}" width="80px"
+                                                        alt=""></a>
+        </div>
+
+        <!-- MENU LINKS -->
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li th:if="${session.user}==null"><a th:href="@{/userInfo}"><img src="/pic/avatar/unlogin.jpg"
+                                                                                 class="img-circle avatar"
+                                                                                 width="38px" height="38px"></a>
+                </li>
+
+                <li id="cover" th:if="${session.user}!=null"><a th:href="@{/userInfo}"><img
+                        th:src="|/pic/avatar/${session.user.avatar}|"
+                        class="img-circle avatar"
+                        width="38px" height="38px"></a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</section>
+
 <div class="Xcontent">
     <ul class="Xcontent01">
-        <div class="Xcontent06"><img th:src="@{/static/images/courses-image4.jpg}"></div>
+        <div class="Xcontent06"><img th:src="|/pic/course/${course.courseDirection.courseDirection}/${course.pic}|">
+        </div>
         <ol class="Xcontent13">
-            <div class="Xcontent14"><a href="#"><p>web前端工程师</p></a></div>
+            <div class="Xcontent14"><a href="#"><p th:text="${course.cname}">web前端工程师</p></a></div>
             <div class="Xcontent15"><img th:src="@{/static/images/shangpinxiangqing/X11.png}"></div>
-            <div class="Xcontent16"><p>充电5分钟，温暖2小时</p></div>
+            <div class="Xcontent16"><p th:text="${course.introduction}">充电5分钟，温暖2小时</p></div>
             <div class="Xcontent17">
                 <p class="Xcontent18">售价</p>
-                <p class="Xcontent19">￥<span>69.00</span></p>
+                <p class="Xcontent19">$<span th:text="${course.price}">69.00</span></p>
                 <div class="Xcontent20">
                     <p class="Xcontent21">促销</p>
                     <img th:src="@{/static/images/shangpinxiangqing/X12.png}">
@@ -54,7 +93,7 @@
             </div>
             <div class="Xcontent34"><a href="#"><img class="buy"
                                                      th:src="@{/static/images/shangpinxiangqing/X17.png}"></a></div>
-            <div class="Xcontent35"><a href="#"><img class="collectCar"
+            <div class="Xcontent35"><a href="#"><img class="collectCar" th:name="${course.id}"
                                                      th:src="@{/static/images/shangpinxiangqing/X18.png}"></a>
             </div>
         </ol>
@@ -74,24 +113,21 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="new_avatar_form">
                     <div class="form-group">
-                        <div class="col-sm-12 cc-profile-image my-pic">
-                            添加购物车成功，是否查看购物车
+                        <div class="col-sm-12 cc-profile-image my-pic" id="replay">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default modal_close" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-default modal_modify" onclick="goCar()">进入购物车</button>
+                <button type="button" class="btn btn-default modal_modify" onclick="goCar()" id="buttonContent">进入购物车
+                </button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
 
 
-<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
-    <p>适用浏览器：IE8、360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗.</p>
-</div>
 </body>
 </html>
 

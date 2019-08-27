@@ -191,7 +191,7 @@
                     <div class="text-center" th:if="${session.user!=null}">
                         <!--                        <img th:src="@{/static/images/author-image3.jpg}" class="img-circle avatar"-->
                         <!--                                                  width="60px">-->
-                        <img th:src="|/pic/avatar/${session.user.avatar}|" alt="" width="60px"
+                        <img th:src="|/pic/avatar/${session.user.avatar}|" alt="" width="60px" height="60px"
                              class="img-circle avatar"
                              id="avatar">
                     </div>
@@ -288,7 +288,8 @@
                                 <div class="courses-top">
                                     <div class="courses-image">
                                         <!--                                        <img th:src="@{/static/images/courses-image1.jpg}" class="img-responsive" alt="">-->
-                                        <img th:src="|/pic/course/${course.pic}|" class="img-responsive" alt="">
+                                        <img th:src="|/pic/course/${course.courseDirection.courseDirection}/${course.pic}|"
+                                             class="img-responsive" alt="">
                                     </div>
                                     <div class="courses-date">
                                         <span><i class="fa fa-calendar"><span
@@ -301,7 +302,12 @@
                                 </div>
 
                                 <div class="courses-detail">
-                                    <h3><a href="#" th:text="${course.cname}">Social Media Management</a></h3>
+                                    <h3 th:switch="${course.isfress}">
+                                        <a th:href="@{/displayCourse(id=${course.id})}" th:case="0"
+                                           th:text="${course.cname}">Social
+                                            Media Management</a>
+                                        <a href="#" th:case="1" th:text="${course.cname}">Social Media Management</a>
+                                    </h3>
                                     <p th:text="${course.introduction}">Lorem ipsum dolor sit amet, consectetur
                                         adipiscing elit.</p>
                                 </div>
@@ -318,7 +324,7 @@
                                     </div>
 
                                     <div class="courses-price free" th:case="0">
-                                        <a href="#"><span>Free</span></a>
+                                        <a th:href="@{/displayCourse(id=${course.id})}"><span>Free</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -486,7 +492,6 @@
                     <!--                            </div>-->
                     <!--                        </div>-->
                     <!--                    </div>-->
-
                 </div>
             </div>
         </div>

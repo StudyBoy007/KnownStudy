@@ -836,7 +836,7 @@
                     <h4>推荐课程</h4>
                     <ul class="js-recom-course moco-aside-course clearfix">
                         <li th:each="recommend:${recommends}">
-                            <div class="aside-course-img"><img th:src="|/pic/course/${recommend.pic}|">
+                            <div class="aside-course-img"><img th:src="|/pic/course/${recommend.courseDirection.courseDirection}/${recommend.pic}|">
                                 <p class="aside-course-type">实战</p>
                             </div>
                             <div class="aside-course-content" th:switch="${recommend.isfress}">

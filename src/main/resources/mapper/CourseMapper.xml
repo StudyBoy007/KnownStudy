@@ -4,12 +4,11 @@
     <resultMap id="BaseResultMap" type="entity.Course">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="cname" property="cname" jdbcType="VARCHAR"/>
-        <result column="video" property="video" jdbcType="VARCHAR"/>
-        <result column="chapter" property="chapter" jdbcType="VARCHAR"/>
         <!--        <result column="direction_id" property="directionId" jdbcType="INTEGER"/>-->
         <result column="isfress" property="isfress" jdbcType="INTEGER"/>
         <result column="price" property="price" jdbcType="DOUBLE"/>
         <result column="pic" property="pic" jdbcType="VARCHAR"/>
+        <result column="course_path" property="course_path" jdbcType="VARCHAR"/>
         <result column="course_status" property="courseStatus" jdbcType="INTEGER"/>
         <result column="start_time" property="start_time" jdbcType="VARCHAR"/>
         <result column="time" property="time" jdbcType="VARCHAR"/>
@@ -20,6 +19,9 @@
                      select="dao.CourseClassMapper.selectByPrimaryKey"/>
         <association property="teacher" column="tid" javaType="entity.Teacher"
                      select="dao.TeacherMapper.selectByPrimaryKey"/>
+        <collection property="chapters" column="id" javaType="ArrayList" ofType="entity.Chapter"
+                    select="dao.ChapterMapper.selectByCourseId">
+        </collection>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
@@ -27,19 +29,17 @@
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="entity.Course">
-        insert into course (id, cname, video,
-                            chapter, direction_id, isfress,
+        insert into course (id, cname, direction_id, isfress, course_path,
                             price, pic, course_status, buy_num)
-        values (#{id,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR},
-                #{chapter,jdbcType=VARCHAR}, ${courseDirection.id}, #{isfress,jdbcType=INTEGER},
-                #{price,jdbcType=DOUBLE}, #{pic,jdbcType=VARCHAR}, #{courseStatus,jdbcType=INTEGER}, #{buy_num})
+        values (#{id,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, ${courseDirection.id}, #{isfress,jdbcType=INTEGER},
+                #{course_path}
+                    #{price,jdbcType=DOUBLE}, #{pic,jdbcType=VARCHAR}, #{courseStatus,jdbcType=INTEGER}, #{buy_num})
     </insert>
     <update id="updateByPrimaryKey" parameterType="entity.Course">
         update course
         set cname         = #{cname,jdbcType=VARCHAR},
-            video         = #{video,jdbcType=VARCHAR},
-            chapter       = #{chapter,jdbcType=VARCHAR},
             direction_id  = ${courseDirection.id},
+            course_path=#{course_path},
             isfress       = #{isfress,jdbcType=INTEGER},
             price         = #{price,jdbcType=DOUBLE},
             pic           = #{pic,jdbcType=VARCHAR},
@@ -55,9 +55,8 @@
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select id,
                cname,
-               video,
-               chapter,
                direction_id,
+               course_path,
                isfress,
                price,
                pic,
@@ -74,9 +73,8 @@
     <select id="selectAll" resultMap="BaseResultMap">
         select id,
                cname,
-               video,
-               chapter,
                direction_id,
+               course_path,
                isfress,
                price,
                pic,
@@ -101,9 +99,8 @@
     <select id="selectByTid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select id,
                cname,
-               video,
-               chapter,
                direction_id,
+               course_path,
                isfress,
                price,
                pic,
@@ -122,9 +119,8 @@
     <select id="selectUerCourseCollect" parameterType="int" resultMap="BaseResultMap">
         select course.id,
                course.cname,
-               course.video,
-               course.chapter,
                course.direction_id,
+               course.course_path,
                course.isfress,
                course.price,
                course.pic,
@@ -148,9 +144,8 @@
     <select id="selectUserCourseBuy" parameterType="int" resultMap="BaseResultMap">
         select course.id,
                course.cname,
-               course.video,
-               course.chapter,
                course.direction_id,
+               course.course_path,
                course.isfress,
                course.price,
                course.pic,
@@ -220,6 +215,14 @@
         where direction_id = #{oid}
           and id != #{mid}
         limit 4;
+    </select>
+
+    <select id="juifyCourseIsOrNotBuy" resultType="int">
+        select count(*)
+        from user_course
+        where user_id = #{uid}
+          and course_id = #{cid}
+          and buy_status = true
     </select>
 
 </mapper>

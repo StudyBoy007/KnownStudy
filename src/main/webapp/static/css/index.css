@@ -102,3 +102,7 @@ button:hover {
     object-fit: cover;
 }
 
+.text-center img{
+    object-fit: cover;
+}
+

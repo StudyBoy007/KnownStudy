@@ -31,3 +31,11 @@
 .m_top {
     margin-top: 80px;
 }
+
+.delete {
+    transition: all 0.2s ease 0s;
+}
+
+.delete:hover {
+    transform: scale(1.3);
+}

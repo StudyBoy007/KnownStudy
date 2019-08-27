@@ -1,21 +1,19 @@
 package entity;
 
+import java.util.List;
+
 public class Order {
     private Integer id;
 
-    private Integer orderId;
-
-    private Integer courseId;
-
     private Integer courseCount;
 
-    private Integer status;
+    private boolean status;
 
     private Double priceTotal;
 
     private Integer userId;
 
-    private String pic;
+    private List<Course> courses;
 
     public Integer getId() {
         return id;
@@ -23,22 +21,6 @@ public class Order {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-    public Integer getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
     }
 
     public Integer getCourseCount() {
@@ -49,11 +31,11 @@ public class Order {
         this.courseCount = courseCount;
     }
 
-    public Integer getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -73,11 +55,23 @@ public class Order {
         this.userId = userId;
     }
 
-    public String getPic() {
-        return pic;
+    public List<Course> getCourses() {
+        return courses;
     }
 
-    public void setPic(String pic) {
-        this.pic = pic == null ? null : pic.trim();
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", courseCount=" + courseCount +
+                ", status=" + status +
+                ", priceTotal=" + priceTotal +
+                ", userId=" + userId +
+                ", courses=" + courses +
+                '}';
     }
 }

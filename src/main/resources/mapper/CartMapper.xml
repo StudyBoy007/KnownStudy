@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.CartMapper">
+    <resultMap id="BaseResultMap" type="entity.Cart">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <association property="user" column="uid" javaType="entity.User"
+                     select="dao.UserMapper.selectByPrimaryKey"/>
+        <association property="course" column="course_id" javaType="entity.Course"
+                     select="dao.CourseMapper.selectByPrimaryKey"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from cart
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="entity.Cart">
+        insert into cart (id, uid, course_id)
+        values (#{id,jdbcType=INTEGER}, ${user.id}, ${course.id})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="entity.Cart">
+        update cart
+        set uid       = ${user.id},
+            course_id = ${course.id}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, uid, course_id
+        from cart
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, uid, course_id
+        from cart
+    </select>
+
+    <select id="selectAllCartByUserId" resultMap="BaseResultMap" parameterType="int">
+        select *
+        from cart
+        where uid = #{id};
+    </select>
+</mapper>

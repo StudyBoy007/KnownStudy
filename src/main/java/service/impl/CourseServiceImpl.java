@@ -84,4 +84,10 @@ public class CourseServiceImpl implements CourseService {
         List<Course> courses = courseMapper.selectCourseByDirectionRecommend(mid, oid);
         return courses;
     }
+
+    @Override
+    public int juifyCourseIsOrNotBuyService(int uid, int cid) {
+        int i = courseMapper.juifyCourseIsOrNotBuy(uid, cid);
+        return i;
+    }
 }

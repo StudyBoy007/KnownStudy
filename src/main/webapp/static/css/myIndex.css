@@ -77,6 +77,27 @@ button:hover {
     margin-left: 6px;
 }
 
+#cart {
+    position: relative;
+    top: 6px;
+    left: 100px;
+    transition: all 0.2s ease 0s;
+}
+
+#cart:hover {
+    transform: scale(1.1);
+}
+
+[my-icon="cart01"] {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: url("../images/icon/cart01.png");
+
+    background-size: cover;
+    z-index: 99;
+}
+
 /*.img-responsive,*/
 /*.thumbnail > img,*/
 /*.thumbnail a > img,*/
