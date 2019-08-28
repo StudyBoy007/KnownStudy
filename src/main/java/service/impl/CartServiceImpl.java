@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.CartService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,5 +49,16 @@ public class CartServiceImpl implements CartService {
     public List<Cart> selectAllCartByUserIdService(Integer id) {
         List<Cart> carts = cartMapper.selectAllCartByUserId(id);
         return carts;
+    }
+
+    @Override
+    public int deleteCart(String cartIds) {
+        String[] split = cartIds.split(",");
+        List<Integer> carts = new ArrayList<>();
+        for (String s : split) {
+            carts.add(Integer.parseInt(s));
+        }
+        int i = cartMapper.deleteCart(carts);
+        return i;
     }
 }

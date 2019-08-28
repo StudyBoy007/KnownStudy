@@ -1,6 +1,7 @@
 package service;
 
 import entity.Course;
+import util.Msg;
 
 import java.util.List;
 
@@ -45,5 +46,5 @@ public interface CourseService {
     List<Course> selectCourseByDirectionRecommendService(Integer mid, Integer oid);
 
 
-    int juifyCourseIsOrNotBuyService( int uid, int cid);
+    Msg juifyCourseIsOrNotBuyService(int uid, int cid);
 }

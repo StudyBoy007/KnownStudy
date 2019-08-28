@@ -42,9 +42,14 @@ $(function () {
                     $("#buttonContent").click(function () {
                         window.location.href = getRootPath() + "displayCourse?id=" + courseId;
                     })
-                } else if (result.code == 100) {
+                } else if (result.code == 100 || result.code == 102) {
                     $("#buttonContent").click(function () {
                         window.location.href = getRootPath() + "displayCart"
+                    })
+                } else if (result.code == 103) {
+                    $("#buttonContent").text("查看订单")
+                    $("#buttonContent").click(function () {
+                        window.location.href = getRootPath() + "displayOrder";
                     })
                 }
                 $("#carModal").modal({

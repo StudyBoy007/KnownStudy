@@ -36,18 +36,33 @@
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from order
-        where id = #{id,jdbcType=INTEGER}k
+        where id = #{id,jdbcType=INTEGER}
     </delete>
+
+    <!--        <selectKey keyProperty="id" order="AFTER" resultType="int">-->
+    <!--            select last_insert_id() as id;-->
+    <!--        </selectKey>-->
+
+    <!--    <insert id="insert" parameterType="entity.Order">-->
+    <!--        insert into order (course_count, status,-->
+    <!--                           price_total, user_id)-->
+    <!--        values (#{courseCount}, #{status},-->
+    <!--                #{priceTotal}, #{userId})-->
+    <!--    </insert>-->
     <insert id="insert" parameterType="entity.Order">
-        insert into order (id, course_count, status,
-                           price_total, user_id)
-        values (#{id,jdbcType=INTEGER}, #{courseCount,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
-                #{priceTotal,jdbcType=DOUBLE}, #{userId,jdbcType=INTEGER})
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            select last_insert_id() as id;
+        </selectKey>
+        INSERT INTO `order`(course_count, STATUS, price_total, user_id)
+        VALUES (#{courseCount}, #{status}, #{priceTotal}, #{userId})
     </insert>
+
+
     <update id="updateByPrimaryKey" parameterType="entity.Order">
         update order
+
         set course_count = #{courseCount,jdbcType=INTEGER},
-            status       = #{status,jdbcType=INTEGER},
+            status       = #{status},
             price_total  = #{priceTotal,jdbcType=DOUBLE},
             user_id      = #{userId,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
@@ -62,7 +77,7 @@
         from order
     </select>
 
-    <select id="selectUserAllOrder" parameterType="int" resultMap="BaseResultMap">
+    <select id="selectUserAllOrder" resultMap="BaseResultMap">
         select o.*,
                c.id AS courseid,
                cname,
@@ -80,6 +95,37 @@
                buy_num
         FROM `order` o
                  INNER JOIN order_course m ON o.id = m.oid
-                 INNER JOIN course c ON c.id = m.cid AND o.user_id = #{id};
+                 INNER JOIN course c ON c.id = m.cid AND o.user_id = #{id} AND o.`right` = FALSE
+            and o.status = #{status};
     </select>
+
+
+    <insert id="insertMiddle">
+        INSERT INTO order_course(oid, cid)
+        VALUES
+        <foreach collection="courses" item="emp" separator=",">
+            (#{oid},#{emp})
+        </foreach>
+    </insert>
+
+    <select id="selectCourseInOrder" resultType="int">
+        select COUNT(*)
+        FROM `order` o
+                 INNER JOIN order_course m
+                            ON o.id = m.oid and o.user_id = #{uid} AND m.cid = #{cid} AND o.`right` = FALSE;
+    </select>
+
+
+    <delete id="deleteOrderBatch" parameterType="list">
+        delete from `order` where id in
+        <foreach collection="orderIds" item="orderId" separator="," open="(" close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+
+    <update id="changeOrderRightByAdmin" parameterType="int">
+        update `order`
+        set `right`= true
+        where id = #{oid}
+    </update>
 </mapper>

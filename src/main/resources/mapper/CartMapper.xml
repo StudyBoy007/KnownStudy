@@ -38,4 +38,20 @@
         from cart
         where uid = #{id};
     </select>
+
+
+    <select id="selectCartByUserIdAndCourseId" resultType="int">
+        select count(*)
+        from cart
+        where uid = #{uid}
+          and course_id = #{cid};
+    </select>
+
+
+    <delete id="deleteCart" parameterType="list">
+        delete from cart where id in
+        <foreach collection="cartIds" item="cart" separator="," open="(" close=")">
+            #{cart}
+        </foreach>
+    </delete>
 </mapper>

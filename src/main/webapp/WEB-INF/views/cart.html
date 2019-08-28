@@ -32,7 +32,8 @@
             </button>
 
             <!-- lOGO TEXT HERE -->
-            <a href="index.html" class="navbar-brand">Known</a>
+            <a th:href="@{/}" class="navbar-brand"><img th:src="@{/static/images/png/logoko.png}" width="80px"
+                                                        alt=""></a>
         </div>
 
         <!-- MENU LINKS -->
@@ -67,7 +68,8 @@
             <div class="right">
 
                 <div class="clearfix">
-                    <span class="left"><a class="js-myorderbtn  myorder-history" href="https://order.imooc.com/myorder">我的订单历史</a></span>
+                    <span class="left"><a th:href="@{/displayOrder}"
+                                          class="js-myorderbtn  myorder-history">我的订单历史</a></span>
                     <span class="left num js-order-num" style="display: none;"></span>
                 </div>
             </div>
@@ -97,7 +99,7 @@
             <div class="item clearfix js-item-cart js-each-217" data-type="1" data-typeid="217" data-goodsid="879"
                  data-price="348.00" th:each="cart:${carts}">
                 <div class="item-1">
-                    <span class="hook" my-icon="select01"></span>
+                    <span class="hook" my-icon="select01" th:id="${cart.course.id}" th:name="${cart.id}"></span>
                 </div>
                 <div class="item-2 clearfix">
                     <a href="" target="_blank" class="img-box l">
@@ -138,7 +140,7 @@
                             </li>
 
                             <li class="li-3">
-                                <a href="order.html"><span class="btn js-go-confrim">去结算</span></a>
+                                <a href="javascript:volid(0);"><span class="btn js-go-confrim" onclick="createOrder()">去结算</span></a>
                             </li>
                         </ul>
                     </div>
@@ -148,7 +150,35 @@
     </div>
 </div>
 
+<!--消息提示框-->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">消息提示</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="new_avatar_form">
+                    <div class="form-group">
+                        <div class="col-sm-12 cc-profile-image my-pic" id="replay">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal_close" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 </body>
 <script type="text/javascript" th:src="@{/static/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+
 <script type="text/javascript" th:src="@{/static/js/cart.js}"></script>
+
 </html>

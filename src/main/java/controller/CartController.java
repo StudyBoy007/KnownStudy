@@ -46,13 +46,13 @@ public class CartController {
     @RequestMapping("/addCart")
     public Msg addCart(int courseId, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        int i1 = courseService.juifyCourseIsOrNotBuyService(user.getId(), courseId);
-        if (i1 == 1) {
-            return Msg.result(101, "尊贵的用户，该课程您已经购买，是否前往观看", null);
+        Msg msg = courseService.juifyCourseIsOrNotBuyService(user.getId(), courseId);
+        if (msg.getCode() != 100) {
+            return msg;
         }
         int i = cartService.insertService(new Cart(user, new Course(courseId)));
         if (i == 1) {
-            return Msg.result(100, "添加购物车成功，是否查看购物车", null);
+            return msg;
         } else {
             return Msg.result(200, "添加购物车失败", null);
         }

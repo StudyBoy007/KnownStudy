@@ -15,6 +15,14 @@ public class Order {
 
     private List<Course> courses;
 
+
+    public Order(Integer courseCount, boolean status, Double priceTotal, Integer userId) {
+        this.courseCount = courseCount;
+        this.status = status;
+        this.priceTotal = priceTotal;
+        this.userId = userId;
+    }
+
     public Integer getId() {
         return id;
     }

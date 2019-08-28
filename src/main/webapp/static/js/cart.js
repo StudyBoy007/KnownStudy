@@ -95,3 +95,42 @@ function juifyAllSelect() {
 
 }
 
+function createOrder() {
+    //课程id拼接字符串
+    var str = '';
+
+    //购物车序号拼接字符串
+    var cartStr = '';
+    var num = 0;
+    $(".hook").each(function () {
+        if ($(this).attr("my-icon") == "select01") {
+            str = str + $(this).attr("id") + ",";
+            cartStr = cartStr + $(this).attr("name") + ",";
+            num++;
+        }
+    })
+    if (num == 0) {
+        $("#replay").text("请至少需要选择一件商品");
+        $("#cartModal").modal({
+            //点击背景不关闭
+            backdrop: "static",
+            //触发键盘esc事件时不关闭
+            keyboard: false
+        });
+    } else {
+        var totalMoney = Number($(".jsAltogether").text());
+        $.ajax({
+            url: getRootPath() + "createOrder",
+            type: "POST",
+            data: {
+                "totalMoney": totalMoney,
+                "strid": str.substring(0, str.length - 1),
+                "cartIds": cartStr.substring(0, cartStr.length - 1)
+            },
+            success: function (result) {
+                window.location.href = getRootPath() + "displayOrder";
+            }
+        });
+    }
+}
+

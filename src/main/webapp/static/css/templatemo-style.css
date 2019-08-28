@@ -570,7 +570,7 @@ section {
     border-top: 1px solid #f0f0f0;
     position: relative;
     clear: both;
-    padding: 15px 25px;
+    padding: 15px 20px;
 }
 
 .courses-author,
@@ -607,7 +607,7 @@ section {
 }
 
 
-.courses-price .deleteCollect{
+.courses-price .deleteCollect {
     background: red;
 }
 

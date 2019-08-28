@@ -21,4 +21,7 @@ public interface CartService {
 
     List<Cart> selectAllCartByUserIdService(Integer id);
 
+
+    int deleteCart(String cartIds);
+
 }
