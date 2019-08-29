@@ -128,4 +128,40 @@
         set `right`= true
         where id = #{oid}
     </update>
+
+    <update id="changeOrderStatus" parameterType="list">
+        update `order` set status=true where id in
+        <foreach collection="orders" item="orderId" separator="," open="(" close=")">
+            #{orderId}
+        </foreach>
+    </update>
+
+    <select id="selectOrderCourse" parameterType="int" resultType="int">
+        select cid
+        from order_course
+        where oid = #{oid}
+    </select>
+
+
+    <insert id="createConnectionInUserAndCourseBatch">
+        INSERT INTO user_course(user_id, course_id,buy_status)
+        VALUES
+        <foreach collection="courses" item="emp" separator=",">
+            (#{uid},#{emp},true)
+        </foreach>
+    </insert>
+
+    <insert id="createConnectionInUserAndCourse">
+        INSERT INTO user_course(user_id, course_id, buy_status)
+        VALUES (#{uid}, #{cid}, true)
+    </insert>
+
+    <update id="changeBuyCourseState">
+        update user_course
+        set buy_status= true
+        where user_id = #{uid}
+          and course_id = #{cid}
+    </update>
+
+
 </mapper>

@@ -3,7 +3,11 @@ package service.impl;
 import dao.CartMapper;
 import dao.CourseMapper;
 import dao.OrderMapper;
+import dao.UserMapper;
 import entity.Course;
+import entity.CourseClass;
+import entity.Teacher;
+import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.CourseService;
@@ -25,6 +29,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     OrderMapper orderMapper;
+
+
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public int deleteByPrimaryKeyService(Integer id) {
@@ -115,4 +123,44 @@ public class CourseServiceImpl implements CourseService {
 
         return Msg.result(100, "添加购物车成功，是否查看购物车", null);
     }
+
+    @Override
+    public Course juifyCondition(int tid, int direction_id, int condition) {
+        Course course = new Course(new CourseClass(direction_id), new Teacher(tid));
+        if (condition == 1) {
+            course.setFocus(1);
+        } else if (condition == 2) {
+            course.setStart_time("1");
+        } else if (condition == 3) {
+            course.setPrice(1d);
+        } else if (condition == 4) {
+            course.setBuy_num(1);
+        } else if (condition == 5) {
+            course.setIsfress(1);
+        }
+        return course;
+    }
+
+    @Override
+    public void courseCollect(User user, int courseId) {
+        int i = userMapper.selectCollectConnectionInUserAndCourse(user.getId(), courseId);
+        if (i == 0) {
+            userMapper.createConnectionInUserAndCourseCollect(user.getId(), courseId);
+        } else {
+            userMapper.changeCollectCourseState(user.getId(), courseId, true);
+        }
+
+    }
+
+    @Override
+    public void deleteCollect(User user, int courseId) {
+        if (userMapper.deleteConnectionJuify(user.getId(), courseId) == 0) {
+            userMapper.deleteConnection(user.getId(), courseId);
+        } else {
+            userMapper.changeCollectCourseState(user.getId(), courseId, false);
+        }
+
+    }
+
+
 }

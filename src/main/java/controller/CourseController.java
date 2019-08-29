@@ -1,10 +1,7 @@
 package controller;
 
 import dao.CourseClassMapper;
-import entity.Chapter;
-import entity.Course;
-import entity.CourseClass;
-import entity.Teacher;
+import entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +9,9 @@ import org.springframework.web.servlet.ModelAndView;
 import service.CourseClassService;
 import service.CourseService;
 import service.TeacherService;
+import service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +31,9 @@ public class CourseController {
 
     @Autowired
     TeacherService teacherService;
+
+    @Autowired
+    UserService userService;
 
 
     //二级菜单显示
@@ -53,18 +55,7 @@ public class CourseController {
 
     @RequestMapping("/conditionCourse")
     public ModelAndView conditionCourse(int tid, int direction_id, int condition) {
-        Course course = new Course(new CourseClass(direction_id), new Teacher(tid));
-        if (condition == 1) {
-            course.setFocus(1);
-        } else if (condition == 2) {
-            course.setStart_time("1");
-        } else if (condition == 3) {
-            course.setPrice(1d);
-        } else if (condition == 4) {
-            course.setBuy_num(1);
-        } else if (condition == 5) {
-            course.setIsfress(1);
-        }
+        Course course = courseService.juifyCondition(tid, direction_id, condition);
         List<Course> courses = courseService.selectCourseByDirectionAndTidService(course);
         List<CourseClass> courseClasses = courseClassService.selectCourseClassService();
         List<Teacher> teachers = teacherService.selectTeacherByDirectionService(new Teacher(new CourseClass(direction_id)));
@@ -81,17 +72,31 @@ public class CourseController {
 
 
     @RequestMapping("/displayCourse")
-    public ModelAndView displayCourse(int id) {
+    public ModelAndView displayCourse(int id, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        int i = userService.selectIsOrNotCollect(user.getId(), id);
         //获取展示的课程信息
         Course course = courseService.selectByPrimaryKeyService(id);
-
         //获取展示课程学习方向一致的推荐课程信息
         List<Course> recommends = courseService.selectCourseByDirectionRecommendService(course.getId(), course.getCourseDirection().getId());
         ModelAndView mv = new ModelAndView();
+        mv.addObject("collect", i);
         mv.addObject("course", course);
         mv.addObject("recommends", recommends);
         mv.setViewName("radioDisplay");
         return mv;
+    }
+
+    @RequestMapping("/deleteCollect")
+    public void collectCourse(HttpServletRequest request, int courseId) {
+        User user = (User) request.getSession().getAttribute("user");
+        courseService.deleteCollect(user, courseId);
+    }
+
+    @RequestMapping("/doCollect")
+    public void doCourse(HttpServletRequest request, int courseId) {
+        User user = (User) request.getSession().getAttribute("user");
+        courseService.courseCollect(user, courseId);
     }
 
 
@@ -107,12 +112,10 @@ public class CourseController {
         String coursePath = course.getCourse_path();
         String chapterPath = chapter1.getPath();
         String videoPath = chapter1.getVideos().get(video).getPath();
-
-
         //推荐课程
         List<Course> recommends = courseService.selectCourseByDirectionRecommendService(course.getId(), course.getCourseDirection().getId());
         mv.addObject("recommends", recommends);
-        mv.addObject("chapter", chapterName);
+        mv.addObject("chapter", (chapter + 1) + "-" + (video + 1) + " " + chapterName);
         mv.addObject("videoName", course.getCourseDirection().getCourseDirection() + "/" + coursePath + "/" + chapterPath + "/" + videoPath);
         mv.setViewName("video");
         return mv;

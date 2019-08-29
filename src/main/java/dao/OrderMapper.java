@@ -27,4 +27,14 @@ public interface OrderMapper {
     int deleteOrderBatch(@Param("orderIds") List<Integer> orderIds);
 
     int changeOrderRightByAdmin(Integer oid);
+
+    int changeOrderStatus(@Param("orders") List<Integer> orders);
+
+    int createConnectionInUserAndCourseBatch(@Param("courses") List<Integer> list, @Param("uid") Integer uid);
+
+    int createConnectionInUserAndCourse(@Param("uid") Integer uid, @Param("cid") Integer cid);
+
+    int changeBuyCourseState(@Param("uid") Integer uid, @Param("cid") Integer cid);
+
+    List<Integer> selectOrderCourse(Integer oid);
 }

@@ -114,7 +114,6 @@ $(function () {
                     });
                 } else {
                     $("#login").modal('hide');
-                    console.log(result.msg);
                     $("#reg_info").text(result.msg);
                     $("#regInfo").modal({
                         backdrop: "static"

@@ -1,10 +1,29 @@
 $(function () {
-    $(".collect").mouseover(function () {
-        $(this).find(".collectNo").hide().siblings(".collectOk").show();
-        $(this).find("span").css("color", "black");
-    }).mouseleave(function () {
-        $(this).find(".collectOk").hide().siblings(".collectNo").show();
-        $(this).find("span").css("color", "#857d86");
+    $(".collect").click(function () {
+        var courseId = Number($(this).attr("name"));
+        if ($(this).find("span").eq(0).text() == "立即收藏") {
+            $(this).find("span").css("color", "#857d86");
+            $(this).find("img").attr("src", "/known/static/images/shangpinxiangqing/collect.png");
+            $(this).find("span").eq(0).text("取消收藏")
+            $.ajax({
+                url: getRootPath() + "doCollect",
+                type: "POST",
+                data: {
+                    "courseId": courseId
+                }
+            });
+        } else {
+            $(this).find("span").css("color", "black");
+            $(this).find("img").attr("src", "/known/static/images/shangpinxiangqing/collect1.png");
+            $(this).find("span").eq(0).text("立即收藏");
+            $.ajax({
+                url: getRootPath() + "deleteCollect",
+                type: "POST",
+                data: {
+                    "courseId": courseId
+                }
+            });
+        }
     })
 
 

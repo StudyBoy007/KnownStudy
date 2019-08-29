@@ -1,6 +1,7 @@
 package service;
 
 import entity.Course;
+import entity.User;
 import util.Msg;
 
 import java.util.List;
@@ -47,4 +48,13 @@ public interface CourseService {
 
 
     Msg juifyCourseIsOrNotBuyService(int uid, int cid);
+
+
+    Course juifyCondition(int tid, int direction_id, int condition);
+
+
+    void courseCollect(User user, int courseId);
+
+    void deleteCollect(User user, int courseId);
+
 }

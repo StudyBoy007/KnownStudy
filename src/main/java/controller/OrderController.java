@@ -49,6 +49,15 @@ public class OrderController {
     }
 
 
+    @ResponseBody
+    @RequestMapping("/payOrder")
+    public Msg payOrder(double totalMoney, String orderIds, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Msg msg = orderService.payOrder(user, orderIds, totalMoney);
+        return msg;
+    }
+
+
     @RequestMapping("/deleteOrder")
     public void deleteOrder(String orderIds) {
         orderService.deleteOrderBatchService(orderIds);

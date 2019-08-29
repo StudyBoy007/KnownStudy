@@ -68,6 +68,14 @@ public class UserTest {
         System.out.println(tom);
     }
 
+    @Test
+    public void testselectIsOrNotCollect() {
+        SqlSession sqlSession = factory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        int tom = mapper.selectIsOrNotCollect(2, 5);
+        System.out.println(tom);
+    }
+
 
     @Test
     public void testUpdateUser() {
@@ -89,5 +97,11 @@ public class UserTest {
         System.out.println(i);
     }
 
+    @Test
+    public void testRegcharge() {
+        SqlSession sqlSession = factory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        int recharge = mapper.recharge(100d, 1);
+    }
 
 }

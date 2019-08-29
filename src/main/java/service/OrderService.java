@@ -1,6 +1,8 @@
 package service;
 
 import entity.Order;
+import entity.User;
+import util.Msg;
 
 import java.util.List;
 
@@ -28,4 +30,8 @@ public interface OrderService {
 
 
     int changeOrderRightByAdmin(Integer oid);
+
+
+    Msg payOrder(User user, String orderIds, double totalMoney);
+
 }

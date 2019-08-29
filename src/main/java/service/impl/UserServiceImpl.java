@@ -61,6 +61,17 @@ public class UserServiceImpl implements UserService {
         return i;
     }
 
+    @Override
+    public int rechargeService(Double number, Integer uid) {
+        int recharge = userMapper.recharge(number, uid);
+        return recharge;
+    }
+
+    @Override
+    public int selectIsOrNotCollect(Integer uid, Integer cid) {
+        int i = userMapper.selectIsOrNotCollect(uid, cid);
+        return i;
+    }
 
 
     @Override

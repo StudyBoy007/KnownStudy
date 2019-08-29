@@ -69,7 +69,7 @@
         <div class="detail-box noPay" th:each="order:${orders}">
             <ul>
                 <li>
-                    <span id="hook" class="hook" my-icon="select02" th:name="${order.id}"></span>
+                    <span id="hook" class="hook" my-icon="select02" th:name="${order.id}"></span></li>
                 <li th:each="course:${order.courses}" class="clearfix js-item-cart js-each-217" data-type="1"
                     data-typeid="217"
                     data-goodsid="879">
@@ -93,26 +93,28 @@
             <p class="l goods-info-title historyTitle" th:if="${historyOrders.size()>0}">订单历史记录</p>
         </div>
 
-        <div class="detail-box historyOrder" th:each="history:${historyOrders}">
-            <ul>
-                <li>
-                    <span class="delete" my-icon="del2" th:name="${history.id}"></span>
-                <li th:each="course2:${history.courses}" class="clearfix js-item-cart js-each-217" data-type="1"
-                    data-typeid="217"
-                    data-goodsid="879">
-                    <a href="" target="_blank"><img
-                            th:src="|/pic/course/${course2.courseDirection.courseDirection}/${course2.pic}|" alt=""
-                            class="l"></a>
-                    <div class="text-info-box l">
-                        <p class="package-title"></p>
-                        <a href="" target="_blank"><p class="package-info-title" th:text="${course2.cname}">Spring
-                            Boot仿抖音短视频小程序开发 全栈式实战项目</p></a>
-                    </div>
-                    <div class="info-price l">
-                        <em>$</em><span class="price" th:text="${course2.price}">348.00</span>
-                    </div>
-                </li>
-            </ul>
+        <div id="history">
+            <div class="detail-box historyOrder" th:each="history:${historyOrders}">
+                <ul>
+                    <li>
+                        <span class="delete" my-icon="del2" th:name="${history.id}"></span></li>
+                    <li th:each="course2:${history.courses}" class="clearfix js-item-cart js-each-217" data-type="1"
+                        data-typeid="217"
+                        data-goodsid="879">
+                        <a href="" target="_blank"><img
+                                th:src="|/pic/course/${course2.courseDirection.courseDirection}/${course2.pic}|" alt=""
+                                class="l"></a>
+                        <div class="text-info-box l">
+                            <p class="package-title"></p>
+                            <a href="" target="_blank"><p class="package-info-title" th:text="${course2.cname}">Spring
+                                Boot仿抖音短视频小程序开发 全栈式实战项目</p></a>
+                        </div>
+                        <div class="info-price l">
+                            <em>$</em><span class="price" th:text="${course2.price}">348.00</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
 
 
@@ -135,12 +137,12 @@
 
                 <div class="pay-price-box clearfix">
                     <p class="r rw price">
-                        <em>￥</em><span id="js-pay-price">0</span>
+                        <em>$</em><span id="js-pay-price">0</span>
                     </p>
                     <p class="r price-text">应付：</p>
                 </div>
                 <a href="javascript:void(0);" class="r moco-btn moco-btn-red submit-btn js-pay-submit"
-                   data-typecate="normal">提交订单</a>
+                   data-typecate="normal" onclick="pay()">付款</a>
                 <a href="javascript:void(0);" class="deleteButton r moco-btn moco-btn-red submit-btn js-pay-submit"
                    data-typecate="normal" onclick="deleteOrder()">取消订单</a>
             </div>

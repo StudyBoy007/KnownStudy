@@ -1,0 +1,123 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/static/css/recharge.css}">
+    <link rel="stylesheet" th:href="@{/static/css/owl.carousel.css}">
+    <link rel="stylesheet" th:href="@{/static/css/templatemo-style.css}">
+
+
+    <title>余额充值</title>
+
+</head>
+
+
+<body>
+<section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+                <span class="icon icon-bar"></span>
+            </button>
+
+            <!-- lOGO TEXT HERE -->
+            <a th:href="@{/}" class="navbar-brand"><img th:src="@{/static/images/png/logoko.png}" width="80px"
+                                                        alt=""></a>
+        </div>
+
+        <!-- MENU LINKS -->
+        <div class="collapse navbar-collapse">
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li id="cover"><a th:href="@{/userInfo}"><img
+                        th:src="|/pic/avatar/${session.user.avatar}|"
+                        class="img-circle avatar"
+                        width="38px" height="38px"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<div class="wrap">
+    <div class="top">
+        <div class="col1">账户余额:</div>
+        <div class="col2" th:text="'$'+${session.user.account}">￥0</div>
+        <div class="clear"></div>
+    </div>
+    <div class="top">
+        <div class="col1">充值金额:</div>
+        <div class="col1">
+            <ul class="list ul1">
+                <li><span class="content">50</span><span class="ver"></span></li>
+                <li><span class="content">100</span><span class="ver"></span></li>
+                <li><span class="content">300</span><span class="ver"></span></li>
+                <li><span class="content">500</span><span class="ver"></span></li>
+                <li><span class="content">1000</span><span class="ver"></span></li>
+                <li><span class="content">6666</span><span class="ver"></span></li>
+            </ul>
+            <input class="list m_left input" type="text" placeholder="输入充值金额" value="" oninput="update()">
+            <span class="list font">元</span>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="top">
+        <div class="col1">充值货币:</div>
+        <div class="col3">$<span class="charge">0</span></div>
+        <div class="clear"></div>
+    </div>
+    <div class="top">
+        <div class="col1">充值方式:</div>
+        <div class="col1 m_left big">
+            <img class="imgStyle col1 img1" th:src="@{/static/images/money/wechat.png}" alt="" width="80" height="32">
+            <img class="imgStyle col1 none img2" th:src="@{/static/images/money/wechat_hover.jpg}" alt="" width="80"
+                 height="32">
+        </div>
+        <div class="col1 m_left big">
+            <img class="imgStyle col1 img3" th:src="@{/static/images/money/alipay.jpg}" alt="" width="80" height="32">
+            <img class="imgStyle col1 none img4" th:src="@{/static/images/money/alipay_hover.jpg}" alt="" width="80"
+                 height="32">
+        </div>
+        <div class="clear"></div>
+        <button class="ant-btn ant-btn-red" onclick="addAccount()">去充值</button>
+    </div>
+</div>
+
+
+<!--消息提示框-->
+<div class="modal fade" id="rechargeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">消息提示</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="new_avatar_form">
+                    <div class="form-group">
+                        <div class="col-sm-12 cc-profile-image my-pic" id="replay">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal_close" data-dismiss="modal">确认</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/recharge.js}"></script>
+</html>

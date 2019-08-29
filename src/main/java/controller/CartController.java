@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import service.CartService;
 import service.CourseService;
+import service.UserService;
 import util.Msg;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,12 +31,17 @@ public class CartController {
     @Autowired
     CartService cartService;
 
+    @Autowired
+    UserService userService;
+
 
     @RequestMapping("/shopCart")
-    public ModelAndView cartDisplay(int courseId) {
-
+    public ModelAndView cartDisplay(int courseId, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        int i = userService.selectIsOrNotCollect(user.getId(), courseId);
         Course course = courseService.selectByPrimaryKeyService(courseId);
         ModelAndView mv = new ModelAndView();
+        mv.addObject("collect", i);
         mv.addObject("course", course);
         mv.setViewName("card");
         return mv;

@@ -20,7 +20,11 @@ $(function () {
     })
 
 
-    $(".delete").click(function () {
+    // $(".delete").click(function () {
+    //
+    // })
+
+    $("#history").on("click", '.delete', function () {
         var orderId = Number($(this).attr("name"));
         $(this).closest(".historyOrder").remove();
         if ($(".historyOrder").size() == 0) {
@@ -79,6 +83,93 @@ function deleteOrder() {
     }
 }
 
+function pay() {
+    var num = 0;
+    $(".hook").each(function () {
+        if ($(this).attr("my-icon") == "select01") {
+            num++;
+        }
+    })
+    if (num == 0) {
+        $("#replay").text("请选择付款的订单");
+        $("#orderModal").modal({
+            //点击背景不关闭
+            backdrop: "static",
+            //触发键盘esc事件时不关闭
+            keyboard: false
+        });
+    } else {
+        var orderIds = '';
+        $(".hook").each(function () {
+            if ($(this).attr("my-icon") == "select01") {
+                orderIds = orderIds + $(this).attr("name") + ",";
+            }
+        })
+        $.ajax({
+            url: getRootPath() + "payOrder",
+            type: "POST",
+            data: {
+                "orderIds": orderIds.substring(0, orderIds.length - 1),
+                "totalMoney": Number($("#js-pay-price").text())
+            },
+            success: function (result) {
+                console.log(result);
+                $("#replay").text(result.msg);
+                if (result.code == 405) {
+                    $(".modal-footer").append("<button type='button' class='btn btn-default modal_modify' id='buttonContent' ONCLICK='goRecharge()'>前往充值</button>")
+                }
+                $("#orderModal").modal({
+                    //点击背景不关闭
+                    backdrop: "static",
+                    //触发键盘esc事件时不关闭
+                    keyboard: false
+                });
+
+                if (result.code == 100) {
+                    $(".hook").each(function () {
+                        if ($(this).attr("my-icon") == "select01") {
+                            $(this).closest(".noPay").remove();
+                        }
+                        $("#history").empty();
+                        $(".historyTitle").text("订单历史记录");
+                        var orders = result.extend.orders;
+                        $.each(orders, function (index, order) {
+                            $("#history").append("            <div class='detail-box historyOrder' >\n" +
+                                "                <ul>\n" +
+                                "                    <li>\n" +
+                                "                        <span class='delete' my-icon='del2' name='" + order.id + "'></span></li>\n" +
+                                "                </ul>\n" +
+                                "            </div>")
+                        })
+                        $.each(orders, function (index, order) {
+                            var courses = order.courses;
+                            $.each(courses, function (index1, course) {
+                                $("#history .historyOrder").eq(index).find("ul").append(
+                                    "                    <li class='clearfix js-item-cart js-each-217' data-type='1'\n" +
+                                    "                        data-typeid='217'\n" +
+                                    "                        data-goodsid='879'>\n" +
+                                    "                        <a href='' target='_blank'><img\n" +
+                                    "                                src='/pic/course/" + course.courseDirection.courseDirection + "/" + course.pic + "' alt=''\n" +
+                                    "                                class='l'></a>\n" +
+                                    "                        <div class='text-info-box l'>\n" +
+                                    "                            <p class='package-title'></p>\n" +
+                                    "                            <a href='' target='_blank'><p class='package-info-title'>\n" +
+                                    "                                " + course.cname + "</p></a>\n" +
+                                    "                        </div>\n" +
+                                    "                        <div class='info-price l'>\n" +
+                                    "                            <em>$</em><span class='price'>" + course.price + "</span>\n" +
+                                    "                        </div>\n" +
+                                    "                    </li>\n"
+                                )
+                            })
+                        })
+                    })
+                }
+            }
+        });
+    }
+}
+
 function delOrderAJAX() {
     var orderIds = '';
     $(".hook").each(function () {
@@ -95,4 +186,8 @@ function delOrderAJAX() {
         }
     });
     $("#orderModal").modal('hide');
+}
+
+function goRecharge() {
+    window.location.href = getRootPath() + "userAccountCharge";
 }

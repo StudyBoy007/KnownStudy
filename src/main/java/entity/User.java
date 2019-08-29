@@ -23,7 +23,7 @@ public class User {
 
     private String motto;
 
-    private Integer account;
+    private Double account;
 
     public User() {
     }
@@ -129,11 +129,11 @@ public class User {
         this.motto = motto == null ? null : motto.trim();
     }
 
-    public Integer getAccount() {
+    public Double getAccount() {
         return account;
     }
 
-    public void setAccount(Integer account) {
+    public void setAccount(Double account) {
         this.account = account;
     }
 

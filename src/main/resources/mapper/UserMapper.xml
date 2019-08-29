@@ -13,7 +13,7 @@
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
         <result column="motto" property="motto" jdbcType="VARCHAR"/>
-        <result column="account" property="account" jdbcType="INTEGER"/>
+        <result column="account" property="account"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
@@ -28,7 +28,7 @@
         values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
                 #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},
                 #{avatar,jdbcType=VARCHAR}, #{studyDirection,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
-                #{email,jdbcType=VARCHAR}, #{motto,jdbcType=VARCHAR}, #{account,jdbcType=INTEGER})
+                #{email,jdbcType=VARCHAR}, #{motto,jdbcType=VARCHAR}, #{account})
     </insert>
     <update id="updateByPrimaryKey" parameterType="entity.User">
         update user
@@ -42,7 +42,7 @@
             phone           = #{phone,jdbcType=VARCHAR},
             email           = #{email,jdbcType=VARCHAR},
             motto           = #{motto,jdbcType=VARCHAR},
-            account         = #{account,jdbcType=INTEGER}
+            account         = #{account}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -79,22 +79,22 @@
         where username = #{username}
     </select>
 
-    <select id="selectByUsernameTwo" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select id,
-               username,
-               password,
-               sex,
-               age,
-               address,
-               avatar,
-               study_direction,
-               phone,
-               email,
-               motto,
-               account
-        from user
-        where username = #{username}
-    </select>
+    <!--    <select id="selectByUsernameTwo" resultMap="BaseResultMap" parameterType="java.lang.String">-->
+    <!--        select id,-->
+    <!--               username,-->
+    <!--               password,-->
+    <!--               sex,-->
+    <!--               age,-->
+    <!--               address,-->
+    <!--               avatar,-->
+    <!--               study_direction,-->
+    <!--               phone,-->
+    <!--               email,-->
+    <!--               motto,-->
+    <!--               account-->
+    <!--        from user-->
+    <!--        where username = #{username}-->
+    <!--    </select>-->
 
 
     <select id="selectAll" resultMap="BaseResultMap">
@@ -157,4 +157,63 @@
         </trim>
         where id=#{id}
     </update>
+
+
+    <update id="recharge">
+        update user
+        set account=account + #{number}
+        where id = #{uid}
+    </update>
+
+
+    <update id="payAccount">
+        update user
+        set account=account - #{number}
+        where id = #{uid}
+    </update>
+
+    <select id="selectIsOrNotCollect" resultType="int">
+        select count(*)
+        from user_course
+        where user_id = #{uid}
+          and course_id = #{cid}
+          and collect_status = true
+    </select>
+
+
+    <select id="selectCollectConnectionInUserAndCourse" resultType="int">
+        select count(*)
+        from user_course
+        where user_id = #{uid}
+          and course_id = #{cid}
+    </select>
+
+
+    <update id="changeCollectCourseState">
+        update user_course
+        set collect_status= #{state}
+        where user_id = #{uid}
+          and course_id = #{cid}
+    </update>
+
+    <insert id="createConnectionInUserAndCourseCollect">
+        INSERT INTO user_course(user_id, course_id, collect_status)
+        VALUES (#{uid}, #{cid}, true)
+    </insert>
+
+    <select id="deleteConnectionJuify" resultType="int">
+        select count(*)
+        from user_course
+        where user_id = #{uid}
+          and course_id = #{cid}
+          and buy_status = true;
+    </select>
+
+    <delete id="deleteConnection">
+        delete
+        from user_course
+        where user_id = #{uid}
+          and course_id = #{cid}
+    </delete>
+
 </mapper>

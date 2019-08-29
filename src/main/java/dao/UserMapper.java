@@ -2,6 +2,7 @@ package dao;
 
 import entity.Course;
 import entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -28,5 +29,20 @@ public interface UserMapper {
     int updateUser(User user);
 
 
+    int recharge(@Param("number") Double number, @Param("uid") Integer uid);
+
+    int payAccount(@Param("number") Double number, @Param("uid") Integer uid);
+
+    int selectIsOrNotCollect(@Param("uid") Integer uid, @Param("cid") Integer cid);
+
+    int selectCollectConnectionInUserAndCourse(@Param("uid") Integer uid, @Param("cid") Integer cid);
+
+    int changeCollectCourseState(@Param("uid") Integer uid, @Param("cid") Integer cid, @Param("state") boolean state);
+
+    int createConnectionInUserAndCourseCollect(@Param("uid") Integer uid, @Param("cid") Integer cid);
+
+    int deleteConnectionJuify(@Param("uid") Integer uid, @Param("cid") Integer cid);
+
+    int deleteConnection(@Param("uid") Integer uid, @Param("cid") Integer cid);
 
 }

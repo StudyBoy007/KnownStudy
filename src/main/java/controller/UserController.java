@@ -157,6 +157,27 @@ public class UserController {
         return mv;
     }
 
+    @RequestMapping("/userAccountCharge")
+    public String userAccountRecharge() {
+        return "recharge";
+    }
+
+
+    //用户充值
+    @ResponseBody
+    @RequestMapping("/recharge")
+    public Msg rechargeAccount(HttpServletRequest request, double accountNumber) {
+        User user = (User) request.getSession().getAttribute("user");
+
+        //充值
+        userService.rechargeService(accountNumber, user.getId());
+
+        //直接更新数据放回给前台
+        user.setAccount(user.getAccount() + accountNumber);
+        return Msg.result(100, "充值" + accountNumber + "元成功", user);
+    }
+
+
     @ResponseBody
     @RequestMapping("/changAvatar")
     public Msg updateAvatar(HttpServletRequest request, @RequestParam("avatar") MultipartFile multipartFile) {

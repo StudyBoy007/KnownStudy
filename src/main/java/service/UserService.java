@@ -33,4 +33,8 @@ public interface UserService {
 
     int updateUserService(User user);
 
+    int rechargeService(Double number, Integer uid);
+
+    int selectIsOrNotCollect(Integer uid, Integer cid);
+
 }

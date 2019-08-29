@@ -61,17 +61,29 @@ $(function () {
         window.location.href = getRootPath() + "conditionCourse?tid=" + tid + "&direction_id=" + direction_id + "&condition=" + condition;
     })
 
-    // $(".collectAll").mouseover(function () {
-    //     $(this).find(".collect").eq(0).attr("myicon", "collect4");
-    // }).mouseleave(function () {
-    //     $(this).find(".collect").eq(0).attr("myicon", "collect3");
-    // })
 
     $(".collectAll").click(function () {
+        var courseId = Number($(this).attr("name"));
         if ($(this).find(".collect").eq(0).attr("my-icon") == "collect2") {
             $(this).find(".collect").eq(0).attr("my-icon", "collect1");
+            $(this).find(".collect").eq(1).text("未收藏");
+            $.ajax({
+                url: getRootPath() + "deleteCollect",
+                type: "POST",
+                data: {
+                    "courseId": courseId
+                }
+            });
         } else {
             $(this).find(".collect").eq(0).attr("my-icon", "collect2");
+            $(this).find(".collect").eq(1).text("收藏");
+            $.ajax({
+                url: getRootPath() + "doCollect",
+                type: "POST",
+                data: {
+                    "courseId": courseId
+                }
+            });
         }
     })
 

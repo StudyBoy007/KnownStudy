@@ -1,6 +1,7 @@
 package util;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,6 +18,8 @@ public class Msg {
     //用户要返回给浏览器的数据
     private Object o;
 
+    private Map<String, Object> extend = new HashMap<String, Object>();
+
     public Msg(int code, String msg, Object o) {
         this.code = code;
         this.msg = msg;
@@ -26,6 +29,15 @@ public class Msg {
     public static Msg result(int code, String msg, Object o) {
         return new Msg(code, msg, o);
     }
+
+    public Map<String, Object> getExtend() {
+        return extend;
+    }
+
+    public void setExtend(Map<String, Object> extend) {
+        this.extend = extend;
+    }
+
 
 //    public static Msg fail() {
 //        Msg result = new Msg();

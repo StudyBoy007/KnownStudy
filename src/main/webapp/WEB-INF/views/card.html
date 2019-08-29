@@ -84,12 +84,16 @@
                 </div>
             </div>
             <div class="Xcontent30">
-                <div class="collect"><img class="collectOk" th:src="@{/static/images/shangpinxiangqing/collect.png}"
-                                          alt=""
-                                          width="30px"><img class="collectNo"
-                                                            th:src="@{/static/images/shangpinxiangqing/collect1.png}"
-                                                            alt=""
-                                                            width="30px"><span>立即收藏</span></div>
+                <div class="collect" th:if="${collect==0}" th:name="${course.id}"><img class="collectNo"
+                                                                                       th:src="@{/static/images/shangpinxiangqing/collect1.png}"
+                                                                                       alt=""
+                                                                                       width="30px"><span>立即收藏</span>
+                </div>
+                <div class="collect" th:if="${collect!=0}" th:name="${course.id}"><img class="collectNo"
+                                                                                       th:src="@{/static/images/shangpinxiangqing/collect.png}"
+                                                                                       alt=""
+                                                                                       width="30px"><span>取消收藏</span>
+                </div>
             </div>
             <div class="Xcontent34"><a href="#"><img class="buy"
                                                      th:src="@{/static/images/shangpinxiangqing/X17.png}"></a></div>
