@@ -62,11 +62,26 @@ $(function () {
     })
 
 
+    $(function () {
+
+        $(".collectAll").mouseover(function () {
+            if ($(".collectAll").find(".collect").eq(1).text() == "已收藏") {
+                $(".collectAll").find(".collect").eq(1).text("取消收藏")
+            }
+        }).mouseleave(function () {
+            if ($(".collectAll").find(".collect").eq(1).text() == "取消收藏") {
+                $(".collectAll").find(".collect").eq(1).text("已收藏")
+            }
+
+        })
+
+    })
+
     $(".collectAll").click(function () {
         var courseId = Number($(this).attr("name"));
         if ($(this).find(".collect").eq(0).attr("my-icon") == "collect2") {
             $(this).find(".collect").eq(0).attr("my-icon", "collect1");
-            $(this).find(".collect").eq(1).text("未收藏");
+            $(this).find(".collect").eq(1).text("收藏");
             $.ajax({
                 url: getRootPath() + "deleteCollect",
                 type: "POST",
@@ -76,7 +91,7 @@ $(function () {
             });
         } else {
             $(this).find(".collect").eq(0).attr("my-icon", "collect2");
-            $(this).find(".collect").eq(1).text("收藏");
+            $(this).find(".collect").eq(1).text("已收藏");
             $.ajax({
                 url: getRootPath() + "doCollect",
                 type: "POST",
@@ -87,21 +102,68 @@ $(function () {
         }
     })
 
-    // $(".hook").click(function () {
-    //     if ($(this).attr("my-icon") == "select02") {
-    //         $(this).attr("my-icon", "select01");
-    //         var sum = AllMoney();
-    //         $(".jsAltogether").text(sum);
-    //         juifyAllSelect()
-    //     } else {
-    //         $(this).attr("my-icon", "select02");
-    //         var sum = AllMoney();
-    //         $(".jsAltogether").text(sum);
-    //         juifyAllSelect()
-    //     }
-    // })
 
-
-    //动态添加课程
 })
+
+
+function registerUser() {
+    //获取项目根路径
+    var str = getRootPath();
+
+    console.log($("#tab form").serialize());
+    //发送ajax请求到后台去进行校验
+    $.ajax({
+        url: str + "regUser",
+        type: "POST",
+        data: $("#tab form").serialize(),
+        success: function (result) {
+            console.log(result);
+            if (result.code == 100) {
+                $("#login").modal('hide');
+                $("#reg_success_info").text(result.msg);
+                $("#regSuccessInfo").modal({
+                    backdrop: "static"
+                });
+            } else {
+                $("#login").modal('hide');
+                $("#reg_info").text(result.msg);
+                $("#regInfo").modal({
+                    backdrop: "static"
+                });
+            }
+        }
+    });
+}
+
+
+
+
+function Userlogin() {
+    var str = getRootPath();
+
+    //发送ajax请求到后台去进行校验
+    $.ajax({
+        url: str + "juifyUser",
+        type: "POST",
+        data: $("#room form").serialize(),
+        success: function (result) {
+            console.log(result);
+            if (result.code == 100) {
+                var user = result.o;
+                addUser(user);
+                $("#login").modal('hide');
+                // window.location.reload();
+            } else {
+                //显示失败信信息
+                $("#login").modal('hide');
+                var error = result.msg;
+                // $("#login_info").val(error);
+                $("#login_info").text(error);
+                $("#logInfo").modal({
+                    backdrop: "static"
+                });
+            }
+        }
+    });
+}
 

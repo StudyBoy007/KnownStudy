@@ -128,3 +128,16 @@ function goCart() {
     window.location.href = getRootPath() + "displayCart";
 }
 
+// $(function () {
+//     $(".deleteCollect").click(function () {
+//         var courseId = $(this).attr("name");
+//         $.ajax({
+//             url: getRootPath() + "deleteCollect",
+//             type: "POST",
+//             data: {
+//                 "courseId": courseId
+//             }
+//         });
+//         $(this).closest("#collectCourse").remove();
+//     })
+// })

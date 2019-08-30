@@ -59,10 +59,10 @@
             <div class="jquery-accordion-menu-header"><span th:text="${course.cname}">Known ssm框架教学</span>
                 <div class="collectAll" th:if="${collect!=0}" th:name="${course.id}"><span class="collect"
                                                                                            my-icon="collect2"></span><span
-                        class="collect">收藏</span></div>
+                        class="collect">已收藏</span></div>
                 <div class="collectAll" th:if="${collect==0}" th:name="${course.id}"><span class="collect"
                                                                                            my-icon="collect1"></span><span
-                        class="collect">未收藏</span></div>
+                        class="collect">收藏</span></div>
             </div>
             <ul id="demo-list">
                 <li th:each="chapter,chapterState:${course.chapters}"><a href="javascript:volid(0);"><i

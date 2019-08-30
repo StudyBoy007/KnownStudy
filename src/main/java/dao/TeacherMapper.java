@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Teacher;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,4 +26,17 @@ public interface TeacherMapper {
 
     //对应方向的老师
     List<Teacher> selectTeacherByDirection(Teacher teacher);
+
+
+    Teacher selectById(Integer id);
+
+    int addFocusTeacher(@Param("uid") Integer uid, @Param("tid") Integer tid);
+
+    int delFocusTeacher(@Param("uid") Integer uid, @Param("tid") Integer tid);
+
+    int selectConnectionInUserAndTeachaer(@Param("uid") Integer uid, @Param("tid") Integer tid);
+
+    int addTeacherFocus(Integer id);
+
+    int delTeacherFocus(Integer id);
 }

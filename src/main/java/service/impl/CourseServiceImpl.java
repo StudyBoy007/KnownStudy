@@ -149,7 +149,7 @@ public class CourseServiceImpl implements CourseService {
         } else {
             userMapper.changeCollectCourseState(user.getId(), courseId, true);
         }
-
+        courseMapper.coursefocusAdd(courseId);
     }
 
     @Override
@@ -159,7 +159,7 @@ public class CourseServiceImpl implements CourseService {
         } else {
             userMapper.changeCollectCourseState(user.getId(), courseId, false);
         }
-
+        courseMapper.coursefocusDel(courseId);
     }
 
 

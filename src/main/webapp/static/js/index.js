@@ -43,11 +43,6 @@ $(function () {
     })
 })
 
-
-function registerUser() {
-
-}
-
 //得到项目根路径
 function getRootPath() {
     var pathName = window.location.pathname.substring(1);
@@ -55,74 +50,86 @@ function getRootPath() {
     return window.location.protocol + '//' + window.location.host + '/' + webName + '/';
 }
 
-//登录ajax
-$(function () {
-    $("#loginSubmit").click(function () {
-        //序列化得到参数拼接成的字符串
-        // console.log($("#room form").serialize());
-        //获取项目根路径
-        var str = getRootPath();
-        // var args = $("#room form").serialize();
-        // window.location.href = str + "/juifyUser?" + args;
+function registerUser() {
+    //获取项目根路径
+    var str = getRootPath();
 
-
-        //发送ajax请求到后台去进行校验
-        $.ajax({
-            url: str + "juifyUser",
-            type: "POST",
-            data: $("#room form").serialize(),
-            success: function (result) {
-                console.log(result);
-                if (result.code == 100) {
-                    window.location.reload();
-                } else {
-                    //显示失败信信息
-                    $("#login").modal('hide');
-                    var error = result.msg;
-                    // $("#login_info").val(error);
-                    $("#login_info").text(error);
-                    $("#logInfo").modal({
-                        backdrop: "static"
-                    });
-                }
+    console.log($("#tab form").serialize());
+    //发送ajax请求到后台去进行校验
+    $.ajax({
+        url: str + "regUser",
+        type: "POST",
+        data: $("#tab form").serialize(),
+        success: function (result) {
+            console.log(result);
+            if (result.code == 100) {
+                $("#login").modal('hide');
+                $("#reg_success_info").text(result.msg);
+                $("#regSuccessInfo").modal({
+                    backdrop: "static"
+                });
+            } else {
+                $("#login").modal('hide');
+                $("#reg_info").text(result.msg);
+                $("#regInfo").modal({
+                    backdrop: "static"
+                });
             }
-        });
-    })
-})
+        }
+    });
+}
 
 
-//注册ajax
-$(function () {
-    $("#RegSubmit").click(function () {
 
-        //获取项目根路径
-        var str = getRootPath();
 
-        console.log($("#tab form").serialize());
-        //发送ajax请求到后台去进行校验
-        $.ajax({
-            url: str + "regUser",
-            type: "POST",
-            data: $("#tab form").serialize(),
-            success: function (result) {
-                console.log(result);
-                if (result.code == 100) {
-                    $("#login").modal('hide');
-                    $("#reg_success_info").text(result.msg);
-                    $("#regSuccessInfo").modal({
-                        backdrop: "static"
-                    });
-                } else {
-                    $("#login").modal('hide');
-                    $("#reg_info").text(result.msg);
-                    $("#regInfo").modal({
-                        backdrop: "static"
-                    });
-                }
+
+
+function Userlogin() {
+    var str = getRootPath();
+    // var args = $("#room form").serialize();
+    // window.location.href = str + "/juifyUser?" + args;
+
+    //发送ajax请求到后台去进行校验
+    $.ajax({
+        url: str + "juifyUser",
+        type: "POST",
+        data: $("#room form").serialize(),
+        success: function (result) {
+            console.log(result);
+            if (result.code == 100) {
+                var user = result.o;
+                addUser(user);
+                $("#login").modal('hide');
+                // window.location.reload();
+            } else {
+                //显示失败信信息
+                $("#login").modal('hide');
+                var error = result.msg;
+                // $("#login_info").val(error);
+                $("#login_info").text(error);
+                $("#logInfo").modal({
+                    backdrop: "static"
+                });
             }
-        });
-    })
-})
+        }
+    });
+}
+
+function addUser(obj) {
+    $("#loginUser").remove();
+    $(".information").append(
+        "                <li id='cover'><a href='/known/userInfo'><img\n" +
+        "                        src='/pic/avatar/" + obj.avatar + "'\n" +
+        "                        class='img-circle avatar'\n" +
+        "                        width='38px' height='38px'></a>\n" +
+        "                </li>"
+    )
+    $("#fullName1").val(obj.username);
+    $("#user_email1").val(obj.email);
+    $("#avatar1").attr("src", "/pic/avatar/" + obj.avatar);
+    $("#info").attr("href", "/known/userInfo");
+}
+
 
 //是否重新登陆
 function oneMore() {

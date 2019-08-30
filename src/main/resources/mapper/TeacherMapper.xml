@@ -6,6 +6,7 @@
         <result column="tname" property="tname" jdbcType="VARCHAR"/>
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
         <result column="teacher_status" property="teacherStatus" jdbcType="INTEGER"/>
+        <result column="focus" property="focus" jdbcType="INTEGER"/>
         <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
         <association property="major" column="major" jdbcType="INTEGER" javaType="entity.CourseClass"
                      select="dao.CourseClassMapper.selectByPrimaryKey">
@@ -21,6 +22,7 @@
         <result column="tname" property="tname" jdbcType="VARCHAR"/>
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
         <result column="teacher_status" property="teacherStatus" jdbcType="INTEGER"/>
+        <result column="focus" property="focus" jdbcType="INTEGER"/>
         <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
         <association property="major" column="major" javaType="entity.CourseClass"
                      select="dao.CourseClassMapper.selectByPrimaryKey"/>
@@ -42,16 +44,17 @@
             major          =${major.id},
             introduction   = #{introduction,jdbcType=VARCHAR},
             teacher_status = #{teacherStatus,jdbcType=INTEGER},
-            avatar         = #{avatar,jdbcType=VARCHAR}
+            avatar         = #{avatar,jdbcType=VARCHAR},
+            focus          =#{focus}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap2" parameterType="java.lang.Integer">
-        select id, tname, major, introduction, teacher_status, avatar
+        select id, tname, major, introduction, teacher_status, avatar, focus
         from teacher
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
-        select id, tname, major, introduction, teacher_status, avatar
+        select id, tname, major, introduction, teacher_status, avatar, focus
         from teacher
     </select>
 
@@ -76,4 +79,40 @@
             </if>
         </trim>
     </select>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, tname, major, introduction, teacher_status, avatar, focus
+        from teacher
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <insert id="addFocusTeacher">
+        insert into user_teacher
+        values (#{uid}, #{tid})
+    </insert>
+
+    <delete id="delFocusTeacher">
+        delete
+        from user_teacher
+        where uid = #{uid}
+          and tid = #{tid}
+    </delete>
+
+    <select id="selectConnectionInUserAndTeachaer" resultType="int">
+        select count(*)
+        from user_teacher
+        where uid = #{uid}
+          and tid = #{tid}
+    </select>
+
+    <update id="addTeacherFocus">
+        update teacher
+        set focus=focus + 1
+        where id = #{tid}
+    </update>
+    <update id="delTeacherFocus">
+        update teacher
+        set focus=focus - 1
+        where id = #{tid}
+    </update>
 </mapper>

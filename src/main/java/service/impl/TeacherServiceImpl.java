@@ -5,6 +5,7 @@ import entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.TeacherService;
+import util.Msg;
 
 import java.util.List;
 
@@ -59,5 +60,41 @@ public class TeacherServiceImpl implements TeacherService {
     public List<Teacher> selectTeacherByDirectionService(Teacher teacher) {
         List<Teacher> teachers = teacherMapper.selectTeacherByDirection(teacher);
         return teachers;
+    }
+
+    @Override
+    public Teacher selectById(Integer id) {
+        Teacher teacher = teacherMapper.selectById(id);
+        return teacher;
+    }
+
+    @Override
+    public Msg addFocusTeacherService(Integer uid, Integer tid) {
+        int i = teacherMapper.addFocusTeacher(uid, tid);
+        if (i == 0) {
+            return new Msg(200, "关注失败", null);
+        } else {
+            teacherMapper.addTeacherFocus(tid);
+            Teacher teacher = teacherMapper.selectById(tid);
+            return new Msg(100, "关注成功", teacher);
+        }
+    }
+
+    @Override
+    public Msg delFocusTeacherService(Integer uid, Integer tid) {
+        int i = teacherMapper.delFocusTeacher(uid, tid);
+        if (i == 0) {
+            return new Msg(200, "取关失败", null);
+        } else {
+            teacherMapper.delTeacherFocus(tid);
+            Teacher teacher = teacherMapper.selectById(tid);
+            return new Msg(100, "取关成功", teacher);
+        }
+    }
+
+    @Override
+    public int selectConnectionInUserAndTeachaer(Integer uid, Integer tid) {
+        int i = teacherMapper.selectConnectionInUserAndTeachaer(uid, tid);
+        return i;
     }
 }

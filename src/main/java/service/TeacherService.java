@@ -1,6 +1,7 @@
 package service;
 
 import entity.Teacher;
+import util.Msg;
 
 import java.util.List;
 
@@ -27,4 +28,13 @@ public interface TeacherService {
 
 
     List<Teacher> selectTeacherByDirectionService(Teacher teacher);
+
+    Teacher selectById(Integer id);
+
+
+    Msg addFocusTeacherService(Integer uid, Integer tid);
+
+    Msg delFocusTeacherService(Integer uid, Integer tid);
+
+    int selectConnectionInUserAndTeachaer(Integer uid, Integer tid);
 }

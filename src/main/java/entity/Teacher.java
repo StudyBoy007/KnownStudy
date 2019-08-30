@@ -1,8 +1,9 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Teacher {
+public class Teacher{
     private Integer id;
 
     private String tname;
@@ -10,6 +11,8 @@ public class Teacher {
     private String introduction;
 
     private Integer teacherStatus;
+
+    private Integer focus;
 
     private String avatar;
 
@@ -44,8 +47,16 @@ public class Teacher {
         this.tname = tname == null ? null : tname.trim();
     }
 
+    public Integer getFocus() {
+        return focus;
+    }
 
-//    public String getMajor() {
+    public void setFocus(Integer focus) {
+        this.focus = focus;
+    }
+
+
+    //    public String getMajor() {
 //        return major;
 //    }
 //
@@ -99,10 +110,11 @@ public class Teacher {
         return "Teacher{" +
                 "id=" + id +
                 ", tname='" + tname + '\'' +
-                ", major=" + major +
                 ", introduction='" + introduction + '\'' +
                 ", teacherStatus=" + teacherStatus +
+                ", focus=" + focus +
                 ", avatar='" + avatar + '\'' +
+                ", major=" + major +
                 ", courses=" + courses +
                 '}';
     }

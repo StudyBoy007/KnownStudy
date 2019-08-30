@@ -4025,7 +4025,8 @@ body {
 }
 
 #main {
-    padding-top: 0
+    padding-top: 0;
+    margin-top: 70px;
 }
 
 .big-wrap {
@@ -4282,7 +4283,7 @@ body {
     height: 246px;
     box-sizing: border-box;
     padding: 38px 48px 32px;
-    background: url(/static/img/t/shizhan-mask.png)
+    /*background: url(/static/img/t/shizhan-mask.png)*/
 }
 
 .bottom-box .shizhan-del-box ul li .shizhan-title {
@@ -4291,7 +4292,7 @@ body {
     font-size: 20px;
     line-height: 28px;
     font-weight: 700;
-    color: #fff;
+    color: #000000;
     word-break: break-word;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -4306,7 +4307,7 @@ body {
     height: 44px;
     font-size: 14px;
     line-height: 22px;
-    color: rgba(255, 255, 255, .6);
+    color: rgba(0, 0, 0, 0.6);
     word-break: break-word;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -4327,7 +4328,7 @@ body {
     font-size: 20px;
     line-height: 20px;
     font-weight: 200;
-    color: #fff
+    color: #000000
 }
 
 .bottom-box .shizhan-del-box ul li .bottom-box .icon {

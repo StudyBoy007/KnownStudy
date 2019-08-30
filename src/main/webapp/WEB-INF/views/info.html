@@ -167,24 +167,27 @@
                                 </div>
 
                                 <div class="courses-detail">
-                                    <h3><a href="#" th:text="${buy.cname}">Social Media Management</a></h3>
+                                    <h3><a th:href="@{/displayCourse(id=${buy.id})}" th:text="${buy.cname}">Social Media
+                                        Management</a></h3>
                                     <p th:text="${buy.introduction}">Lorem ipsum dolor sit amet, consectetur
                                         adipiscing elit.</p>
                                 </div>
 
                                 <div class="courses-info" th:switch="${buy.isfress}">
                                     <div class="courses-author">
-                                        <img th:src="|/pic/avatar/${buy.teacher.avatar}|" class="img-responsive"
-                                             alt="">
+                                        <a th:href="@{/teacherInfo(id=${buy.teacher.id})}"> <img th:src="|/pic/avatar/${buy.teacher.avatar}|"
+                                                                                                    class="img-responsive"
+                                                                                                    alt=""></a>
                                         <span th:text="${buy.teacher.tname}">Mark Wilson</span>
                                     </div>
 
                                     <div class="courses-price" th:case="1">
-                                        <a href="#"><span th:text="'USD '+${buy.price}">USD 25</span></a>
+                                        <a th:href="@{/displayCourse(id=${buy.id})}"><span
+                                                th:text="'USD '+${buy.price}">USD 25</span></a>
                                     </div>
 
                                     <div class="courses-price free" th:case="0">
-                                        <a href="#"><span>Free</span></a>
+                                        <a th:href="@{/displayCourse(id=${buy.id})}"><span>Free</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +213,7 @@
 
                 <div class="owl-carousel owl-theme owl-courses">
 
-                    <div class="col-md-4 col-sm-4" th:each="collect:${collects}">
+                    <div class="col-md-4 col-sm-4" th:each="collect:${collects}" id="collectCourse">
                         <div class="item">
                             <div class="courses-thumb">
                                 <div class="courses-top">
@@ -230,26 +233,33 @@
                                 </div>
 
                                 <div class="courses-detail">
-                                    <h3><a href="#" th:text="${collect.cname}">Social Media Management</a></h3>
+                                    <h3 th:switch="${collect.isfress}">
+                                        <a th:href="@{/displayCourse(id=${collect.id})}" th:case="0" th:text="${collect.cname}">Social
+                                            Media Management</a>
+                                        <a th:href="@{/shopCart(courseId=${collect.id})}" th:case="1" th:text="${collect.cname}">Social
+                                            Media Management</a>
+                                    </h3>
                                     <p th:text="${collect.introduction}">Lorem ipsum dolor sit amet, consectetur
                                         adipiscing elit.</p>
                                 </div>
 
                                 <div class="courses-info" th:switch="${collect.isfress}">
                                     <div class="courses-author">
-                                        <img th:src="|/pic/avatar/${collect.teacher.avatar}|" class="img-responsive"
-                                             alt="">
+                                        <a th:href="@{/teacherInfo(id=${collect.teacher.id})}"> <img th:src="|/pic/avatar/${collect.teacher.avatar}|"
+                                                                                                    class="img-responsive"
+                                                                                                    alt=""></a>
                                         <span th:text="${collect.teacher.tname}">Mark Wilson</span>
                                     </div>
 
                                     <div class="courses-price" th:case="1">
-                                        <a href="#"><span th:text="'$ '+${collect.price}">USD 25</span></a>
-                                        <a href="#"><span class="deleteCollect">delete</span></a>
+                                        <a th:href="@{/shopCart(courseId=${collect.id})}"><span
+                                                th:text="'$ '+${collect.price}">USD 25</span></a>
+<!--                                        <span class="deleteCollect" th:name="${collect.id}">delete</span>-->
                                     </div>
 
                                     <div class="courses-price free" th:case="0">
-                                        <a href="#"><span>Free</span></a>
-                                        <a href="#"><span class="deleteCollect">delete</span></a>
+                                        <a th:href="@{/displayCourse(id=${collect.id})}"><span>Free</span></a>
+<!--                                        <span class="deleteCollect" th:name="${collect.id}">delete</span>-->
                                     </div>
                                 </div>
                             </div>

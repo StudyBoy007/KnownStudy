@@ -1,15 +1,16 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Course {
+public class Course{
     private Integer id;
 
     private String cname;
 
-//    private String video;
+    //    private String video;
 //
-private String course_path;
+    private String course_path;
 
     //    private Integer directionId;
     private List<Chapter> chapters;
@@ -35,6 +36,8 @@ private String course_path;
     private String introduction;
 
     private Integer buy_num;
+
+    private String range;
 
     public Course() {
     }
@@ -83,6 +86,15 @@ private String course_path;
     public void setCourse_path(String course_path) {
         this.course_path = course_path;
     }
+
+    public String getRange() {
+        return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
+    }
+
 
     //    public String getVideo() {
 //        return video;
@@ -217,6 +229,7 @@ private String course_path;
                 ", teacher=" + teacher +
                 ", introduction='" + introduction + '\'' +
                 ", buy_num=" + buy_num +
+                ", range='" + range + '\'' +
                 '}';
     }
 }

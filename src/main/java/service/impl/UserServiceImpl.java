@@ -25,9 +25,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int saveUserService(User user) {
+    public Msg saveUserService(User user) {
         int i = userMapper.saveUser(user);
-        return i;
+        if (i == 1) {
+            return Msg.result(100, "注册成功", null);
+        } else {
+            return Msg.result(400, "注册失败", null);
+        }
     }
 
     @Override

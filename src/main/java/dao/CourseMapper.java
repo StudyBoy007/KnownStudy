@@ -47,5 +47,9 @@ public interface CourseMapper {
 
     int juifyCourseIsOrNotBuy(@Param("uid") int uid, @Param("cid") int cid);
 
+    int coursefocusDel(Integer cid);
+
+    int coursefocusAdd(Integer cid);
+
 
 }

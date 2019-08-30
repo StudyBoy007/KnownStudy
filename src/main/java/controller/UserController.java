@@ -131,12 +131,8 @@ public class UserController {
     public Msg reg(User user) {
         Msg msg = userService.selectByUsernameService(user.getUsername());
         if (msg.getCode() == 100) {
-            int i = userService.saveUserService(user);
-            if (i == 1) {
-                return Msg.result(100, "注册成功", null);
-            } else {
-                return Msg.result(400, "注册失败", null);
-            }
+            Msg msg1 = userService.saveUserService(user);
+            return msg1;
         } else {
             return msg;
         }
@@ -197,10 +193,15 @@ public class UserController {
             e.printStackTrace();
         }
         User user = (User) request.getSession().getAttribute("user");
+        String oldName = user.getAvatar();
         user.setAvatar(newFileName + substring);
         request.getSession().setAttribute("user", user);
         int i = userService.updateUserService(user);
         if (i == 1) {
+            if (!fileName.equals("default.jpg")) {
+                File file = new File("F:\\eplayimg\\avatar\\" + oldName);
+                file.delete();
+            }
             return Msg.result(100, "头像修改成功", user);
         } else {
             return Msg.result(400, "头像修改失败", user);

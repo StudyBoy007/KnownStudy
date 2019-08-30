@@ -49,7 +49,7 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right information">
-                <li class="loginAndReg" th:if="${session.user}==null">
+                <li class="loginAndReg" th:if="${session.user}==null" id="loginUser">
                     <!--                <li class="loginAndReg">-->
                     <button id="loginAndReg" class="btn btn-success marginTop btn-lg" data-toggle="modal"
                             data-target="#login">注册/登录
@@ -188,14 +188,14 @@
             <div class="col-md-offset-1 col-md-4 col-sm-12">
                 <div class="entry-form">
                     <h2>Information</h2>
-                    <div class="text-center" th:if="${session.user!=null}">
-                        <!--                        <img th:src="@{/static/images/author-image3.jpg}" class="img-circle avatar"-->
-                        <!--                                                  width="60px">-->
-                        <img th:src="|/pic/avatar/${session.user.avatar}|" alt="" width="60px" height="60px"
-                             class="img-circle avatar"
-                             id="avatar">
-                    </div>
                     <div th:if="${session.user!=null}">
+                        <div class="text-center">
+                            <!--                        <img th:src="@{/static/images/author-image3.jpg}" class="img-circle avatar"-->
+                            <!--                                                  width="60px">-->
+                            <img th:src="|/pic/avatar/${session.user.avatar}|" alt="" width="60px" height="60px"
+                                 class="img-circle avatar"
+                                 id="avatar">
+                        </div>
                         <input id="fullName" type="text" name="full_name" class="form-control"
                                placeholder="Full name"
                                required=""
@@ -211,16 +211,25 @@
                         </a>
                     </div>
                     <div th:if="${session.user==null}">
-                        <input type="text" name="full_name" class="form-control"
+                        <div class="text-center">
+                            <!--                        <img th:src="@{/static/images/author-image3.jpg}" class="img-circle avatar"-->
+                            <!--                                                  width="60px">-->
+                            <img src="/pic/avatar/unlogin.jpg" alt="" width="60px" height="60px"
+                                 class="img-circle avatar"
+                                 id="avatar1">
+                        </div>
+                        <input id="fullName1" type="text" name="full_name" class="form-control"
                                placeholder="Full name"
                                required=""
                                readonly="readonly">
-                        <input type="email" name="email" class="form-control"
+                        <input id="user_email1" type="email" name="email" class="form-control"
                                placeholder="Your email address"
                                required="" readonly>
-                        <button class="submit-btn form-control">go
-                            info
-                        </button>
+                        <a href="" id="info">
+                            <button class="submit-btn form-control">go
+                                info
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -243,7 +252,7 @@
 
             <div class="col-md-3 col-sm-6" th:each="teacher:${teachers}">
                 <div class="team-thumb">
-                    <a href="">
+                    <a th:href="@{/teacherInfo(id=${teacher.id})}">
                         <div class="team-image">
                             <img th:src="|/pic/avatar/${teacher.avatar}|" class="img-responsive" alt="">
                         </div>
@@ -306,7 +315,8 @@
                                         <a th:href="@{/displayCourse(id=${course.id})}" th:case="0"
                                            th:text="${course.cname}">Social
                                             Media Management</a>
-                                        <a href="#" th:case="1" th:text="${course.cname}">Social Media Management</a>
+                                        <a th:href="@{/shopCart(courseId=${course.id})}" th:case="1"
+                                           th:text="${course.cname}">Social Media Management</a>
                                     </h3>
                                     <p th:text="${course.introduction}">Lorem ipsum dolor sit amet, consectetur
                                         adipiscing elit.</p>
@@ -314,13 +324,16 @@
 
                                 <div class="courses-info" th:switch="${course.isfress}">
                                     <div class="courses-author">
-                                        <img th:src="|/pic/avatar/${course.teacher.avatar}|" class="img-responsive"
-                                             alt="">
+                                        <a th:href="@{/teacherInfo(id=${course.teacher.id})}"> <img
+                                                th:src="|/pic/avatar/${course.teacher.avatar}|"
+                                                class="img-responsive"
+                                                alt=""></a>
                                         <span th:text="${course.teacher.tname}">Mark Wilson</span>
                                     </div>
 
                                     <div class="courses-price" th:case="1">
-                                        <a href="#"><span th:text="'USD '+${course.price}">USD 25</span></a>
+                                        <a th:href="@{/shopCart(courseId=${course.id})}"><span
+                                                th:text="'USD '+${course.price}">USD 25</span></a>
                                     </div>
 
                                     <div class="courses-price free" th:case="0">
@@ -330,168 +343,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!--                <div class="owl-carousel owl-theme owl-courses">-->
-
-                    <!--                    <div class="col-md-4 col-sm-4">-->
-                    <!--                        <div class="item">-->
-                    <!--                            <div class="courses-thumb">-->
-                    <!--                                <div class="courses-top">-->
-                    <!--                                    <div class="courses-image">-->
-                    <!--                                        <img th:src="@{/static/images/courses-image1.jpg}" class="img-responsive"-->
-                    <!--                                             alt="">-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="courses-date">-->
-                    <!--                                        <span><i class="fa fa-calendar"></i> 20 / 7 / 2018</span>-->
-                    <!--                                        <span><i class="fa fa-clock-o"></i> 4.5 Hours</span>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="courses-detail">-->
-                    <!--                                    <h3><a href="#">Graphic & Web Design</a></h3>-->
-                    <!--                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="courses-info">-->
-                    <!--                                    <div class="courses-author">-->
-                    <!--                                        <img th:src="@{/static/images/author-image2.jpg}" class="img-responsive" alt="">-->
-                    <!--                                        <span>Jessica</span>-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="courses-price">-->
-                    <!--                                        <a href="#"><span>USD 80</span></a>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-
-                    <!--                    <div class="col-md-4 col-sm-4">-->
-                    <!--                        <div class="item">-->
-                    <!--                            <div class="courses-thumb">-->
-                    <!--                                <div class="courses-top">-->
-                    <!--                                    <div class="courses-image">-->
-                    <!--                                        <img th:src="@{/static/images/courses-image2.jpg}" class="img-responsive"-->
-                    <!--                                             alt="">-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="courses-date">-->
-                    <!--                                        <span><i class="fa fa-calendar"></i> 20 / 7 / 2018</span>-->
-                    <!--                                        <span><i class="fa fa-clock-o"></i> 4.5 Hours</span>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="courses-detail">-->
-                    <!--                                    <h3><a href="#">Graphic & Web Design</a></h3>-->
-                    <!--                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="courses-info">-->
-                    <!--                                    <div class="courses-author">-->
-                    <!--                                        <img th:src="@{/static/images/author-image2.jpg}" class="img-responsive" alt="">-->
-                    <!--                                        <span>Jessica</span>-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="courses-price">-->
-                    <!--                                        <a href="#"><span>USD 80</span></a>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-
-                    <!--                    <div class="col-md-4 col-sm-4">-->
-                    <!--                        <div class="item">-->
-                    <!--                            <div class="courses-thumb">-->
-                    <!--                                <div class="courses-top">-->
-                    <!--                                    <div class="courses-image">-->
-                    <!--                                        <img th:src="@{/static/images/courses-image3.jpg}" class="img-responsive"-->
-                    <!--                                             alt="">-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="courses-date">-->
-                    <!--                                        <span><i class="fa fa-calendar"></i> 15 / 8 / 2018</span>-->
-                    <!--                                        <span><i class="fa fa-clock-o"></i> 6 Hours</span>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="courses-detail">-->
-                    <!--                                    <h3><a href="#">Marketing Communication</a></h3>-->
-                    <!--                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="courses-info">-->
-                    <!--                                    <div class="courses-author">-->
-                    <!--                                        <img th:src="@{/static/images/author-image3.jpg}" class="img-responsive" alt="">-->
-                    <!--                                        <span>Catherine</span>-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="courses-price free">-->
-                    <!--                                        <a href="#"><span>Free</span></a>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-
-                    <!--                    <div class="col-md-4 col-sm-4">-->
-                    <!--                        <div class="item">-->
-                    <!--                            <div class="courses-thumb">-->
-                    <!--                                <div class="courses-top">-->
-                    <!--                                    <div class="courses-image">-->
-                    <!--                                        <img th:src="@{/static/images/courses-image4.jpg}" class="img-responsive"-->
-                    <!--                                             alt="">-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="courses-date">-->
-                    <!--                                        <span><i class="fa fa-calendar"></i> 10 / 8 / 2018</span>-->
-                    <!--                                        <span><i class="fa fa-clock-o"></i> 8 Hours</span>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="courses-detail">-->
-                    <!--                                    <h3><a href="#">Summer Kids</a></h3>-->
-                    <!--                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="courses-info">-->
-                    <!--                                    <div class="courses-author">-->
-                    <!--                                        <img th:src="@{/static/images/author-image1.jpg}" class="img-responsive" alt="">-->
-                    <!--                                        <span>Mark Wilson</span>-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="courses-price">-->
-                    <!--                                        <a href="#"><span>USD 45</span></a>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-
-                    <!--                    <div class="col-md-4 col-sm-4">-->
-                    <!--                        <div class="item">-->
-                    <!--                            <div class="courses-thumb">-->
-                    <!--                                <div class="courses-top">-->
-                    <!--                                    <div class="courses-image">-->
-                    <!--                                        <img th:src="@{/static/images/courses-image5.jpg}" class="img-responsive"-->
-                    <!--                                             alt="">-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="courses-date">-->
-                    <!--                                        <span><i class="fa fa-calendar"></i> 5 / 10 / 2018</span>-->
-                    <!--                                        <span><i class="fa fa-clock-o"></i> 10 Hours</span>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="courses-detail">-->
-                    <!--                                    <h3><a href="#">Business &amp; Management</a></h3>-->
-                    <!--                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="courses-info">-->
-                    <!--                                    <div class="courses-author">-->
-                    <!--                                        <img th:src="@{/static/images/author-image2.jpg}" class="img-responsive" alt="">-->
-                    <!--                                        <span>Jessica</span>-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="courses-price free">-->
-                    <!--                                        <a href="#"><span>Free</span></a>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -638,6 +489,7 @@
 </section>
 
 
+<iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
 <!-- 注册登录模块框 -->
 <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -661,60 +513,62 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="room">
                     <div class="modal-body">
-                        <form class="form-horizontal" id="user_form">
+                        <form class="form-horizontal" id="user_form" onsubmit="Userlogin()" method="post"
+                              target="nm_iframe">
                             <div class="form-group">
                                 <label for="new_loginName" class="col-sm-2 control-label">账号</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="new_loginName" placeholder="账号"
-                                           name="loginName">
+                                           name="loginName" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="new_loginPwd" class="col-sm-2 control-label">密码</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="new_loginPwd" placeholder="密码"
-                                           name="loginPwd">
+                                           name="loginPwd" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="login_code" class="col-sm-2 control-label">验证码</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="login_code" placeholder="验证码"
-                                           name="code">
+                                           name="code" required>
                                 </div>
                                 <div class="col-sm-6 code" style="float: right">
                                     <img th:src="@{/getJuifyCode}" id="safeCode" alt="验证码"/><a
                                         href="javascript:reloadCode()">看不清换一张</a><br>
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="submit" class="btn btn-success text-uppercase" id="loginSubmit">登录
+                                </button>
+                            </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-success" id="loginSubmit">登录</button>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="tab">
                     <div class="modal-body">
-                        <form class="form-horizontal" id="register_user_form">
+                        <form class="form-horizontal" id="register_user_form" onsubmit="registerUser()">
                             <div class="form-group">
                                 <label for="register_loginName" class="col-sm-2 control-label">账号</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="register_loginName" placeholder="账号"
-                                           name="username">
+                                           name="username" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="register_loginPwd" class="col-sm-2 control-label">密码</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="register_loginPwd" placeholder="密码"
-                                           name="password">
+                                           name="password" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="register_email" class="col-sm-2 control-label">方向</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control" name="studyDirection">
+                                    <select class="form-control" name="studyDirection" required>
                                         <option value="软件">软件</option>
                                         <option value="运动">运动</option>
                                         <option value="音乐">音乐</option>
@@ -727,33 +581,34 @@
                                 <label for="optionsRadios3" class="col-sm-2 control-label">性别</label>
                                 <div class="col-sm-2">
                                     <input type="radio" name="sex" id="optionsRadios3" value="男"
-                                           checked> <label for="optionsRadios3" class="control-label">男</label>
+                                           checked required> <label for="optionsRadios3" class="control-label">男</label>
                                 </div>
                                 <div class="col-sm-2">
                                     <input type="radio" name="sex" id="optionsRadios4" value="女"
-                                           checked> <label for="optionsRadios4" class="control-label">女</label>
+                                           checked required> <label for="optionsRadios4" class="control-label">女</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="register_email" class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="register_email" placeholder="Email"
-                                           name="email">
+                                           name="email" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="register_telephone" class="col-sm-2 control-label">电话</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="register_telephone" placeholder="电话"
-                                           name="phone">
+                                           name="phone" required>
                                 </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="submit" class="btn btn-success" id="RegSubmit">注册</button>
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-success" id="RegSubmit">注册</button>
-                    </div>
+
                 </div>
             </div>
         </div><!-- /.modal-content -->

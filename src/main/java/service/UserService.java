@@ -15,7 +15,7 @@ public interface UserService {
 
     int deleteByPrimaryKeyService(Integer id);
 
-    int saveUserService(User user);
+    Msg saveUserService(User user);
 
     int insertService(User record);
 

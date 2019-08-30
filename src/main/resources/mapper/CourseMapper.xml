@@ -12,6 +12,7 @@
         <result column="course_status" property="courseStatus" jdbcType="INTEGER"/>
         <result column="start_time" property="start_time" jdbcType="VARCHAR"/>
         <result column="time" property="time" jdbcType="VARCHAR"/>
+        <result column="range" property="range" jdbcType="VARCHAR"/>
         <result column="focus" property="focus" jdbcType="INTEGER"/>
         <result column="buy_num" property="buy_num" jdbcType="INTEGER"/>
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
@@ -30,10 +31,11 @@
     </delete>
     <insert id="insert" parameterType="entity.Course">
         insert into course (id, cname, direction_id, isfress, course_path,
-                            price, pic, course_status, buy_num)
+                            price, pic, course_status, buy_num, `range`)
         values (#{id,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, ${courseDirection.id}, #{isfress,jdbcType=INTEGER},
                 #{course_path}
-                    #{price,jdbcType=DOUBLE}, #{pic,jdbcType=VARCHAR}, #{courseStatus,jdbcType=INTEGER}, #{buy_num})
+                    #{price,jdbcType=DOUBLE}, #{pic,jdbcType=VARCHAR}, #{courseStatus,jdbcType=INTEGER}, #{buy_num},
+                #{range})
     </insert>
     <update id="updateByPrimaryKey" parameterType="entity.Course">
         update course
@@ -49,7 +51,8 @@
             time=#{time},
             focus=#{focus},
             introduction=#{introduction},
-            buy_num=#{buy_num}
+            buy_num=#{buy_num},
+            range=#{range}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -66,7 +69,8 @@
                time,
                focus,
                introduction,
-               buy_num
+               buy_num,
+               `range`
         from course
         where id = #{id,jdbcType=INTEGER}
     </select>
@@ -84,7 +88,8 @@
                time,
                focus,
                introduction,
-               buy_num
+               buy_num,
+               `range`
         from course
     </select>
 
@@ -109,9 +114,11 @@
                time,
                focus,
                introduction,
-               buy_num
+               buy_num,
+               `range`
         from course
         where tid = #{id,jdbcType=INTEGER}
+        order by focus desc
     </select>
 
 
@@ -130,7 +137,8 @@
                course.time,
                course.focus,
                course.introduction,
-               course.buy_num
+               course.buy_num,
+               course.`range`
         FROM `user`,
              user_course,
              course
@@ -155,7 +163,8 @@
                course.time,
                course.focus,
                course.introduction,
-               course.buy_num
+               course.buy_num,
+               course.`range`
         FROM `user`,
              user_course,
              course
@@ -224,5 +233,19 @@
           and course_id = #{cid}
           and buy_status = true
     </select>
+
+    <update id="coursefocusDel">
+        update course
+        set focus
+                =focus - 1
+        where id = #{cid};
+    </update>
+
+    <update id="coursefocusAdd">
+        update course
+        set focus
+                =focus + 1
+        where id = #{cid};
+    </update>
 
 </mapper>

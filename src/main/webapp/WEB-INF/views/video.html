@@ -64,17 +64,17 @@
             <!--购物车，头像-->
             <ul class="clearfix logined">
                 <li class="shop-cart" id="shop-cart">
-                    <a href="" class="shop-cart-icon" target="_blank">
+                    <a th:href="@{/displayCart}" class="shop-cart-icon" target="_blank">
                         <span my-icon="cart01"></span>
                         <span class="shopping_icon js-cart-num" data-ordernum="0" data-cartnum="0"
                               style="display: none">0</span>
                     </a>
                     <div class="my-cart" id="js-my-cart"></div>
                 </li>
-                <li class="set_btn user-card-box" id="header-user-card">
-                    <a id="header-avator" class="user-card-item" action-type="my_menu" href="" target="_self">
-                        <img th:src="@{/static/images/avatar20.jpg}" width="40" height="40">
-                    </a>
+                    <li class="set_btn user-card-box" id="header-user-card">
+                <a id="header-avator" th:href="@{/userInfo}">
+                    <img th:src="|/pic/avatar/${session.user.avatar}|" width="40" height="40" style="object-fit: cover">
+                </a>
                 </li>
             </ul>
         </div>
@@ -836,7 +836,8 @@
                     <h4>推荐课程</h4>
                     <ul class="js-recom-course moco-aside-course clearfix">
                         <li th:each="recommend:${recommends}">
-                            <div class="aside-course-img"><img th:src="|/pic/course/${recommend.courseDirection.courseDirection}/${recommend.pic}|">
+                            <div class="aside-course-img"><img
+                                    th:src="|/pic/course/${recommend.courseDirection.courseDirection}/${recommend.pic}|">
                                 <p class="aside-course-type">实战</p>
                             </div>
                             <div class="aside-course-content" th:switch="${recommend.isfress}">

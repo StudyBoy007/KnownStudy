@@ -1,10 +1,22 @@
 $(function () {
+
+    $(".collect").mouseover(function () {
+        if ($(".collect").find("span").eq(0).text() == "已收藏") {
+            $(this).find("span").eq(0).text("取消收藏")
+        }
+    }).mouseleave(function () {
+        if ($(this).find("span").eq(0).text() == "取消收藏") {
+            $(this).find("span").eq(0).text("已收藏")
+        }
+    })
+
+
     $(".collect").click(function () {
         var courseId = Number($(this).attr("name"));
         if ($(this).find("span").eq(0).text() == "立即收藏") {
             $(this).find("span").css("color", "#857d86");
             $(this).find("img").attr("src", "/known/static/images/shangpinxiangqing/collect.png");
-            $(this).find("span").eq(0).text("取消收藏")
+            $(this).find("span").eq(0).text("已收藏")
             $.ajax({
                 url: getRootPath() + "doCollect",
                 type: "POST",
