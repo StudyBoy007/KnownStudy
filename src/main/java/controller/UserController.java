@@ -16,6 +16,8 @@ import service.TeacherService;
 import service.UserService;
 import util.Msg;
 import util.RandomNum;
+import util.auth.AuthUtils;
+import util.auth.RequireRole;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -118,6 +120,7 @@ public class UserController {
             Msg msg = userService.selectByUsernameAndPwdService(loginName, loginPwd);
             User user = (User) msg.getO();
             request.getSession().setAttribute("user", user);
+            AuthUtils.setRole("guest");
             return msg;
         } else {
             return Msg.result(400, "验证码错误", null);
@@ -142,6 +145,7 @@ public class UserController {
 
     //展示用户信息
     @RequestMapping("/userInfo")
+    @RequireRole("guest")
     public ModelAndView displayUserInfo(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         List<Course> coursesCollect = courseService.selectUerCourseCollectService(user.getId());
@@ -154,6 +158,7 @@ public class UserController {
     }
 
     @RequestMapping("/userAccountCharge")
+    @RequireRole("guest")
     public String userAccountRecharge() {
         return "recharge";
     }
@@ -162,6 +167,7 @@ public class UserController {
     //用户充值
     @ResponseBody
     @RequestMapping("/recharge")
+    @RequireRole("guest")
     public Msg rechargeAccount(HttpServletRequest request, double accountNumber) {
         User user = (User) request.getSession().getAttribute("user");
 

@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import service.CartService;
 import service.OrderService;
 import util.Msg;
+import util.auth.RequireRole;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class OrderController {
 
     @ResponseBody
     @RequestMapping("/createOrder")
+    @RequireRole("guest")
     public Msg createOrder(double totalMoney, String strid, String cartIds, HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
@@ -51,6 +53,7 @@ public class OrderController {
 
     @ResponseBody
     @RequestMapping("/payOrder")
+    @RequireRole("guest")
     public Msg payOrder(double totalMoney, String orderIds, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         Msg msg = orderService.payOrder(user, orderIds, totalMoney);
@@ -59,17 +62,20 @@ public class OrderController {
 
 
     @RequestMapping("/deleteOrder")
+    @RequireRole("guest")
     public void deleteOrder(String orderIds) {
         orderService.deleteOrderBatchService(orderIds);
     }
 
     @RequestMapping("/deleteHistoryOrder")
+    @RequireRole("guest")
     public void deleteHistoryOrder(int orderId) {
         orderService.changeOrderRightByAdmin(orderId);
     }
 
 
     @RequestMapping("/displayOrder")
+    @RequireRole("guest")
     public ModelAndView displayOrder(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
 

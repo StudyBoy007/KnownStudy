@@ -37,7 +37,12 @@
         <!-- MENU LINKS -->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li id="cover"><a th:href="@{/userInfo}"><img
+                <li th:if="${session.user}==null"><a th:href="@{/userInfo}"><img src="/pic/avatar/unlogin.jpg"
+                                                                                 class="img-circle avatar"
+                                                                                 width="38px" height="38px"></a>
+                </li>
+
+                <li id="cover" th:if="${session.user}!=null"><a th:href="@{/userInfo}"><img
                         th:src="|/pic/avatar/${session.user.avatar}|"
                         class="img-circle avatar"
                         width="38px" height="38px"></a>

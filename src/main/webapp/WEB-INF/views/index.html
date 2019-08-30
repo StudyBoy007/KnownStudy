@@ -785,6 +785,7 @@
 <script th:inline="javascript">
     $(function () {
         var user = [[${session.user}]];
+        var msg = [[${msg}]];
         $(".submit-btn").click(function () {
             if (user == null) {
                 $("#login_info").text("请先登录");
@@ -793,6 +794,10 @@
                 });
             }
         });
+        if (msg != null && msg == "login") {
+            $("#loginAndReg").click();
+        }
+
     })
 
 </script>

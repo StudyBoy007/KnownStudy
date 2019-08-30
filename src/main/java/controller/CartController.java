@@ -13,6 +13,7 @@ import service.CartService;
 import service.CourseService;
 import service.UserService;
 import util.Msg;
+import util.auth.RequireRole;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.PublicKey;
@@ -38,7 +39,11 @@ public class CartController {
     @RequestMapping("/shopCart")
     public ModelAndView cartDisplay(int courseId, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        int i = userService.selectIsOrNotCollect(user.getId(), courseId);
+        int i = 0;
+        if (user != null) {
+            i = userService.selectIsOrNotCollect(user.getId(), courseId);
+        }
+
         Course course = courseService.selectByPrimaryKeyService(courseId);
         ModelAndView mv = new ModelAndView();
         mv.addObject("collect", i);
@@ -50,6 +55,7 @@ public class CartController {
 
     @ResponseBody
     @RequestMapping("/addCart")
+    @RequireRole("guest")
     public Msg addCart(int courseId, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         Msg msg = courseService.juifyCourseIsOrNotBuyService(user.getId(), courseId);
@@ -66,12 +72,14 @@ public class CartController {
 
 
     @RequestMapping("/delCart")
+    @RequireRole("guest")
     public void delCart(int cartId) {
         int i = cartService.deleteByPrimaryKeyService(cartId);
     }
 
 
     @RequestMapping("/displayCart")
+    @RequireRole("guest")
     public ModelAndView displayCart(HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         User user = (User) request.getSession().getAttribute("user");

@@ -44,7 +44,10 @@ public class TeacherController {
     @RequestMapping("teacherInfo")
     public ModelAndView displayTeacherInfo(int id, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        int i = teacherService.selectConnectionInUserAndTeachaer(user.getId(), id);
+        int i = 0;
+        if (user != null) {
+            i = teacherService.selectConnectionInUserAndTeachaer(user.getId(), id);
+        }
         Teacher teacher = teacherService.selectById(id);
         ModelAndView mv = new ModelAndView();
         List<Course> courses = teacher.getCourses();

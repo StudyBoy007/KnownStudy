@@ -10,6 +10,7 @@ import service.CourseClassService;
 import service.CourseService;
 import service.TeacherService;
 import service.UserService;
+import util.auth.RequireRole;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -55,15 +56,25 @@ public class CourseController {
 
     @RequestMapping("/conditionCourse")
     public ModelAndView conditionCourse(int tid, int direction_id, int condition) {
+        List<CourseClass> courseClasses = courseClassService.selectCourseClassService();
+        int flag = 0;
+        if (tid != 0) {
+            Teacher teacher = teacherService.selectById(tid);
+            String courseDirection = teacher.getMajor().getCourseDirection();
+            for (CourseClass courseClass : courseClasses) {
+                if (courseClass.getCourseDirection().equals(courseDirection)) {
+                    flag = courseClass.getId();
+                }
+            }
+        }
         Course course = courseService.juifyCondition(tid, direction_id, condition);
         List<Course> courses = courseService.selectCourseByDirectionAndTidService(course);
-        List<CourseClass> courseClasses = courseClassService.selectCourseClassService();
-        List<Teacher> teachers = teacherService.selectTeacherByDirectionService(new Teacher(new CourseClass(direction_id)));
+        List<Teacher> teachers = teacherService.selectTeacherByDirectionService(new Teacher(new CourseClass(flag)));
         ModelAndView mv = new ModelAndView();
         mv.addObject("courseClasses", courseClasses);
         mv.addObject("teachers", teachers);
         mv.addObject("courses", courses);
-        mv.addObject("index", direction_id);
+        mv.addObject("index", flag);
         mv.addObject("index1", tid);
         mv.addObject("index2", condition);
         mv.setViewName("course");
@@ -74,7 +85,10 @@ public class CourseController {
     @RequestMapping("/displayCourse")
     public ModelAndView displayCourse(int id, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        int i = userService.selectIsOrNotCollect(user.getId(), id);
+        int i = 0;
+        if (user != null) {
+            i = userService.selectIsOrNotCollect(user.getId(), id);
+        }
         //获取展示的课程信息
         Course course = courseService.selectByPrimaryKeyService(id);
         //获取展示课程学习方向一致的推荐课程信息
@@ -88,12 +102,14 @@ public class CourseController {
     }
 
     @RequestMapping("/deleteCollect")
+    @RequireRole("guest")
     public void collectCourse(HttpServletRequest request, int courseId) {
         User user = (User) request.getSession().getAttribute("user");
         courseService.deleteCollect(user, courseId);
     }
 
     @RequestMapping("/doCollect")
+    @RequireRole("guest")
     public void doCourse(HttpServletRequest request, int courseId) {
         User user = (User) request.getSession().getAttribute("user");
         courseService.courseCollect(user, courseId);
@@ -101,6 +117,7 @@ public class CourseController {
 
 
     @RequestMapping("/showVideo")
+    @RequireRole("guest")
     public ModelAndView showVideo(int courseId, int chapter, int video) {
         ModelAndView mv = new ModelAndView();
         //获取展示的课程信息
