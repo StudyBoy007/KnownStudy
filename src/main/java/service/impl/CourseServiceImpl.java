@@ -63,7 +63,14 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public int updateByPrimaryKeyService(Course record) {
-        return 0;
+        int i = courseMapper.updateByPrimaryKey(record);
+        return i;
+    }
+
+    @Override
+    public int updateByPrimaryKey2Service(Course record) {
+        int i = courseMapper.updateByPrimaryKey2(record);
+        return i;
     }
 
     @Override

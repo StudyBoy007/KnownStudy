@@ -12,7 +12,7 @@
         <result column="course_status" property="courseStatus" jdbcType="INTEGER"/>
         <result column="start_time" property="start_time" jdbcType="VARCHAR"/>
         <result column="time" property="time" jdbcType="VARCHAR"/>
-        <result column="range" property="range" jdbcType="VARCHAR"/>
+        <result column="degree" property="degree" jdbcType="VARCHAR"/>
         <result column="focus" property="focus" jdbcType="INTEGER"/>
         <result column="buy_num" property="buy_num" jdbcType="INTEGER"/>
         <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
@@ -31,11 +31,11 @@
     </delete>
     <insert id="insert" parameterType="entity.Course">
         insert into course (id, cname, direction_id, isfress, course_path,
-                            price, pic, course_status, buy_num, `range`)
+                            price, pic, course_status, buy_num, `degree`)
         values (#{id,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, ${courseDirection.id}, #{isfress,jdbcType=INTEGER},
                 #{course_path}
                     #{price,jdbcType=DOUBLE}, #{pic,jdbcType=VARCHAR}, #{courseStatus,jdbcType=INTEGER}, #{buy_num},
-                #{range})
+                #{degree})
     </insert>
     <update id="updateByPrimaryKey" parameterType="entity.Course">
         update course
@@ -46,15 +46,39 @@
             price         = #{price,jdbcType=DOUBLE},
             pic           = #{pic,jdbcType=VARCHAR},
             course_status = #{courseStatus,jdbcType=INTEGER},
-            tid=#{tid},
+            tid=${teacher.id},
             start_time=#{start_time},
             time=#{time},
             focus=#{focus},
             introduction=#{introduction},
             buy_num=#{buy_num},
-            range=#{range}
+            'degree'=#{degree}
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+
+    <update id="updateByPrimaryKey2" parameterType="entity.Course">
+        update
+        course
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="cname != null">cname = #{cname,jdbcType=VARCHAR},</if>
+            <if test="courseDirection.id != null">direction_id = ${courseDirection.id},</if>
+            <if test="course_path != null">course_path=#{course_path},</if>
+            <if test="isfress != null">isfress = #{isfress,jdbcType=INTEGER},</if>
+            <if test="price   != null">price = #{price,jdbcType=DOUBLE},</if>
+            <if test="pic != null">pic = #{pic,jdbcType=VARCHAR},</if>
+            <if test="courseStatus!= null">course_status = #{courseStatus,jdbcType=INTEGER},</if>
+            <if test="teacher.id != null">tid=${teacher.id},</if>
+            <if test="start_time != null">start_time=#{start_time},</if>
+            <if test="time != null">time=#{time},</if>
+            <if test="focus != null">focus=#{focus},</if>
+            <if test="degree != null">degree=#{degree},</if>
+            <if test="introduction != null">introduction=#{introduction},</if>
+            <if test="buy_num != null">buy_num=#{buy_num},</if>
+        </trim>
+    </update>
+
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select id,
                cname,
@@ -70,7 +94,7 @@
                focus,
                introduction,
                buy_num,
-               `range`
+               `degree`
         from course
         where id = #{id,jdbcType=INTEGER}
     </select>
@@ -89,7 +113,7 @@
                focus,
                introduction,
                buy_num,
-               `range`
+               `degree`
         from course
     </select>
 
@@ -115,7 +139,7 @@
                focus,
                introduction,
                buy_num,
-               `range`
+               `degree`
         from course
         where tid = #{id,jdbcType=INTEGER}
         order by focus desc
@@ -138,7 +162,7 @@
                course.focus,
                course.introduction,
                course.buy_num,
-               course.`range`
+               course.`degree`
         FROM `user`,
              user_course,
              course
@@ -164,7 +188,7 @@
                course.focus,
                course.introduction,
                course.buy_num,
-               course.`range`
+               course.`degree`
         FROM `user`,
              user_course,
              course

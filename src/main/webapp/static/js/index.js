@@ -53,7 +53,7 @@ function getRootPath() {
 function registerUser() {
     //获取项目根路径
     var str = getRootPath();
-
+    alert(123);
     console.log($("#tab form").serialize());
     //发送ajax请求到后台去进行校验
     $.ajax({
@@ -61,7 +61,7 @@ function registerUser() {
         type: "POST",
         data: $("#tab form").serialize(),
         success: function (result) {
-            console.log(result);
+            console.log("注册成功");
             if (result.code == 100) {
                 $("#login").modal('hide');
                 $("#reg_success_info").text(result.msg);
@@ -78,10 +78,6 @@ function registerUser() {
         }
     });
 }
-
-
-
-
 
 
 function Userlogin() {

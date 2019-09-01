@@ -149,7 +149,7 @@ function pay() {
                                     "                        data-typeid='217'\n" +
                                     "                        data-goodsid='879'>\n" +
                                     "                        <a href='' target='_blank'><img\n" +
-                                    "                                src='/pic/course/'" + course.courseDirection.courseDirection + "/" + course.pic + "' alt=''\n" +
+                                    "                                src='/pic/course/" + course.courseDirection.courseDirection + "/" + course.pic + "' alt=''\n" +
                                     "                                class='l'></a>\n" +
                                     "                        <div class='text-info-box l'>\n" +
                                     "                            <p class='package-title'></p>\n" +

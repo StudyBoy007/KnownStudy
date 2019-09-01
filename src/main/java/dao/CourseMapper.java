@@ -21,6 +21,8 @@ public interface CourseMapper {
 
     int updateByPrimaryKey(Course record);
 
+    int updateByPrimaryKey2(Course record);
+
 
     //推荐课程
     List<Course> selectCourseIndex();

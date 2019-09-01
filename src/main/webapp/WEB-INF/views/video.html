@@ -857,7 +857,7 @@
                                        target="_blank" th:text="${recommend.cname}">Vue.js2.5+cube-ui重构饿了么App（经典再升级）</a>
                                     <p class="aside-course-price"><span
                                             th:text="'USD '+${recommend.price}">USD 100</span></p>
-                                    <p class="aside-course-grade margin_left">中级</p>
+                                    <p class="aside-course-grade margin_left" th:text="${recommend.degree}">中级</p>
                                     <p class="aside-course-people margin_left"><span
                                             th:text="${recommend.focus+recommend.buy_num}+'人在学'">8496人在学</span>
                                     </p>

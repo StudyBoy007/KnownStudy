@@ -37,7 +37,7 @@ public class Course{
 
     private Integer buy_num;
 
-    private String range;
+    private String degree;
 
     public Course() {
     }
@@ -87,39 +87,13 @@ public class Course{
         this.course_path = course_path;
     }
 
-    public String getRange() {
-        return range;
+    public String getDegree() {
+        return degree;
     }
 
-    public void setRange(String range) {
-        this.range = range;
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
-
-
-    //    public String getVideo() {
-//        return video;
-//    }
-//
-//    public void setVideo(String video) {
-//        this.video = video == null ? null : video.trim();
-//    }
-//
-//    public String getChapter() {
-//        return chapter;
-//    }
-//
-//    public void setChapter(String chapter) {
-//        this.chapter = chapter == null ? null : chapter.trim();
-//    }
-
-//    public Integer getDirectionId() {
-//        return directionId;
-//    }
-//
-//    public void setDirectionId(Integer directionId) {
-//        this.directionId = directionId;
-//    }
-
 
     public CourseClass getCourseDirection() {
         return courseDirection;
@@ -229,7 +203,7 @@ public class Course{
                 ", teacher=" + teacher +
                 ", introduction='" + introduction + '\'' +
                 ", buy_num=" + buy_num +
-                ", range='" + range + '\'' +
+                ", degree='" + degree + '\'' +
                 '}';
     }
 }

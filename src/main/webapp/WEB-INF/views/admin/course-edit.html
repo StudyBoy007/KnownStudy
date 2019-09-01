@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!--[if lt IE 9]>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" th:href="@{/static/h-ui/css/H-ui.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/h-ui.admin/css/H-ui.admin.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/js/lib/Hui-iconfont/1.0.8/iconfont.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/h-ui.admin/skin/default/skin.css}" id="skin"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/h-ui.admin/css/style.css}"/>
+    <!--[if IE 6]>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <title>添加管理员 - 管理员管理 - H-ui.admin v3.1</title>
+    <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+    <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 课程管理 <span
+        class="c-gray en">&gt;</span> 课程编辑 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+                                              href="javascript:location.replace(location.href);" title="刷新"><i
+        class="Hui-iconfont">&#xe68f;</i></a></nav>
+<article class="page-container">
+    <form th:action="@{/updateCourseAdmin}" class="form form-horizontal" id="form-admin-add"
+          enctype="multipart/form-data" method="post">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>课程id：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" autocomplete="off" value="" placeholder="请填写课程名称" id="cname"
+                       name="id" th:value="${course.id}" readonly>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>课程名称：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" autocomplete="off" value="" placeholder="请填写课程名称" id="cname"
+                       name="cname" th:value="${course.cname}" required>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>课程文件夹名称：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" autocomplete="off" value="" id="course_path"
+                       name="course_path" readonly th:value="${course.course_path}">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">等级：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+			<select class="select" name="degree" size="1" th:field="${course.degree}" th:value="${course.degree}">
+				<option th:selected="${course.degree=='初级'}" value="初级">初级</option>
+				<option th:selected="${course.degree=='中级'}" value="中级">中级</option>
+				<option th:selected="${course.degree=='高级'}" value="高级">高级</option>
+			</select>
+			</span></div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">种类：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:value="${course.courseDirection.courseDirection}" readonly
+                       name="courseDirection.courseDirection">
+                <input type="hidden" class="input-text" th:value="${course.courseDirection.id}" readonly
+                       name="courseDirection.id">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">是否免费：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+			<select class="select" name="isfress" size="1" th:field="${course.isfress}"
+                    th:value="${course.isfress}">
+				<option th:selected="${course.isfress==0}" value="0">免费</option>
+				<option th:selected="${course.isfress==1}" value="1">收费</option>
+			</select>
+			</span></div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">是否推荐：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+			<select class="select" name="courseStatus" size="1" th:field="${course.courseStatus}"
+                    th:value="${course.courseStatus}">
+				<option th:selected="${course.courseStatus==1}" value="1">推荐</option>
+				<option th:selected="${course.courseStatus==0}" value="0">不推荐</option>
+			</select>
+			</span></div>
+        </div>
+
+        <div class="row cl" th:if="${course.isfress!=0}">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>价格：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:value="${course.price}" placeholder="课程免费可以不填写" id="price"
+                       name="price" required>
+            </div>
+        </div>
+
+        <div class="row cl" th:if="${course.isfress!=0}">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>购买数量：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:value="${course.buy_num}" placeholder="课程免费可以不填写" id="price"
+                       name="buy_num" readonly>
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>封面：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <img id="face" th:src="|/pic/course/${course.courseDirection.courseDirection}/${course.pic}|" alt=""
+                     width="140px"
+                     height="100px">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">修改封面：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="btn-upload form-group">
+				<input class="input-text upload-url" type="text" name="uploadfile" id="uploadfile" readonly
+                       nullmsg="请添加附件！" style="width:200px">
+				<a href="javascript:void(0);" class="btn btn-primary radius upload-btn"><i
+                        class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
+				<input type="file" name="file-2" class="input-file">
+				</span></div>
+        </div>
+
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>老师编号：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:value="${course.teacher.id}" placeholder="" name="teacher.id"
+                       required>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>关注数：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:value="${course.focus}" placeholder="" id="focus" name="focus"
+                       required>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开始时间：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:value="${course.start_time}" placeholder="" id="start_time"
+                       name="start_time" readonly>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>时长：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:value="${course.time}" placeholder="" id="phone" name="time"
+                       required>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>介绍：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea cols="60" rows="10" name="introduction" th:text="${course.introduction}" required></textarea>
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" th:src="@{/static/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin/course-edit.js}"></script>
+<script type="text/javascript" th:src="@{/static/h-ui/js/H-ui.min.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+
+        $("#form-admin-add").validate({
+            rules: {
+                adminName: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 16
+                },
+                password: {
+                    required: true,
+                },
+                password2: {
+                    required: true,
+                    equalTo: "#password"
+                },
+                sex: {
+                    required: true,
+                },
+                phone: {
+                    required: true,
+                    isPhone: true,
+                },
+                email: {
+                    required: true,
+                    email: true,
+                },
+                adminRole: {
+                    required: true,
+                },
+            },
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    type: 'post',
+                    url: "xxxxxxx",
+                    success: function (data) {
+                        layer.msg('添加成功!', {icon: 1, time: 1000});
+                    },
+                    error: function (XmlHttpRequest, textStatus, errorThrown) {
+                        layer.msg('error!', {icon: 1, time: 1000});
+                    }
+                });
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.$('.btn-refresh').click();
+                parent.layer.close(index);
+            }
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

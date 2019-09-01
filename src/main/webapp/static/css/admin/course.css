@@ -1,0 +1,12 @@
+table {
+    text-align: center;
+}
+
+table td {
+    height: 120px;
+}
+
+.check_item {
+    position: relative;
+    top: -2px;
+}

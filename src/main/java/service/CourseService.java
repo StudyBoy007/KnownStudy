@@ -26,6 +26,8 @@ public interface CourseService {
 
     int updateByPrimaryKeyService(Course record);
 
+    int updateByPrimaryKey2Service(Course record);
+
 
     //推荐课程
     List<Course> selectCourseIndexService();
