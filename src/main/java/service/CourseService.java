@@ -1,7 +1,9 @@
 package service;
 
+import entity.Chapter;
 import entity.Course;
 import entity.User;
+import entity.Video;
 import util.Msg;
 
 import java.util.List;
@@ -58,5 +60,28 @@ public interface CourseService {
     void courseCollect(User user, int courseId);
 
     void deleteCollect(User user, int courseId);
+
+    int insertCourseService(Course course);
+
+    List<Chapter>selectChapterByCourseId(Integer courseId);
+
+    List<Video> selectVideoByChapterId(Integer chapterId);
+
+    Chapter selectChapterById(Integer chapterId);
+
+    Video selectVideoById(Integer videoId);
+
+    int updateChapter(Chapter chapter);
+
+    int addChapter(Chapter chapter);
+
+    int deleteChapter(int chapterId);
+
+    int updateVideo(Video video);
+
+    int insertVideo(Video video);
+
+    int deleteVideo(int videoId);
+
 
 }

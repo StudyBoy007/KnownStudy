@@ -16,4 +16,8 @@ public interface VideoMapper {
     int updateByPrimaryKey(Video record);
 
     List<Video> selectByChapterID(Integer id);
+
+    int updateVideo(Video video);
+
+    int insertVideo(Video video);
 }

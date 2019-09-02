@@ -42,4 +42,48 @@
     from chapter
     where courseid = #{id,jdbcType=INTEGER}
   </select>
+
+  <update id="updateChapter" parameterType="entity.Chapter">
+    update
+   chapter
+    <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+      <if test="courseid != null">courseid = #{courseid},</if>
+      <if test="chapterName != null">chapter_name = #{chapterName},</if>
+      <if test="path != null">path=#{path},</if>
+    </trim>
+  </update>
+
+
+  <insert id="insertChapter" parameterType="entity.Chapter">
+    insert into chapter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="courseid != null">
+        courseid,
+      </if>
+      <if test="chapterName != null">
+        chapter_name,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="courseid != null">
+        #{courseid},
+      </if>
+      <if test="chapterName != null">
+        #{chapterName},
+      </if>
+      <if test="path != null">
+        #{path},
+      </if>
+    </trim>
+  </insert>
+
 </mapper>

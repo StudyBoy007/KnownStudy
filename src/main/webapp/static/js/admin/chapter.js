@@ -12,7 +12,7 @@ $(function () {
 
 function to_page(pn) {
     $.ajax({
-        url: getRootPath() + "displayCoursePage",
+        url: getRootPath() + "displayChapterPage",
         data: "pn=" + pn,
         type: "GET",
         success: function (result) {
@@ -30,21 +30,17 @@ function build_users_table(result) {
     console.log(result)
     //清空table表格
     $("#user_table tbody").empty();
-    var courses = result.extend.pageInfo.list;
-    $.each(courses, function (index, item) {
-        var checkBoxTd = $("<td><input type='checkbox' class='check_item'/></td>");
-        var cid = $("<td width='4%'></td>").append(item.id);
-        var cname = $("<td width='12%'></td>").append(item.cname);
-        var degree = $("<td width='8%'></td>").append(item.degree);
-        var direction = $("<td width='8%'></td>").append(item.courseDirection.courseDirection);
-        var chapter = $("<td width='8%'></td>").append("<a href='/known/displayChapterAdmin?courseId=" + item.id + "' target='_self'>查看章节</a>");
-        var pic = $("<td width='12%'></td>").append("<img src='/pic/course/" + item.courseDirection.courseDirection + "/" + item.pic + "' width='100px' height='80px'>");
-        var price = $("<td width='8%'></td>").append(item.price);
-        var introduction = $("<td width='20%'></td>").append(item.introduction);
-        var tname = $("<td width='8%'></td>").append(item.teacher.tname);
+    var chapters = result.extend.pageInfo.list;
+    $.each(chapters, function (index, item) {
+        var checkBoxTd = $("<td width='4%'><input type='checkbox' class='check_item'/></td>");
+        var cId = $("<td width='4%'></td>").append(item.id);
+        var courseId= $("<td width='4%'></td>").append(item.courseid);
+        var cname = $("<td width='12%'></td>").append(item.chapterName);
+        var video = $("<td width='4%'></td>").append("<a href='/known/displayVideoAdmin?chapterId=" + item.id + "' target='_self'>查看章节视频</a>");
+        var vNum=$("<td width='4%'></td>").append(item.videos.length);
 
-        var editBtn = $("<a id='edit' data-title='课程编辑' href='/known/editCourseAdmin?courseId=" + item.id + "' target='_self'></a>").append($("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
-            .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑"));
+        var editBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+            .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑");
         //为编辑按钮添加一个自定义的属性，来表示当前员工id
         editBtn.attr("edit-id", item.id);
         var delBtn = $("<button></button>").addClass("btn btn-danger btn-sm delete_btn")
@@ -55,15 +51,11 @@ function build_users_table(result) {
         //var delBtn =
         //append方法执行完成以后还是返回原来的元素
         $("<tr></tr>").append(checkBoxTd)
-            .append(cid)
+            .append(cId)
+            .append(courseId)
             .append(cname)
-            .append(pic)
-            .append(tname)
-            .append(chapter)
-            .append(degree)
-            .append(direction)
-            .append(price)
-            .append(introduction)
+            .append(video)
+            .append(vNum)
             .append(btnTd)
             .appendTo("#user_table tbody");
     });
@@ -153,40 +145,20 @@ function reset_form(ele) {
 }
 
 //点击新增按钮弹出模态框。
-$("#blog_add_modal_btn").click(function () {
+$("#addChapter").click(function () {
     //清除表单数据（表单完整重置（表单的数据，表单的样式））
-    reset_form("#blogAddModel form");
+    reset_form("#chapterAddModel form");
     //弹出模态框
-    $("#blogAddModel").modal({
+    $("#chapterAddModel").modal({
         backdrop: "static"
     });
 });
 
 
 //点击保存，保存员工。
-$("#blog_save_btn").click(function () {
-    console.log($("#blogAddModel form").serialize());
-    //2、发送ajax请求保存员工
-    $.ajax({
-        url: "${APP_PATH}/add",
-        type: "POST",
-        data: $("#blogAddModel form").serialize(),
-        success: function (result) {
-            //alert(result.msg);
-            if (result.code == 100) {
-                //员工保存成功；
-                //1、关闭模态框
-                $("#blogAddModel").modal('hide');
-
-                //2、显示刚才保存的数据
-                to_page(totalRecord);
-            } else {
-                //显示失败信息
-                console.log(result);
-            }
-        }
-    });
-});
+// $("#blog_save_btn").click(function () {
+//
+// });
 
 //批量删除
 $("#blog_delete_all_btn").click(function () {
@@ -221,21 +193,19 @@ $("#blog_delete_all_btn").click(function () {
 //单个删除
 $(document).on("click", ".delete_btn", function () {
     //1、弹出是否确认删除对话框
-    var empName = $(this).parents("tr").find("td:eq(2)").text();
-    var courseId = $(this).attr("del-id");
+    var empName = $(this).parents("tr").find("td:eq(3)").text();
+    var chapterId = $(this).attr("del-id");
 
     if (confirm("确认删除【" + empName + "】吗？")) {
         //确认，发送ajax请求删除即可
         $.ajax({
-            url: getRootPath()+"deleteCourseAdmin?courseId=" + courseId,
+            url: getRootPath()+"deleteChapterAdmin?chapterId=" + chapterId,
             type: "POST",
             success: function (result) {
                 // alert(result.msg);
                 // //回到本页
                 // to_page(1);
                 if (result.code == 100) {
-
-
                     //1.删除成功
                     //2、显示刚才保存的数据
                     to_page(currentPage);
@@ -250,9 +220,9 @@ $(document).on("click", ".delete_btn", function () {
 
 
 $(document).on("click", ".edit_btn", function () {
-    var blogId = $(this).attr("edit-id");
+    var chapterId = $(this).attr("edit-id");
     $.ajax({
-        url: "${APP_PATH}/edit?id=" + blogId,
+        url: getRootPath()+ "editChapterAdmin?id=" + chapterId,
         type: "GET",
         success: function (result) {
             // alert(result.msg);
@@ -260,9 +230,12 @@ $(document).on("click", ".edit_btn", function () {
             // to_page(1);
             if (result.code == 100) {
                 //1.放回编辑对象的信息
-
+                $("#id_modify_input").val(result.o.id);
+                $("#courseId_modify_input").val(result.o.courseid);
+                $("#chapterName_modify_input").val(result.o.chapterName);
+                $("#fileName_modify_input").val(result.o.path)
                 //弹出模态框
-                $("#blogModifyModel").modal({
+                $("#chapterModifyModel1").modal({
                     backdrop: "static"
                 });
             } else {
@@ -273,20 +246,19 @@ $(document).on("click", ".edit_btn", function () {
     });
 })
 
-//点击修改信息,确定修改。
-$("#blog_modify_btn").click(function () {
-    console.log($("#blogModifyModel form").serialize());
+function editChapter(){
+    console.log($("#chapterModifyModel1 form").serialize());
     //2、发送ajax请求保存员工
     $.ajax({
-        url: "${APP_PATH}/modify",
+        url: getRootPath()+"modifyChapterAdmin",
         type: "POST",
-        data: $("#blogModifyModel form").serialize(),
+        data: $("#chapterModifyModel1 form").serialize(),
         success: function (result) {
             //alert(result.msg);
             if (result.code == 100) {
                 //员工保存成功；
                 //1、关闭模态框
-                $("#blogModifyModel").modal('hide');
+                $("#chapterModifyModel1").modal('hide');
 
                 //2、显示刚才保存的数据
                 to_page(currentPage);
@@ -296,4 +268,29 @@ $("#blog_modify_btn").click(function () {
             }
         }
     });
-});
+}
+
+function addChapter() {
+    console.log($("#chapterAddModel form").serialize());
+    //2、发送ajax请求保存员工
+    $.ajax({
+        url: getRootPath()+"addChapterAdmin",
+        type: "POST",
+        data: $("#chapterAddModel form").serialize(),
+        success: function (result) {
+            //alert(result.msg);
+            if (result.code == 100) {
+                //员工保存成功；
+                //1、关闭模态框
+                $("#chapterAddModel").modal('hide');
+
+                //2、显示刚才保存的数据
+                to_page(totalRecord);
+            } else {
+                //显示失败信息
+                console.log(result);
+            }
+        }
+    });
+}
+

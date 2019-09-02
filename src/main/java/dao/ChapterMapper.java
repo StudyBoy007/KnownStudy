@@ -16,4 +16,8 @@ public interface ChapterMapper {
     int updateByPrimaryKey(Chapter record);
 
     List<Chapter> selectByCourseId(Integer id);
+
+    int updateChapter(Chapter chapter);
+
+    int insertChapter(Chapter chapter);
 }

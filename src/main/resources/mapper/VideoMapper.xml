@@ -39,4 +39,48 @@
     from video
     where chapterid = #{chapterid,jdbcType=INTEGER}
   </select>
+
+
+  <update id="updateVideo" parameterType="entity.Video">
+    update
+    video
+    <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+      <if test="chapterid != null">chapterid = #{chapterid},</if>
+      <if test="videoName != null">video_name = #{videoName},</if>
+      <if test="path != null">path=#{path},</if>
+    </trim>
+  </update>
+
+
+  <insert id="insertVideo" parameterType="entity.Video">
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="chapterid != null">
+        chapterid,
+      </if>
+      <if test="videoName != null">
+        video_name,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="chapterid != null">
+        #{chapterid},
+      </if>
+      <if test="videoName != null">
+        #{videoName},
+      </if>
+      <if test="path != null">
+        #{path},
+      </if>
+    </trim>
+  </insert>
 </mapper>

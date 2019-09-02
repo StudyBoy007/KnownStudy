@@ -1,16 +1,11 @@
 package service.impl;
 
-import dao.CartMapper;
-import dao.CourseMapper;
-import dao.OrderMapper;
-import dao.UserMapper;
-import entity.Course;
-import entity.CourseClass;
-import entity.Teacher;
-import entity.User;
+import dao.*;
+import entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.CourseService;
+import util.DateDefine;
 import util.Msg;
 
 import java.util.List;
@@ -25,6 +20,12 @@ public class CourseServiceImpl implements CourseService {
     CourseMapper courseMapper;
 
     @Autowired
+    ChapterMapper chapterMapper;
+
+    @Autowired
+    VideoMapper videoMapper;
+
+    @Autowired
     CartMapper cartMapper;
 
     @Autowired
@@ -36,7 +37,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public int deleteByPrimaryKeyService(Integer id) {
-        return 0;
+        int i = courseMapper.deleteByPrimaryKey(id);
+        return i;
     }
 
     @Override
@@ -167,6 +169,73 @@ public class CourseServiceImpl implements CourseService {
             userMapper.changeCollectCourseState(user.getId(), courseId, false);
         }
         courseMapper.coursefocusDel(courseId);
+    }
+
+    @Override
+    public int insertCourseService(Course course) {
+        course.setStart_time(DateDefine.getStringDate());
+        int i = courseMapper.insertCourse(course);
+        return i;
+    }
+
+    @Override
+    public List<Chapter> selectChapterByCourseId(Integer courseId) {
+        List<Chapter> chapters = chapterMapper.selectByCourseId(courseId);
+        return chapters;
+    }
+
+    @Override
+    public List<Video> selectVideoByChapterId(Integer chapterId) {
+        List<Video> videos = videoMapper.selectByChapterID(chapterId);
+        return videos;
+    }
+
+    @Override
+    public Chapter selectChapterById(Integer chapterId) {
+        Chapter chapter = chapterMapper.selectByPrimaryKey(chapterId);
+        return chapter;
+    }
+
+    @Override
+    public Video selectVideoById(Integer videoId) {
+        Video video = videoMapper.selectByPrimaryKey(videoId);
+        return video;
+    }
+
+    @Override
+    public int updateChapter(Chapter chapter) {
+        int i = chapterMapper.updateChapter(chapter);
+        return i;
+    }
+
+    @Override
+    public int addChapter(Chapter chapter) {
+        int i = chapterMapper.insertChapter(chapter);
+        return i;
+    }
+
+    @Override
+    public int deleteChapter(int chapterId) {
+        int i = chapterMapper.deleteByPrimaryKey(chapterId);
+        return i;
+    }
+
+    @Override
+    public int updateVideo(Video video) {
+        int i = videoMapper.updateVideo(video);
+        return i;
+    }
+
+    @Override
+    public int insertVideo(Video video) {
+        int i = videoMapper.insertVideo(video);
+        return i;
+    }
+
+    @Override
+    public int deleteVideo(int videoId) {
+        int i = videoMapper.deleteByPrimaryKey(videoId);
+        return i;
     }
 
 

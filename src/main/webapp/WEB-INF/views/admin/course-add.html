@@ -27,47 +27,39 @@
                                               href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <article class="page-container">
-    <form th:action="@{/updateCourseAdmin}" class="form form-horizontal" id="form-admin-add"
+    <form th:action="@{/addCourseFunctionAdmin}" class="form form-horizontal" id="form-admin-add"
           enctype="multipart/form-data" method="post">
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>课程id：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" autocomplete="off" value="" placeholder="请填写课程名称" id="cid"
-                       name="id" th:value="${course.id}" readonly>
-            </div>
-        </div>
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>课程名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" autocomplete="off" value="" placeholder="请填写课程名称" id="cname"
-                       name="cname" th:value="${course.cname}" required>
+                       name="cname" required>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>课程文件夹名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" autocomplete="off" value="" id="course_path"
-                       name="course_path" readonly th:value="${course.course_path}">
+                       name="course_path" required>
             </div>
         </div>
 
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">等级：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="degree" size="1" th:field="${course.degree}" th:value="${course.degree}">
-				<option th:selected="${course.degree=='初级'}" value="初级">初级</option>
-				<option th:selected="${course.degree=='中级'}" value="中级">中级</option>
-				<option th:selected="${course.degree=='高级'}" value="高级">高级</option>
+			<select class="select" name="degree" size="1">
+				<option value="初级">初级</option>
+				<option value="中级">中级</option>
+				<option value="高级">高级</option>
 			</select>
 			</span></div>
         </div>
 
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">种类：</label>
+            <label class="form-label col-xs-4 col-sm-3">种类编号：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:value="${course.courseDirection.courseDirection}" readonly
-                       name="courseDirection.courseDirection">
-                <input type="hidden" class="input-text" th:value="${course.courseDirection.id}" readonly
+                <input type="text" class="input-text"
                        name="courseDirection.id">
             </div>
         </div>
@@ -75,10 +67,9 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">是否免费：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="isfress" size="1" th:field="${course.isfress}"
-                    th:value="${course.isfress}">
-				<option th:selected="${course.isfress==0}" value="0">免费</option>
-				<option th:selected="${course.isfress==1}" value="1">收费</option>
+			<select class="select" name="isfress" size="1">
+				<option value="0">免费</option>
+				<option value="1">收费</option>
 			</select>
 			</span></div>
         </div>
@@ -86,27 +77,18 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">是否推荐：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="courseStatus" size="1" th:field="${course.courseStatus}"
-                    th:value="${course.courseStatus}">
-				<option th:selected="${course.courseStatus==1}" value="1">推荐</option>
-				<option th:selected="${course.courseStatus==0}" value="0">不推荐</option>
+			<select class="select" name="courseStatus" size="1" t>
+				<option value="1">推荐</option>
+				<option value="0">不推荐</option>
 			</select>
 			</span></div>
         </div>
 
-        <div class="row cl" th:if="${course.isfress!=0}">
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>价格：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:value="${course.price}" placeholder="课程免费可以不填写" id="price"
-                       name="price" required>
-            </div>
-        </div>
-
-        <div class="row cl" th:if="${course.isfress!=0}">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>购买数量：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:value="${course.buy_num}" placeholder="课程免费可以不填写" id="price"
-                       name="buy_num" readonly>
+                <input type="text" class="input-text" placeholder="课程免费可以不填写" id="price"
+                       name="price">
             </div>
         </div>
 
@@ -114,7 +96,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>封面：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <img id="face" th:src="|/pic/course/${course.courseDirection.courseDirection}/${course.pic}|" alt=""
+                <img id="face" th:src="@{/static/images/course-image1.jpg}" alt=""
                      width="140px"
                      height="100px">
             </div>
@@ -127,7 +109,7 @@
                        nullmsg="请添加附件！" style="width:200px">
 				<a href="javascript:void(0);" class="btn btn-primary radius upload-btn"><i
                         class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
-				<input type="file" name="file-2" class="input-file">
+				<input type="file" name="file-2" class="input-file" required>
 				</span></div>
         </div>
 
@@ -135,31 +117,16 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>老师编号：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:value="${course.teacher.id}" placeholder="" name="teacher.id"
+                <input type="text" class="input-text"  placeholder="" name="teacher.id"
                        required>
             </div>
         </div>
 
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>关注数：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:value="${course.focus}" placeholder="" id="focus" name="focus"
-                       required>
-            </div>
-        </div>
-
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开始时间：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:value="${course.start_time}" placeholder="" id="start_time"
-                       name="start_time" readonly>
-            </div>
-        </div>
 
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>时长：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:value="${course.time}" placeholder="" id="phone" name="time"
+                <input type="text" class="input-text" placeholder="" id="phone" name="time"
                        required>
             </div>
         </div>
@@ -167,7 +134,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>介绍：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea cols="60" rows="10" name="introduction" th:text="${course.introduction}" required></textarea>
+                <textarea cols="60" rows="10" name="introduction"  required></textarea>
             </div>
         </div>
 
@@ -192,54 +159,54 @@
             increaseArea: '20%'
         });
 
-        $("#form-admin-add").validate({
-            rules: {
-                adminName: {
-                    required: true,
-                    minlength: 4,
-                    maxlength: 16
-                },
-                password: {
-                    required: true,
-                },
-                password2: {
-                    required: true,
-                    equalTo: "#password"
-                },
-                sex: {
-                    required: true,
-                },
-                phone: {
-                    required: true,
-                    isPhone: true,
-                },
-                email: {
-                    required: true,
-                    email: true,
-                },
-                adminRole: {
-                    required: true,
-                },
-            },
-            onkeyup: false,
-            focusCleanup: true,
-            success: "valid",
-            submitHandler: function (form) {
-                $(form).ajaxSubmit({
-                    type: 'post',
-                    url: "xxxxxxx",
-                    success: function (data) {
-                        layer.msg('添加成功!', {icon: 1, time: 1000});
-                    },
-                    error: function (XmlHttpRequest, textStatus, errorThrown) {
-                        layer.msg('error!', {icon: 1, time: 1000});
-                    }
-                });
-                var index = parent.layer.getFrameIndex(window.name);
-                parent.$('.btn-refresh').click();
-                parent.layer.close(index);
-            }
-        });
+        // $("#form-admin-add").validate({
+        //     rules: {
+        //         adminName: {
+        //             required: true,
+        //             minlength: 4,
+        //             maxlength: 16
+        //         },
+        //         password: {
+        //             required: true,
+        //         },
+        //         password2: {
+        //             required: true,
+        //             equalTo: "#password"
+        //         },
+        //         sex: {
+        //             required: true,
+        //         },
+        //         phone: {
+        //             required: true,
+        //             isPhone: true,
+        //         },
+        //         email: {
+        //             required: true,
+        //             email: true,
+        //         },
+        //         adminRole: {
+        //             required: true,
+        //         },
+        //     },
+        //     onkeyup: false,
+        //     focusCleanup: true,
+        //     success: "valid",
+        //     submitHandler: function (form) {
+        //         $(form).ajaxSubmit({
+        //             type: 'post',
+        //             url: "xxxxxxx",
+        //             success: function (data) {
+        //                 layer.msg('添加成功!', {icon: 1, time: 1000});
+        //             },
+        //             error: function (XmlHttpRequest, textStatus, errorThrown) {
+        //                 layer.msg('error!', {icon: 1, time: 1000});
+        //             }
+        //         });
+        //         var index = parent.layer.getFrameIndex(window.name);
+        //         parent.$('.btn-refresh').click();
+        //         parent.layer.close(index);
+        //     }
+        // });
     });
 </script>
 <!--/请在上方写此页面业务相关的脚本-->

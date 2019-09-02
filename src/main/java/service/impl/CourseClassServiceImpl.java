@@ -30,7 +30,9 @@ public class CourseClassServiceImpl implements CourseClassService {
 
     @Override
     public CourseClass selectByPrimaryKeyService(Integer id) {
-        return null;
+
+        CourseClass courseClass = courseClassMapper.selectByPrimaryKey(id);
+        return courseClass;
     }
 
     @Override

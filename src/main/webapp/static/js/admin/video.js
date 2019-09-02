@@ -8,11 +8,24 @@ function getRootPath() {
 var totalRecord, currentPage;
 $(function () {
     to_page(1);
+
+
+//改变事件
+    $(".input-file").change(function () {
+        var filePath = $(".input-file").val();
+        var fileType = filePath.substring(filePath.lastIndexOf("."));
+        if (fileType == ".mp4" || fileType == ".avi" || fileType == ".wma"|| fileType == ".rm"|| fileType == ".flash"|| fileType == ".mid") {
+            alert("文件选择完毕")
+        } else {
+            var flag = confirm("上传视频格式不正确，请重新选择(如.mp4或.avi..)");
+            $(".input-file").val("");
+        }
+    });
 });
 
 function to_page(pn) {
     $.ajax({
-        url: getRootPath() + "displayCoursePage",
+        url: getRootPath() + "displayVideoPage",
         data: "pn=" + pn,
         type: "GET",
         success: function (result) {
@@ -26,25 +39,25 @@ function to_page(pn) {
     });
 }
 
+
+
+
 function build_users_table(result) {
     console.log(result)
     //清空table表格
     $("#user_table tbody").empty();
-    var courses = result.extend.pageInfo.list;
-    $.each(courses, function (index, item) {
-        var checkBoxTd = $("<td><input type='checkbox' class='check_item'/></td>");
-        var cid = $("<td width='4%'></td>").append(item.id);
-        var cname = $("<td width='12%'></td>").append(item.cname);
-        var degree = $("<td width='8%'></td>").append(item.degree);
-        var direction = $("<td width='8%'></td>").append(item.courseDirection.courseDirection);
-        var chapter = $("<td width='8%'></td>").append("<a href='/known/displayChapterAdmin?courseId=" + item.id + "' target='_self'>查看章节</a>");
-        var pic = $("<td width='12%'></td>").append("<img src='/pic/course/" + item.courseDirection.courseDirection + "/" + item.pic + "' width='100px' height='80px'>");
-        var price = $("<td width='8%'></td>").append(item.price);
-        var introduction = $("<td width='20%'></td>").append(item.introduction);
-        var tname = $("<td width='8%'></td>").append(item.teacher.tname);
-
-        var editBtn = $("<a id='edit' data-title='课程编辑' href='/known/editCourseAdmin?courseId=" + item.id + "' target='_self'></a>").append($("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
-            .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑"));
+    var videos = result.extend.pageInfo.list;
+    $("#courseId_add_input").val(result.o);
+    $("#courseId_modify_input").val(result.o);
+    $.each(videos, function (index, item) {
+        var checkBoxTd = $("<td width='4%'><input type='checkbox' class='check_item'/></td>");
+        var cId= $("<td width='4%'></td>").append(item.id);
+        var courseId= $("<td width='4%' class='courseId'></td>").append(result.o);
+        var chapterId= $("<td width='4%' class='chapterId'></td>").append(item.chapterid);
+        var videoName = $("<td width='12%'></td>").append(item.videoName);
+        var videoPath = $("<td width='12%'></td>").append(item.path);
+        var editBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+            .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑");
         //为编辑按钮添加一个自定义的属性，来表示当前员工id
         editBtn.attr("edit-id", item.id);
         var delBtn = $("<button></button>").addClass("btn btn-danger btn-sm delete_btn")
@@ -55,15 +68,11 @@ function build_users_table(result) {
         //var delBtn =
         //append方法执行完成以后还是返回原来的元素
         $("<tr></tr>").append(checkBoxTd)
-            .append(cid)
-            .append(cname)
-            .append(pic)
-            .append(tname)
-            .append(chapter)
-            .append(degree)
-            .append(direction)
-            .append(price)
-            .append(introduction)
+            .append(cId)
+            .append(courseId)
+            .append(chapterId)
+            .append(videoName)
+            .append(videoPath)
             .append(btnTd)
             .appendTo("#user_table tbody");
     });
@@ -153,40 +162,21 @@ function reset_form(ele) {
 }
 
 //点击新增按钮弹出模态框。
-$("#blog_add_modal_btn").click(function () {
+$("#addChapter").click(function () {
     //清除表单数据（表单完整重置（表单的数据，表单的样式））
-    reset_form("#blogAddModel form");
+    $("#chapterId_add_input").val($(".chapterId").eq(0).text());
+    reset_form("#videoAddModel form");
     //弹出模态框
-    $("#blogAddModel").modal({
+    $("#videoAddModel").modal({
         backdrop: "static"
     });
 });
 
 
 //点击保存，保存员工。
-$("#blog_save_btn").click(function () {
-    console.log($("#blogAddModel form").serialize());
-    //2、发送ajax请求保存员工
-    $.ajax({
-        url: "${APP_PATH}/add",
-        type: "POST",
-        data: $("#blogAddModel form").serialize(),
-        success: function (result) {
-            //alert(result.msg);
-            if (result.code == 100) {
-                //员工保存成功；
-                //1、关闭模态框
-                $("#blogAddModel").modal('hide');
-
-                //2、显示刚才保存的数据
-                to_page(totalRecord);
-            } else {
-                //显示失败信息
-                console.log(result);
-            }
-        }
-    });
-});
+// $("#blog_save_btn").click(function () {
+//
+// });
 
 //批量删除
 $("#blog_delete_all_btn").click(function () {
@@ -221,21 +211,19 @@ $("#blog_delete_all_btn").click(function () {
 //单个删除
 $(document).on("click", ".delete_btn", function () {
     //1、弹出是否确认删除对话框
-    var empName = $(this).parents("tr").find("td:eq(2)").text();
-    var courseId = $(this).attr("del-id");
+    var empName = $(this).parents("tr").find("td:eq(4)").text();
+    var videoId = $(this).attr("del-id");
 
     if (confirm("确认删除【" + empName + "】吗？")) {
         //确认，发送ajax请求删除即可
         $.ajax({
-            url: getRootPath()+"deleteCourseAdmin?courseId=" + courseId,
+            url: getRootPath()+"deleteVideoAdmin?videoId=" + videoId,
             type: "POST",
             success: function (result) {
                 // alert(result.msg);
                 // //回到本页
                 // to_page(1);
                 if (result.code == 100) {
-
-
                     //1.删除成功
                     //2、显示刚才保存的数据
                     to_page(currentPage);
@@ -250,9 +238,10 @@ $(document).on("click", ".delete_btn", function () {
 
 
 $(document).on("click", ".edit_btn", function () {
-    var blogId = $(this).attr("edit-id");
+    var videoId = $(this).attr("edit-id");
+    var courseId=$(this).parent().siblings(".courseId").text();
     $.ajax({
-        url: "${APP_PATH}/edit?id=" + blogId,
+        url: getRootPath()+ "editVideoAdmin?videoId=" + videoId,
         type: "GET",
         success: function (result) {
             // alert(result.msg);
@@ -260,9 +249,12 @@ $(document).on("click", ".edit_btn", function () {
             // to_page(1);
             if (result.code == 100) {
                 //1.放回编辑对象的信息
-
+                $("#id_modify_input").val(result.o.id);
+                $("#chapterId_modify_input").val(result.o.chapterid);
+                $("#videoName_modify_input").val(result.o.videoName);
+                $("#videoFile_modify_input").val(result.o.path);
                 //弹出模态框
-                $("#blogModifyModel").modal({
+                $("#videoModifyModel1").modal({
                     backdrop: "static"
                 });
             } else {
@@ -273,20 +265,23 @@ $(document).on("click", ".edit_btn", function () {
     });
 })
 
-//点击修改信息,确定修改。
-$("#blog_modify_btn").click(function () {
-    console.log($("#blogModifyModel form").serialize());
+function editVideo(){
+    //获取表单数据
+    var formData = new FormData($('#videoEdit')[0]);
     //2、发送ajax请求保存员工
     $.ajax({
-        url: "${APP_PATH}/modify",
+        url: getRootPath()+"modifyVideoAdmin",
         type: "POST",
-        data: $("#blogModifyModel form").serialize(),
+        data: formData,
+        async: false,
+        processData : false, // 使数据不做处理
+        contentType : false, // 不要设置Content-Type请求头
         success: function (result) {
             //alert(result.msg);
             if (result.code == 100) {
                 //员工保存成功；
                 //1、关闭模态框
-                $("#blogModifyModel").modal('hide');
+                $("#videoModifyModel1").modal('hide');
 
                 //2、显示刚才保存的数据
                 to_page(currentPage);
@@ -296,4 +291,35 @@ $("#blog_modify_btn").click(function () {
             }
         }
     });
-});
+}
+
+function addVideo() {
+    var formData = new FormData($('#videoAdd')[0]);
+    //2、发送ajax请求保存员工
+    $.ajax({
+        url: getRootPath()+"addVideoAdmin",
+        type: "POST",
+        data: formData,
+        async: false,
+        processData : false, // 使数据不做处理
+        contentType : false, // 不要设置Content-Type请求头
+        success: function (result) {
+            //alert(result.msg);
+            if (result.code == 100) {
+                //员工保存成功；
+                //1、关闭模态框
+                $("#videoAddModel").modal('hide');
+
+                //2、显示刚才保存的数据
+                to_page(totalRecord);
+            } else {
+                //显示失败信息
+                console.log(result);
+            }
+        }
+    });
+}
+
+
+
+

@@ -272,4 +272,103 @@
         where id = #{cid};
     </update>
 
+
+    <insert id="insertCourse" parameterType="entity.Course">
+        insert into course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="cname != null">
+                cname,
+            </if>
+            <if test="course_path != null">
+                course_path,
+            </if>
+            <if test="degree != null">
+                degree,
+            </if>
+            <if test="courseDirection.id != null">
+                direction_id,
+            </if>
+            <if test="isfress != null">
+                isfress,
+            </if>
+            <if test="courseStatus != null">
+                course_status,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+            <if test="teacher.id != null">
+                tid,
+            </if>
+            <if test="focus != null">
+                focus,
+            </if>
+            <if test="start_time != null">
+                start_time,
+            </if>
+            <if test="time != null">
+                time,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="buy_num != null">
+                buy_num,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="cname != null">
+                #{cname},
+            </if>
+            <if test="course_path != null">
+                #{course_path},
+            </if>
+            <if test="degree != null">
+                #{degree},
+            </if>
+            <if test="courseDirection.id != null">
+                ${courseDirection.id},
+            </if>
+            <if test="isfress != null">
+                #{isfress},
+            </if>
+            <if test="courseStatus != null">
+                #{courseStatus},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="pic != null">
+                #{pic},
+            </if>
+            <if test="teacher.id != null">
+                ${teacher.id},
+            </if>
+            <if test="focus != null">
+                #{focus},
+            </if>
+            <if test="start_time != null">
+                #{start_time},
+            </if>
+            <if test="time != null">
+                #{time},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+            <if test="buy_num != null">
+                #{buy_num},
+            </if>
+        </trim>
+    </insert>
+
 </mapper>

@@ -53,5 +53,7 @@ public interface CourseMapper {
 
     int coursefocusAdd(Integer cid);
 
+    int insertCourse(Course course);
+
 
 }

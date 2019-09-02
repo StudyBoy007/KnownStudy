@@ -36,7 +36,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<Teacher> selectAllService() {
-        return null;
+        List<Teacher> teachers = teacherMapper.selectAll();
+        return teachers;
     }
 
     @Override
