@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Course;
 import entity.Order;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,6 +18,10 @@ public interface OrderMapper {
     int updateByPrimaryKey(Order record);
 
     List<Order> selectUserAllOrder(@Param("id") Integer uid, @Param("status") boolean status);
+
+    List<Order> selectAllOrderAdminByTime();
+
+    List<Order> selectAllOrderAdminByTime2();
 
 
     int insertMiddle(@Param("courses") List<Integer> list, @Param("oid") Integer oid);
@@ -37,4 +42,31 @@ public interface OrderMapper {
     int changeBuyCourseState(@Param("uid") Integer uid, @Param("cid") Integer cid);
 
     List<Integer> selectOrderCourse(Integer oid);
+
+    int updateOrder(Order order);
+
+    int insertOrder(Order order);
+
+
+    //根据订单id查找订单中的所有商品
+    List<Course> selectMiddleInOrderWithCourse(int oid);
+
+
+    //修改订单中的商品
+    int updateOrderContentByOidAndCid(@Param("oid") Integer oid, @Param("cid") Integer cid);
+
+    //订单商品修改后订单中的价格和商品数量都要改变
+    //计算订单所有商品一起的总价格
+    int selectMiddleInOrderWithCourseTotalPrice(int oid);
+
+    //订单商品总量
+    int selectMiddleInOrderWithCourseNum(int oid);
+
+    //增加订单中的商品
+    int insertMiddleInOrderWithCourse(@Param("oid") Integer oid, @Param("cid") Integer cid);
+
+
+    //判断该课程是否存在与该订单中
+    int selectCourseInOrder2(@Param("oid") Integer oid, @Param("cid") Integer cid);
+
 }

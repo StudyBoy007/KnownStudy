@@ -14,6 +14,7 @@
         <result column="email" property="email" jdbcType="VARCHAR"/>
         <result column="motto" property="motto" jdbcType="VARCHAR"/>
         <result column="account" property="account"/>
+        <result column="degree" property="degree"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
@@ -24,11 +25,11 @@
         insert into user (id, username, password,
                           sex, age, address,
                           avatar, study_direction, phone,
-                          email, motto, account)
+                          email, motto, account, degree)
         values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
                 #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},
                 #{avatar,jdbcType=VARCHAR}, #{studyDirection,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
-                #{email,jdbcType=VARCHAR}, #{motto,jdbcType=VARCHAR}, #{account})
+                #{email,jdbcType=VARCHAR}, #{motto,jdbcType=VARCHAR}, #{account}, #{degree})
     </insert>
     <update id="updateByPrimaryKey" parameterType="entity.User">
         update user
@@ -42,7 +43,8 @@
             phone           = #{phone,jdbcType=VARCHAR},
             email           = #{email,jdbcType=VARCHAR},
             motto           = #{motto,jdbcType=VARCHAR},
-            account         = #{account}
+            account         = #{account},
+            degree          =#{degree}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -57,7 +59,8 @@
                phone,
                email,
                motto,
-               account
+               account,
+               degree
         from user
         where id = #{id,jdbcType=INTEGER}
     </select>
@@ -74,7 +77,8 @@
                phone,
                email,
                motto,
-               account
+               account,
+               degree
         from user
         where username = #{username}
     </select>
@@ -109,7 +113,8 @@
                phone,
                email,
                motto,
-               account
+               account,
+               degree
         from user
     </select>
 
@@ -117,46 +122,6 @@
         insert into user(username, password, sex, study_direction, phone, email)
         values (#{username}, #{password}, #{sex}, #{studyDirection}, #{phone}, #{email});
     </insert>
-
-    <update id="updateUser" parameterType="user">
-        update user
-        <trim prefix="set" suffixOverrides=",">
-            <if test="username !=null and username !=''">
-                username=#{username},
-            </if>
-            <if test="password !=null and password !=''">
-                password=#{password},
-            </if>
-            <if test="sex !=null and sex !=''">
-                sex=#{sex},
-            </if>
-            <if test="age !=null and age !=''">
-                age=#{age},
-            </if>
-            <if test="address !=null and address !='' ">
-                address=#{address},
-            </if>
-            <if test="avatar !=null and avatar !='' ">
-                avatar=#{avatar},
-            </if>
-            <if test="studyDirection !=null and studyDirection !='' ">
-                study_direction=#{studyDirection},
-            </if>
-            <if test="phone !=null and phone !='' ">
-                phone=#{phone},
-            </if>
-            <if test="email !=null and email !='' ">
-                email=#{email},
-            </if>
-            <if test="motto !=null and motto !='' ">
-                motto=#{motto},
-            </if>
-            <if test="account !=null and account !='' ">
-                account=#{account}
-            </if>
-        </trim>
-        where id=#{id}
-    </update>
 
 
     <update id="recharge">
@@ -215,5 +180,135 @@
         where user_id = #{uid}
           and course_id = #{cid}
     </delete>
+
+
+    <update id="updateUser" parameterType="user">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username !=null and username !=''">
+                username=#{username},
+            </if>
+            <if test="password !=null and password !=''">
+                password=#{password},
+            </if>
+            <if test="sex !=null and sex !=''">
+                sex=#{sex},
+            </if>
+            <if test="age !=null">
+                age=#{age},
+            </if>
+            <if test="address !=null and address !='' ">
+                address=#{address},
+            </if>
+            <if test="avatar !=null and avatar !='' ">
+                avatar=#{avatar},
+            </if>
+            <if test="studyDirection !=null and studyDirection !='' ">
+                study_direction=#{studyDirection},
+            </if>
+            <if test="phone !=null and phone !='' ">
+                phone=#{phone},
+            </if>
+            <if test="email !=null and email !='' ">
+                email=#{email},
+            </if>
+            <if test="motto !=null and motto !='' ">
+                motto=#{motto},
+            </if>
+            <if test="account !=null">
+                account=#{account},
+            </if>
+            <if test="degree !=null">
+                degree=#{degree}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <insert id="insertUser" parameterType="entity.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null and username !=''">
+                username,
+            </if>
+            <if test="password != null and password !=''">
+                password,
+            </if>
+            <if test="sex !=null and sex !=''">
+                sex,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="address != null and address !=''">
+                address,
+            </if>
+            <if test="avatar != null and avatar !=''">
+                avatar,
+            </if>
+            <if test="studyDirection != null and studyDirection!=''">
+                study_direction,
+            </if>
+            <if test="phone != null and phone !=''">
+                phone,
+            </if>
+            <if test="email != null and email !=''">
+                email,
+            </if>
+            <if test="motto != null and motto !=''">
+                motto,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="degree != null">
+                degree,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="username != null and username !=''">
+                #{username},
+            </if>
+            <if test="password != null and password !=''">
+                #{password},
+            </if>
+            <if test="sex !=null and sex !=''">
+                #{sex},
+            </if>
+            <if test="age != null">
+                #{age},
+            </if>
+            <if test="address != null and address !=''">
+                #{address},
+            </if>
+            <if test="avatar != null and avatar !=''">
+                #{avatar},
+            </if>
+            <if test="studyDirection != null and studyDirection !=''">
+                #{studyDirection},
+            </if>
+            <if test="phone != null and phone !=''">
+                #{phone},
+            </if>
+            <if test="email != null and email !=''">
+                #{email},
+            </if>
+            <if test="motto != null and motto !=''">
+                #{motto},
+            </if>
+            <if test="account != null">
+                #{account},
+            </if>
+            <if test="degree != null">
+                #{degree},
+            </if>
+        </trim>
+    </insert>
 
 </mapper>

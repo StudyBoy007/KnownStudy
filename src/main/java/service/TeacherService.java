@@ -37,4 +37,8 @@ public interface TeacherService {
     Msg delFocusTeacherService(Integer uid, Integer tid);
 
     int selectConnectionInUserAndTeachaer(Integer uid, Integer tid);
+
+    int updateTeacher(Teacher teacher);
+
+    int insertTeacher(Teacher teacher);
 }

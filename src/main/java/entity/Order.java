@@ -11,17 +11,62 @@ public class Order {
 
     private Double priceTotal;
 
-    private Integer userId;
+    //    private Integer userId;
+    private User user;
+
+    private String createTime;
+
+    private boolean degree;
 
     private List<Course> courses;
 
 
-    public Order(Integer courseCount, boolean status, Double priceTotal, Integer userId) {
+    public Order() {
+    }
+
+    public Order(Integer courseCount, boolean status, Double priceTotal, User user, boolean degree) {
         this.courseCount = courseCount;
         this.status = status;
         this.priceTotal = priceTotal;
-        this.userId = userId;
+        this.user = user;
+        this.degree = degree;
     }
+
+    public Order(Integer courseCount, boolean status, Double priceTotal, User user) {
+        this.courseCount = courseCount;
+        this.status = status;
+        this.priceTotal = priceTotal;
+        this.user = user;
+    }
+
+    public Order(Integer courseCount, boolean status, Double priceTotal, User user, String createTime, boolean degree) {
+        this.courseCount = courseCount;
+        this.status = status;
+        this.priceTotal = priceTotal;
+        this.user = user;
+        this.createTime = createTime;
+        this.degree = degree;
+    }
+
+    public Order(Integer courseCount, boolean status, Double priceTotal, User user, String createTime) {
+        this.courseCount = courseCount;
+        this.status = status;
+        this.priceTotal = priceTotal;
+        this.user = user;
+        this.createTime = createTime;
+    }
+
+    public Order(Integer id, Integer courseCount, boolean status, Double priceTotal, User user, String createTime, boolean degree, List<Course> courses) {
+        this.id = id;
+        this.courseCount = courseCount;
+        this.status = status;
+        this.priceTotal = priceTotal;
+        this.user = user;
+        this.createTime = createTime;
+        this.degree = degree;
+        this.courses = courses;
+    }
+
 
     public Integer getId() {
         return id;
@@ -55,12 +100,12 @@ public class Order {
         this.priceTotal = priceTotal;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Course> getCourses() {
@@ -71,6 +116,23 @@ public class Order {
         this.courses = courses;
     }
 
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public boolean isDegree() {
+        return degree;
+    }
+
+    public void setDegree(boolean degree) {
+        this.degree = degree;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -78,7 +140,9 @@ public class Order {
                 ", courseCount=" + courseCount +
                 ", status=" + status +
                 ", priceTotal=" + priceTotal +
-                ", userId=" + userId +
+                ", user=" + user +
+                ", createTime='" + createTime + '\'' +
+                ", degree=" + degree +
                 ", courses=" + courses +
                 '}';
     }

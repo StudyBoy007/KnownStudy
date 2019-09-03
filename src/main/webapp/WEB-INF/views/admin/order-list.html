@@ -40,75 +40,47 @@
 </head>
 <body>
 <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
-<div class="modal fade" id="teacherModifyModel1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="orderModifyModel1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="modifyUser">老师信息修改</h4>
+                <h4 class="modal-title" id="modifyUser">订单信息修改</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="teacherEdit" target="nm_iframe" onsubmit="editTeacher()"
+                <form class="form-horizontal" id="orderEdit" target="nm_iframe" onsubmit="editOrder()"
                       enctype="multipart/form-data" method="post">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">id</label>
+                        <label class="col-sm-3 control-label">支付状态</label>
                         <div class="col-sm-9">
-                            <input type="text" name="id" class="form-control" id="id_modify_input"
-                                   placeholder="id" readonly>
+                            <input type="text" class="form-control input" id="order_id"
+                                   placeholder="订单id" name="id" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">姓名</label>
+                        <label class="col-sm-3 control-label">支付状态</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="name_modify_input"
-                                   placeholder="姓名" name="tname" required>
-                        </div>
-                    </div>
-                    <div class="form-group imgDisplay">
-                        <label class="col-sm-3 control-label">头像</label>
-                        <div class="col-sm-9">
-                            <img id="face" src="" alt=""
-                                 width="80px"
-                                 height="90px">
-                        </div>
-                    </div>
-                    <div class="form-group fileChoose" >
-                        <label class="form-label col-xs-4 col-sm-3" id="avatarModify">头像修改</label>
-                        <div class="formControls col-xs-8 col-sm-9"> <span class="btn-upload form-group">
-				<input class="input-text upload-url" type="text" name="uploadfile" id="uploadfile2" readonly
-                       nullmsg="需要替换视频请选择！" style="width:200px">
-				<a href="javascript:void(0);" class="btn btn-primary radius upload-btn"><i
-                        class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
-				<input type="file" name="file-2" class="input-file">
-				</span></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">方向</label>
-                        <div class="col-sm-9">
-                            <select name="major.id" class="form-control" required id="direction">
-                                <option value="1">音乐</option>
-                                <option value="2">运动</option>
-                                <option value="3">教育</option>
-                                <option value="4">软件</option>
-                                <option value="5">金融</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">是否推荐</label>
-                        <div class="col-sm-9">
-                            <select name="teacherStatus" class="form-control" required id="recommend">
-                                <option name="0" value="0">不推荐</option>
-                                <option name="1" value="1">推荐</option>
+                            <select name="status" class="form-control" required id="payStatus">
+                                <option name="false" value="0">未支付</option>
+                                <option name="true" value="1">已支付</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">介绍</label>
+                        <label class="col-sm-3 control-label">用户是否可见</label>
                         <div class="col-sm-9">
-                            <textarea cols="50" rows="6" required id="introduction" name="introduction"></textarea>
+                            <select name="degree" class="form-control" required id="user_look">
+                                <option name="false" value="0">用户可见</option>
+                                <option name="true" value="1">用户不可见</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">订单价格</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control input" id="order_price"
+                                   placeholder="价格" name="priceTotal" required oninput="update()">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -121,7 +93,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="teacherAddModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="orderAddModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -130,59 +102,31 @@
                 <h4 class="modal-title" id="myModalLabel">老师添加</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="teacherAdd" target="nm_iframe" onsubmit="addTeacher()"
+                <form class="form-horizontal" id="orderAdd" target="nm_iframe" onsubmit="addOrder()"
                       enctype="multipart/form-data" method="post">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">姓名</label>
+                        <label class="col-sm-3 control-label">用户id</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="name_add_input"
-                                   placeholder="姓名" name="tname" required>
+                            <input type="text" class="form-control input" id="add_user_id"
+                                   placeholder="用户id" name="user.id" required>
                         </div>
-                    </div>
-                    <div class="form-group imgDisplay">
-                        <label class="col-sm-3 control-label">头像</label>
-                        <div class="col-sm-9">
-                            <img id="face1" src="" alt=""
-                                 width="80px"
-                                 height="90px">
-                        </div>
-                    </div>
-                    <div class="form-group fileChoose">
-                        <label class="form-label col-xs-4 col-sm-3" id="add_avatarModify">头像修改</label>
-                        <div class="formControls col-xs-8 col-sm-9"> <span class="btn-upload form-group">
-				<input class="input-text upload-url" type="text" name="uploadfile" id="fileUpload" readonly
-                       nullmsg="需要替换视频请选择！" style="width:200px">
-				<a href="javascript:void(0);" class="btn btn-primary radius upload-btn"><i
-                        class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
-				<input type="file" name="file-2" class="input-file" required>
-				</span></div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">方向</label>
+                        <label class="col-sm-3 control-label">支付状态</label>
                         <div class="col-sm-9">
-                            <select name="major.id" class="form-control" required id="add_direction">
-                                <option value="1">音乐</option>
-                                <option value="2">运动</option>
-                                <option value="3">教育</option>
-                                <option value="4">软件</option>
-                                <option value="5">金融</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">是否推荐</label>
-                        <div class="col-sm-9">
-                            <select name="teacherStatus" class="form-control" required id="add_recommend">
-                                <option name="0" value="0">不推荐</option>
-                                <option name="1" value="1">推荐</option>
+                            <select name="status" class="form-control" required id="add_payStatus">
+                                <option name="false" value="0">未支付</option>
+                                <option name="true" value="1">已支付</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">介绍</label>
+                        <label class="col-sm-3 control-label">用户是否可见</label>
                         <div class="col-sm-9">
-                            <textarea cols="50" rows="6" required id="add_introduction" name="introduction"></textarea>
+                            <select name="degree" class="form-control" required id="add_user_look">
+                                <option name="false" value="0">用户可见</option>
+                                <option name="true" value="1">用户不可见</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -195,8 +139,8 @@
     </div>
 </div>
 
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 老师管理 <span
-        class="c-gray en">&gt;</span> 老师列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 订单管理 <span
+        class="c-gray en">&gt;</span> 订单列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                                               href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
@@ -213,21 +157,23 @@
                                                                class="btn btn-danger radius"><i
             class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         <a class="btn btn-primary radius" id="addChapter"><i
-                class="Hui-iconfont">&#xe600;</i> 添加老师</a></span>
+                class="Hui-iconfont">&#xe600;</i> 添加订单</a></span>
     </div>
     <div class="mt-20">
         <table id="user_table" rules="rows">
             <thead>
             <tr>
-                <th width="4%">
+                <th width="10%">
                 </th>
-                <th width="4%">#</th>
-                <th width="12%">头像</th>
-                <th width="6%">名称</th>
-                <th width="4%">关注</th>
-                <th width="6%">方向</th>
-                <th width="12%">介绍</th>
-                <th width="12%">操作</th>
+                <th width="10%">#</th>
+                <th width="10%">订单课程数</th>
+                <th width="8%">订单内容</th>
+                <th width="10%">支付状态</th>
+                <th width="10%">价格</th>
+                <th width="10%">用户名</th>
+                <th width="10%">用户是否可见</th>
+                <th width="10%">生成时间</th>
+                <th width="20%">操作</th>
             </tr>
             </thead>
             <tbody>
@@ -248,7 +194,7 @@
 </body>
 <script type="text/javascript" th:src="@{/static/js/jquery.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/admin/teacher.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin/order.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/lib/jquery/1.9.1/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/h-ui/js/H-ui.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/h-ui.admin/js/H-ui.admin.js}"></script> <!--/_footer 作为公共模版分离出去-->

@@ -27,18 +27,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int deleteByPrimaryKeyService(Integer id) {
-        return 0;
+        int i = mapper.deleteByPrimaryKey(id);
+        return i;
     }
 
     @Override
     public int insertService(Order record) {
-        int insert = mapper.insert(record);
+        int insert = mapper.insertOrder(record);
         return insert;
     }
 
     @Override
     public Order selectByPrimaryKeyService(Integer id) {
-        return null;
+        Order order = mapper.selectByPrimaryKey(id);
+        return order;
     }
 
     @Override
@@ -124,5 +126,28 @@ public class OrderServiceImpl implements OrderService {
             msg.getExtend().put("orders", orders);
             return msg;
         }
+    }
+
+    @Override
+    public List<Order> selectAllOrderAdminByTime() {
+        List<Order> orders = mapper.selectAllOrderAdminByTime2();
+        return orders;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    @Override
+    public int updateOrder(Order order) {
+        int i = mapper.updateOrder(order);
+        return i;
+    }
+
+    @Override
+    public int insertOrder(Order order) {
+        int i = mapper.insertOrder(order);
+        return i;
     }
 }

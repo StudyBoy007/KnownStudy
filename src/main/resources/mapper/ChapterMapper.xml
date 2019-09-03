@@ -1,89 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="dao.ChapterMapper" >
-  <resultMap id="BaseResultMap" type="entity.Chapter" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="courseid" property="courseid" jdbcType="INTEGER" />
-    <result column="chapter_name" property="chapterName" jdbcType="VARCHAR" />
-    <result column="path" property="path" jdbcType="VARCHAR" />
-    <collection property="videos" column="id" javaType="ArrayList" ofType="entity.Video"
-                select="dao.VideoMapper.selectByChapterID">
-    </collection>
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from chapter
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="entity.Chapter" >
-    insert into chapter (id, courseid, chapter_name, 
-      path)
-    values (#{id,jdbcType=INTEGER}, #{courseid,jdbcType=INTEGER}, #{chapterName,jdbcType=VARCHAR}, 
-      #{path,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="entity.Chapter" >
-    update chapter
-    set courseid = #{courseid,jdbcType=INTEGER},
-      chapter_name = #{chapterName,jdbcType=VARCHAR},
-      path = #{path,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, courseid, chapter_name, path
-    from chapter
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, courseid, chapter_name, path
-    from chapter
-  </select>
+<mapper namespace="dao.ChapterMapper">
+    <resultMap id="BaseResultMap" type="entity.Chapter">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="courseid" property="courseid" jdbcType="INTEGER"/>
+        <result column="chapter_name" property="chapterName" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <collection property="videos" column="id" javaType="ArrayList" ofType="entity.Video"
+                    select="dao.VideoMapper.selectByChapterID">
+        </collection>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from chapter
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="entity.Chapter">
+        insert into chapter (id, courseid, chapter_name,
+                             path)
+        values (#{id,jdbcType=INTEGER}, #{courseid,jdbcType=INTEGER}, #{chapterName,jdbcType=VARCHAR},
+                #{path,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="entity.Chapter">
+        update chapter
+        set courseid     = #{courseid,jdbcType=INTEGER},
+            chapter_name = #{chapterName,jdbcType=VARCHAR},
+            path         = #{path,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, courseid, chapter_name, path
+        from chapter
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, courseid, chapter_name, path
+        from chapter
+    </select>
 
-  <select id="selectByCourseId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, courseid, chapter_name, path
-    from chapter
-    where courseid = #{id,jdbcType=INTEGER}
-  </select>
+    <select id="selectByCourseId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, courseid, chapter_name, path
+        from chapter
+        where courseid = #{id,jdbcType=INTEGER}
+    </select>
 
-  <update id="updateChapter" parameterType="entity.Chapter">
-    update
-   chapter
-    <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
-      <if test="courseid != null">courseid = #{courseid},</if>
-      <if test="chapterName != null">chapter_name = #{chapterName},</if>
-      <if test="path != null">path=#{path},</if>
-    </trim>
-  </update>
+    <update id="updateChapter" parameterType="entity.Chapter">
+        update
+        chapter
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="courseid != null">courseid = #{courseid},</if>
+            <if test="chapterName != null and chapterName !=''">chapter_name = #{chapterName},</if>
+            <if test="path != null and path !=''">path=#{path},</if>
+        </trim>
+    </update>
 
 
-  <insert id="insertChapter" parameterType="entity.Chapter">
-    insert into chapter
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="courseid != null">
-        courseid,
-      </if>
-      <if test="chapterName != null">
-        chapter_name,
-      </if>
-      <if test="path != null">
-        path,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id},
-      </if>
-      <if test="courseid != null">
-        #{courseid},
-      </if>
-      <if test="chapterName != null">
-        #{chapterName},
-      </if>
-      <if test="path != null">
-        #{path},
-      </if>
-    </trim>
-  </insert>
+    <insert id="insertChapter" parameterType="entity.Chapter">
+        insert into chapter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="courseid != null">
+                courseid,
+            </if>
+            <if test="chapterName != null and chapterName !=''">
+                chapter_name,
+            </if>
+            <if test="path != null and path !=''">
+                path,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="courseid != null">
+                #{courseid},
+            </if>
+            <if test="chapterName != null and chapterName !=''">
+                #{chapterName},
+            </if>
+            <if test="path != null and path !=''">
+                #{path},
+            </if>
+        </trim>
+    </insert>
 
 </mapper>

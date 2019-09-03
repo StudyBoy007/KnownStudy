@@ -28,6 +28,8 @@ public interface UserMapper {
     //更新用户
     int updateUser(User user);
 
+    int insertUser(User user);
+
 
     int recharge(@Param("number") Double number, @Param("uid") Integer uid);
 

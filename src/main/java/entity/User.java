@@ -25,6 +25,8 @@ public class User {
 
     private Double account;
 
+    private boolean degree;
+
     public User() {
     }
 
@@ -137,6 +139,15 @@ public class User {
         this.account = account;
     }
 
+
+    public boolean isDegree() {
+        return degree;
+    }
+
+    public void setDegree(boolean degree) {
+        this.degree = degree;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -152,6 +163,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", motto='" + motto + '\'' +
                 ", account=" + account +
+                ", degree=" + degree +
                 '}';
     }
 }

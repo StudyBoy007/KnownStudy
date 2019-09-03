@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import service.CourseClassService;
-import service.CourseService;
-import service.TeacherService;
-import service.UserService;
+import service.*;
+import util.DateDefine;
 import util.Msg;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +33,10 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+
+
+    @Autowired
+    OrderService orderService;
 
     @Autowired
     TeacherService teacherService;
@@ -159,76 +161,75 @@ public class AdminController {
 
 
     @RequestMapping("/displayChapterAdmin")
-    public String displayChapterAdmin(HttpServletRequest request,int courseId){
+    public String displayChapterAdmin(HttpServletRequest request, int courseId) {
         request.getSession().setAttribute("courseId", courseId);
-    return "admin/chapter-list";
+        return "admin/chapter-list";
     }
 
     @ResponseBody
     @RequestMapping("/displayChapterPage")
-    public Msg displayChapterAdmin(HttpServletRequest request,@RequestParam(value = "pn", defaultValue = "1") Integer pn){
+    public Msg displayChapterAdmin(HttpServletRequest request, @RequestParam(value = "pn", defaultValue = "1") Integer pn) {
         PageHelper.startPage(pn, 3);
-        int courseId = (int)request.getSession().getAttribute("courseId");
+        int courseId = (int) request.getSession().getAttribute("courseId");
         List<Chapter> chapters = courseService.selectChapterByCourseId(courseId);
         // 使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就行了。
         // 封装了详细的分页信息,包括有我们查询出来的数据，传入连续显示的页数
         PageInfo page = new PageInfo(chapters, 3);
-        return Msg.result(100, "课程章节信息",null).add("pageInfo", page);
+        return Msg.result(100, "课程章节信息", null).add("pageInfo", page);
     }
 
     @ResponseBody
     @RequestMapping("/editChapterAdmin")
-    public Msg editChapterAdmin(int id){
+    public Msg editChapterAdmin(int id) {
         Chapter chapter = courseService.selectChapterById(id);
-        return  new Msg(100, "展示该章节信息", chapter);
+        return new Msg(100, "展示该章节信息", chapter);
     }
 
     @ResponseBody
     @RequestMapping("/modifyChapterAdmin")
-    public Msg  modifyChapterAdmin(Chapter chapter){
+    public Msg modifyChapterAdmin(Chapter chapter) {
         int i = courseService.updateChapter(chapter);
-        if(i>0){
-            return  new Msg(100, "更新章节成功",null);
-        }else {
-            return  new Msg(405, "更新失败", null);
+        if (i > 0) {
+            return new Msg(100, "更新章节成功", null);
+        } else {
+            return new Msg(405, "更新失败", null);
         }
     }
 
 
     @ResponseBody
     @RequestMapping("/addChapterAdmin")
-    public Msg   addChapterAdmin(Chapter chapter,HttpServletRequest request){
-        int courseId = (int)request.getSession().getAttribute("courseId");
+    public Msg addChapterAdmin(Chapter chapter, HttpServletRequest request) {
+        int courseId = (int) request.getSession().getAttribute("courseId");
         chapter.setCourseid(courseId);
         Course course = courseService.selectByPrimaryKeyService(courseId);
         int i = courseService.addChapter(chapter);
-        if(i>0){
-            File file = new File("F:\\eplayimg\\video\\" + course.getCourseDirection().getCourseDirection() + "/" + course.getCourse_path()+"/"+chapter.getPath());
+        if (i > 0) {
+            File file = new File("F:\\eplayimg\\video\\" + course.getCourseDirection().getCourseDirection() + "/" + course.getCourse_path() + "/" + chapter.getPath());
             if (!file.exists()) {
                 file.mkdir();
             }
-            return  new Msg(100, "添加章节成功",null);
-        }else {
-            return  new Msg(100, "添加章节失败", null);
+            return new Msg(100, "添加章节成功", null);
+        } else {
+            return new Msg(100, "添加章节失败", null);
         }
     }
 
 
-
     @ResponseBody
     @RequestMapping("/deleteChapterAdmin")
-    public Msg deleteChapterAdmin(int chapterId){
+    public Msg deleteChapterAdmin(int chapterId) {
         int i = courseService.deleteChapter(chapterId);
-        if(i>0){
-            return  new Msg(100, "删除章节成功",null);
-        }else {
-            return  new Msg(405, "删除章节失败", null);
+        if (i > 0) {
+            return new Msg(100, "删除章节成功", null);
+        } else {
+            return new Msg(405, "删除章节失败", null);
         }
     }
 
 
     @RequestMapping("/displayVideoAdmin")
-    public String displayVideoAdmin(HttpServletRequest request,int chapterId){
+    public String displayVideoAdmin(HttpServletRequest request, int chapterId) {
         request.getSession().setAttribute("chapterId", chapterId);
         return "admin/video-list";
     }
@@ -236,37 +237,35 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping("/displayVideoPage")
-    public Msg displayVideoPage(HttpServletRequest request,@RequestParam(value = "pn", defaultValue = "1") Integer pn){
+    public Msg displayVideoPage(HttpServletRequest request, @RequestParam(value = "pn", defaultValue = "1") Integer pn) {
         PageHelper.startPage(pn, 3);
-        int courseId = (int)request.getSession().getAttribute("courseId");
-        int chapterId = (int)request.getSession().getAttribute("chapterId");
+        int courseId = (int) request.getSession().getAttribute("courseId");
+        int chapterId = (int) request.getSession().getAttribute("chapterId");
         List<Video> videos = courseService.selectVideoByChapterId(chapterId);
         // 使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就行了。
         // 封装了详细的分页信息,包括有我们查询出来的数据，传入连续显示的页数
         PageInfo page = new PageInfo(videos, 3);
-        return Msg.result(100, "课程章节信息",courseId).add("pageInfo", page);
+        return Msg.result(100, "课程章节信息", courseId).add("pageInfo", page);
     }
-
 
 
     @ResponseBody
     @RequestMapping("/editVideoAdmin")
-    public Msg editVideoAdmin(int videoId){
+    public Msg editVideoAdmin(int videoId) {
         Video video = courseService.selectVideoById(videoId);
-        return  new Msg(100, "展示该视频信息", video);
+        return new Msg(100, "展示该视频信息", video);
     }
-
 
 
     @ResponseBody
     @RequestMapping("/modifyVideoAdmin")
-    public Msg  modifyVideoAdmin(Video video, @RequestParam("file-2") MultipartFile multipartFile,HttpServletRequest request){
+    public Msg modifyVideoAdmin(Video video, @RequestParam("file-2") MultipartFile multipartFile, HttpServletRequest request) {
         Video video1 = courseService.selectVideoById(video.getId());
-        String oldName=video1.getPath();
+        String oldName = video1.getPath();
         long size = multipartFile.getSize();
-        if(size>0){
-            int courseId = (int)request.getSession().getAttribute("courseId");
-            int chapterId = (int)request.getSession().getAttribute("chapterId");
+        if (size > 0) {
+            int courseId = (int) request.getSession().getAttribute("courseId");
+            int chapterId = (int) request.getSession().getAttribute("chapterId");
             Chapter chapter = courseService.selectChapterById(chapterId);
             Course course = courseService.selectByPrimaryKeyService(courseId);
             //封面进行操作
@@ -276,37 +275,36 @@ public class AdminController {
             //获取一个随机的32位的字符串
             String newFileName = UUID.randomUUID().toString();
 //        文件的内容写到目标的地址
-            File file = new File("F:\\eplayimg\\video\\" + course.getCourseDirection().getCourseDirection() + "/" + course.getCourse_path()+"/"+chapter.getPath()+"/"+newFileName+substring);
+            File file = new File("F:\\eplayimg\\video\\" + course.getCourseDirection().getCourseDirection() + "/" + course.getCourse_path() + "/" + chapter.getPath() + "/" + newFileName + substring);
             try {
                 //写入到地址
                 multipartFile.transferTo(file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            File oldFile = new File("F:\\eplayimg\\video\\" + course.getCourseDirection().getCourseDirection() + "/" + course.getCourse_path()+"/"+chapter.getPath()+"/"+oldName);
-            if(oldFile.exists()){
+            File oldFile = new File("F:\\eplayimg\\video\\" + course.getCourseDirection().getCourseDirection() + "/" + course.getCourse_path() + "/" + chapter.getPath() + "/" + oldName);
+            if (oldFile.exists()) {
                 oldFile.delete();
-                video.setPath(newFileName+substring);
+                video.setPath(newFileName + substring);
             }
         }
 
         int i = courseService.updateVideo(video);
         System.out.println(video);
-        if(i>0){
-            return  new Msg(100, "更新视频",null);
-        }else {
-            return  new Msg(405, "更新视频失败", null);
+        if (i > 0) {
+            return new Msg(100, "更新视频", null);
+        } else {
+            return new Msg(405, "更新视频失败", null);
         }
     }
 
 
-
     @ResponseBody
     @RequestMapping("/addVideoAdmin")
-    public Msg addVideoAdmin(Video video, @RequestParam("file-2") MultipartFile multipartFile,HttpServletRequest request){
+    public Msg addVideoAdmin(Video video, @RequestParam("file-2") MultipartFile multipartFile, HttpServletRequest request) {
 
-        int courseId = (int)request.getSession().getAttribute("courseId");
-        int chapterId = (int)request.getSession().getAttribute("chapterId");
+        int courseId = (int) request.getSession().getAttribute("courseId");
+        int chapterId = (int) request.getSession().getAttribute("chapterId");
 
         Chapter chapter = courseService.selectChapterById(chapterId);
         Course course = courseService.selectByPrimaryKeyService(courseId);
@@ -317,50 +315,50 @@ public class AdminController {
         //获取一个随机的32位的字符串
         String newFileName = UUID.randomUUID().toString();
 //        文件的内容写到目标的地址
-        File file = new File("F:\\eplayimg\\video\\" + course.getCourseDirection().getCourseDirection() + "/" + course.getCourse_path()+"/"+chapter.getPath()+"/"+newFileName+substring);
+        File file = new File("F:\\eplayimg\\video\\" + course.getCourseDirection().getCourseDirection() + "/" + course.getCourse_path() + "/" + chapter.getPath() + "/" + newFileName + substring);
         try {
             //写入到地址
             multipartFile.transferTo(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        video.setPath(newFileName+substring);
+        video.setPath(newFileName + substring);
         video.setChapterid(chapterId);
         int i = courseService.insertVideo(video);
-        if(i>0){
-            return  new Msg(100, "添加视频成功",null);
-        }else {
-            return  new Msg(405, "添加视频失败", null);
+        if (i > 0) {
+            return new Msg(100, "添加视频成功", null);
+        } else {
+            return new Msg(405, "添加视频失败", null);
         }
     }
-
 
 
     @ResponseBody
     @RequestMapping("/deleteVideoAdmin")
-    public Msg deleteVideoAdmin(int videoId,HttpServletRequest request){
+    public Msg deleteVideoAdmin(int videoId, HttpServletRequest request) {
 
-        int courseId = (int)request.getSession().getAttribute("courseId");
-        int chapterId = (int)request.getSession().getAttribute("chapterId");
+        int courseId = (int) request.getSession().getAttribute("courseId");
+        int chapterId = (int) request.getSession().getAttribute("chapterId");
         Video video = courseService.selectVideoById(videoId);
-        String oldName=video.getPath();
+        String oldName = video.getPath();
         Chapter chapter = courseService.selectChapterById(chapterId);
         Course course = courseService.selectByPrimaryKeyService(courseId);
         int i = courseService.deleteVideo(videoId);
-        if(i>0){
-            File oldFile = new File("F:\\eplayimg\\video\\" + course.getCourseDirection().getCourseDirection() + "/" + course.getCourse_path()+"/"+chapter.getPath()+"/"+oldName);
-            if(oldFile.exists()){
+        if (i > 0) {
+            File oldFile = new File("F:\\eplayimg\\video\\" + course.getCourseDirection().getCourseDirection() + "/" + course.getCourse_path() + "/" + chapter.getPath() + "/" + oldName);
+            if (oldFile.exists()) {
                 oldFile.delete();
             }
-            return  new Msg(100, "删除视频成功",null);
-        }else {
-            return  new Msg(405, "删除视频失败", null);
+            return new Msg(100, "删除视频成功", null);
+        } else {
+            return new Msg(405, "删除视频失败", null);
         }
     }
 
     @RequestMapping("/displayTeacherAdmin")
-    public String displayTeacherAdmin(){
-        return "admin/teacher-list";}
+    public String displayTeacherAdmin() {
+        return "admin/teacher-list";
+    }
 
 
     @ResponseBody
@@ -376,5 +374,257 @@ public class AdminController {
         return Msg.result(100, "老师信息", null).add("pageInfo", page);
     }
 
+
+    @ResponseBody
+    @RequestMapping("/editTeacherAdmin")
+    public Msg editTeacherAdmin(int id) {
+        Teacher teacher = teacherService.selectById(id);
+        return new Msg(100, "展示该老师信息", teacher);
+    }
+
+    @ResponseBody
+    @RequestMapping("/modifyTeacherAdmin")
+    public Msg modifyTeacherAdmin(Teacher teacher, @RequestParam("file-2") MultipartFile multipartFile) {
+
+        if (multipartFile.getSize() > 0) {
+            Teacher teacher1 = teacherService.selectById(teacher.getId());
+            String oldFileName = teacher1.getAvatar();
+
+            String fileName = multipartFile.getOriginalFilename(); //得到文件的名字
+            //获取文件原名的后缀
+            String substring = fileName.substring(fileName.lastIndexOf("."));
+            //获取一个随机的32位的字符串
+            String newFileName = UUID.randomUUID().toString();
+//        文件的内容写到目标的地址
+            File file = new File("F:\\eplayimg\\avatar\\" + newFileName + substring);
+            try {
+                //写入到地址
+                multipartFile.transferTo(file);
+                File oldFile = new File("F:\\eplayimg\\avatar\\" + oldFileName);
+                if (oldFile.exists()) {
+                    oldFile.delete();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            teacher.setAvatar(newFileName + substring);
+        }
+        int i = teacherService.updateTeacher(teacher);
+        if (i > 0) {
+            return new Msg(100, "更新老师信息成功", null);
+        } else {
+            return new Msg(405, "更新老师信息失败", null);
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/addTeacherAdmin")
+    public Msg addTeacherAdmin(Teacher teacher, @RequestParam("file-2") MultipartFile multipartFile) {
+
+        String fileName = multipartFile.getOriginalFilename(); //得到文件的名字
+        //获取文件原名的后缀
+        String substring = fileName.substring(fileName.lastIndexOf("."));
+        //获取一个随机的32位的字符串
+        String newFileName = UUID.randomUUID().toString();
+//        文件的内容写到目标的地址
+        File file = new File("F:\\eplayimg\\avatar\\" + newFileName + substring);
+        try {
+            //写入到地址
+            multipartFile.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        teacher.setAvatar(newFileName + substring);
+        int i = teacherService.insertTeacher(teacher);
+        if (i > 0) {
+            return new Msg(100, "添加老师信息成功", null);
+        } else {
+            return new Msg(405, "添加老师信息失败", null);
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/deleteTeacherAdmin")
+    public Msg deleteTeacherAdmin(int teacherId) {
+        int i = teacherService.deleteByPrimaryKeyService(teacherId);
+        if (i > 0) {
+            return new Msg(100, "删除章节成功", null);
+        } else {
+            return new Msg(405, "删除章节失败", null);
+        }
+    }
+
+
+    @RequestMapping("/displayUserAdmin")
+    public String displayUserAdmin() {
+        return "admin/user-list";
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/displayUserPage")
+    public Msg displayUserPage(@RequestParam(value = "pn", defaultValue = "1") Integer pn) {
+        // 引入PageHelper分页插件
+        // 在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn, 3);
+        List<User> users = userService.selectAllService();
+        // 使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就行了。
+        // 封装了详细的分页信息,包括有我们查询出来的数据，传入连续显示的页数
+        PageInfo page = new PageInfo(users, 3);
+        return Msg.result(100, "老师信息", null).add("pageInfo", page);
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/editUserAdmin")
+    public Msg editUserAdmin(int id) {
+        User user = userService.selectByPrimaryKeyService(id);
+        return new Msg(100, "展示该用户信息", user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/modifyUserAdmin")
+    public Msg modifyUserAdmin(User user, @RequestParam("file-2") MultipartFile multipartFile) {
+        System.out.println(user.getEmail());
+        if (multipartFile.getSize() > 0) {
+            User user1 = userService.selectByPrimaryKeyService(user.getId());
+            String oldFileName = user1.getAvatar();
+
+            String fileName = multipartFile.getOriginalFilename(); //得到文件的名字
+            //获取文件原名的后缀
+            String substring = fileName.substring(fileName.lastIndexOf("."));
+            //获取一个随机的32位的字符串
+            String newFileName = UUID.randomUUID().toString();
+//        文件的内容写到目标的地址
+            File file = new File("F:\\eplayimg\\avatar\\" + newFileName + substring);
+            try {
+                //写入到地址
+                multipartFile.transferTo(file);
+                File oldFile = new File("F:\\eplayimg\\avatar\\" + oldFileName);
+                if (oldFile.exists()) {
+                    oldFile.delete();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            user.setAvatar(newFileName + substring);
+        }
+        int i = userService.updateUserService(user);
+        if (i > 0) {
+            return new Msg(100, "更新老师信息成功", null);
+        } else {
+            return new Msg(405, "更新老师信息失败", null);
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/addUserAdmin")
+    public Msg addUserAdmin(User user, @RequestParam("file-2") MultipartFile multipartFile) {
+
+        String fileName = multipartFile.getOriginalFilename(); //得到文件的名字
+        //获取文件原名的后缀
+        String substring = fileName.substring(fileName.lastIndexOf("."));
+        //获取一个随机的32位的字符串
+        String newFileName = UUID.randomUUID().toString();
+//        文件的内容写到目标的地址
+        File file = new File("F:\\eplayimg\\avatar\\" + newFileName + substring);
+        try {
+            //写入到地址
+            multipartFile.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        user.setAvatar(newFileName + substring);
+        int i = userService.insertUser(user);
+        if (i > 0) {
+            return new Msg(100, "添加用户信息成功", null);
+        } else {
+            return new Msg(405, "添加用户信息失败", null);
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/deleteUserAdmin")
+    public Msg deleteUserAdmin(int userId) {
+        int i = userService.deleteByPrimaryKeyService(userId);
+        if (i > 0) {
+            return new Msg(100, "删除章节成功", null);
+        } else {
+            return new Msg(405, "删除章节失败", null);
+        }
+    }
+
+
+    @RequestMapping("/displayOrderAdmin")
+    public String displayOrderAdmin() {
+        return "admin/order-list";
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/displayOrderPage")
+    public Msg displayOrderPage(@RequestParam(value = "pn", defaultValue = "1") Integer pn) {
+        // 引入PageHelper分页插件
+        // 在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn, 3);
+        List<Order> orders = orderService.selectAllOrderAdminByTime();
+        // 使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就行了。
+        // 封装了详细的分页信息,包括有我们查询出来的数据，传入连续显示的页数
+        PageInfo page = new PageInfo(orders, 3);
+        return Msg.result(100, "老师信息", null).add("pageInfo", page);
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/editOrderAdmin")
+    public Msg editOrderAdmin(int id) {
+        Order order = orderService.selectByPrimaryKeyService(id);
+        return new Msg(100, "展示该订单信息", order);
+    }
+
+    @ResponseBody
+    @RequestMapping("/modifyOrderAdmin")
+    public Msg modifyOrderAdmin(Order order) {
+        int i = orderService.updateOrder(order);
+        if (i > 0) {
+            return new Msg(100, "更新订单成功", null);
+        } else {
+            return new Msg(405, "更新订单失败", null);
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/addOrderAdmin")
+    public Msg addOrderAdmin(Order order) {
+        User user = userService.selectByPrimaryKeyService(order.getUser().getId());
+        if (user == null) {
+            return Msg.result(405, "该用户编号不存在", null);
+        } else {
+            order.setCreateTime(DateDefine.getStringDate2());
+            int i = orderService.insertService(order);
+            if (i > 0) {
+                return new Msg(100, "添加订单成功", null);
+            } else {
+                return new Msg(405, "添加订单失败", null);
+            }
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/deleteOrderAdmin")
+    public Msg deleteOrderAdmin(int orderId) {
+        int i = orderService.deleteByPrimaryKeyService(orderId);
+        if (i > 0) {
+            return new Msg(100, "删除订单成功", null);
+        } else {
+            return new Msg(405, "删除订单失败", null);
+        }
+    }
 }
 

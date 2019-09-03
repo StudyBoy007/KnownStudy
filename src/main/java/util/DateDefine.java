@@ -14,4 +14,10 @@ public class DateDefine {
         return now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
 
+    public static String getStringDate2(){
+        LocalDateTime now = LocalDateTime.now();
+        return now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+
 }

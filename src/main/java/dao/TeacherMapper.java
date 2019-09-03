@@ -39,4 +39,8 @@ public interface TeacherMapper {
     int addTeacherFocus(Integer id);
 
     int delTeacherFocus(Integer id);
+
+    int updateTeacher(Teacher teacher);
+
+    int insertTeacher(Teacher teacher);
 }

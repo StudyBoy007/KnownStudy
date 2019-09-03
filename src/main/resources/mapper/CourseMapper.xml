@@ -61,19 +61,19 @@
         update
         course
         <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
-            <if test="cname != null">cname = #{cname,jdbcType=VARCHAR},</if>
+            <if test="cname != null and cname !=''">cname = #{cname,jdbcType=VARCHAR},</if>
             <if test="courseDirection.id != null">direction_id = ${courseDirection.id},</if>
-            <if test="course_path != null">course_path=#{course_path},</if>
+            <if test="course_path != null and course_path !=''">course_path=#{course_path},</if>
             <if test="isfress != null">isfress = #{isfress,jdbcType=INTEGER},</if>
             <if test="price   != null">price = #{price,jdbcType=DOUBLE},</if>
-            <if test="pic != null">pic = #{pic,jdbcType=VARCHAR},</if>
-            <if test="courseStatus!= null">course_status = #{courseStatus,jdbcType=INTEGER},</if>
+            <if test="pic != null and pic !=''">pic = #{pic,jdbcType=VARCHAR},</if>
+            <if test="courseStatus!= null and courseStatus !=''">course_status = #{courseStatus,jdbcType=INTEGER},</if>
             <if test="teacher.id != null">tid=${teacher.id},</if>
-            <if test="start_time != null">start_time=#{start_time},</if>
-            <if test="time != null">time=#{time},</if>
+            <if test="start_time != null and start_time !=''">start_time=#{start_time},</if>
+            <if test="time != null and time !=''">time=#{time},</if>
             <if test="focus != null">focus=#{focus},</if>
-            <if test="degree != null">degree=#{degree},</if>
-            <if test="introduction != null">introduction=#{introduction},</if>
+            <if test="degree != null and degree !=''">degree=#{degree},</if>
+            <if test="introduction != null and introduction !=''">introduction=#{introduction},</if>
             <if test="buy_num != null">buy_num=#{buy_num},</if>
         </trim>
     </update>
@@ -279,13 +279,13 @@
             <if test="id != null">
                 id,
             </if>
-            <if test="cname != null">
+            <if test="cname != null and cname !=''">
                 cname,
             </if>
-            <if test="course_path != null">
+            <if test="course_path != null and course_path !=''">
                 course_path,
             </if>
-            <if test="degree != null">
+            <if test="degree != null and degree !=''">
                 degree,
             </if>
             <if test="courseDirection.id != null">
@@ -300,7 +300,7 @@
             <if test="price != null">
                 price,
             </if>
-            <if test="pic != null">
+            <if test="pic != null and pic !=''">
                 pic,
             </if>
             <if test="teacher.id != null">
@@ -309,13 +309,13 @@
             <if test="focus != null">
                 focus,
             </if>
-            <if test="start_time != null">
+            <if test="start_time != null and start_time !=''">
                 start_time,
             </if>
-            <if test="time != null">
+            <if test="time != null and time !=''">
                 time,
             </if>
-            <if test="introduction != null">
+            <if test="introduction != null and introduction !=''">
                 introduction,
             </if>
             <if test="buy_num != null">
@@ -326,13 +326,13 @@
             <if test="id != null">
                 #{id},
             </if>
-            <if test="cname != null">
+            <if test="cname != null and cname !=''">
                 #{cname},
             </if>
-            <if test="course_path != null">
+            <if test="course_path != null and course_path !=''">
                 #{course_path},
             </if>
-            <if test="degree != null">
+            <if test="degree != null and degree !=''">
                 #{degree},
             </if>
             <if test="courseDirection.id != null">
@@ -347,7 +347,7 @@
             <if test="price != null">
                 #{price},
             </if>
-            <if test="pic != null">
+            <if test="pic != null and pic !=''">
                 #{pic},
             </if>
             <if test="teacher.id != null">
@@ -356,13 +356,13 @@
             <if test="focus != null">
                 #{focus},
             </if>
-            <if test="start_time != null">
+            <if test="start_time != null and start_time !=''">
                 #{start_time},
             </if>
-            <if test="time != null">
+            <if test="time != null and time !=''">
                 #{time},
             </if>
-            <if test="introduction != null">
+            <if test="introduction != null and introduction !=''">
                 #{introduction},
             </if>
             <if test="buy_num != null">

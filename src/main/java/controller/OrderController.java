@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import service.CartService;
 import service.OrderService;
+import util.DateDefine;
 import util.Msg;
 import util.auth.RequireRole;
 
@@ -36,8 +37,7 @@ public class OrderController {
     public Msg createOrder(double totalMoney, String strid, String cartIds, HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
-
-        Order order = new Order(strid.split(",").length, false, totalMoney, user.getId());
+        Order order = new Order(strid.split(",").length, false, totalMoney, user, DateDefine.getStringDate2());
 
         //删除添加入订单的购物车商品
         cartService.deleteCart(cartIds);

@@ -34,4 +34,13 @@ public interface OrderService {
 
     Msg payOrder(User user, String orderIds, double totalMoney);
 
+    List<Order> selectAllOrderAdminByTime();
+
+
+    int updateOrder(Order order);
+
+    int insertOrder(Order order);
+
+
+
 }

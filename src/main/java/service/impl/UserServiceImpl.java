@@ -21,7 +21,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int deleteByPrimaryKeyService(Integer id) {
-        return 0;
+        int i = userMapper.deleteByPrimaryKey(id);
+        return i;
     }
 
     @Override
@@ -90,7 +91,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> selectAllService() {
-        return null;
+        List<User> users = userMapper.selectAll();
+        return users;
     }
 
     @Override
@@ -98,4 +100,15 @@ public class UserServiceImpl implements UserService {
         return 0;
     }
 
+    @Override
+    public int insertUser(User user) {
+        int i = userMapper.insertUser(user);
+        return i;
+    }
+
+    @Override
+    public int updateUser(User user) {
+        int i = userMapper.updateUser(user);
+        return i;
+    }
 }

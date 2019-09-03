@@ -21,7 +21,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public int deleteByPrimaryKeyService(Integer id) {
-        return 0;
+        int i = teacherMapper.deleteByPrimaryKey(id);
+        return i;
     }
 
     @Override
@@ -96,6 +97,22 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public int selectConnectionInUserAndTeachaer(Integer uid, Integer tid) {
         int i = teacherMapper.selectConnectionInUserAndTeachaer(uid, tid);
+        return i;
+    }
+
+    public TeacherServiceImpl() {
+        super();
+    }
+
+    @Override
+    public int updateTeacher(Teacher teacher) {
+        int i = teacherMapper.updateTeacher(teacher);
+        return i;
+    }
+
+    @Override
+    public int insertTeacher(Teacher teacher) {
+        int i = teacherMapper.insertTeacher(teacher);
         return i;
     }
 }

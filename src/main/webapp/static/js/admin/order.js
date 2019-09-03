@@ -27,7 +27,7 @@ $(function () {
 
 function to_page(pn) {
     $.ajax({
-        url: getRootPath() + "displayTeacherPage",
+        url: getRootPath() + "displayOrderPage",
         data: "pn=" + pn,
         type: "GET",
         success: function (result) {
@@ -46,17 +46,30 @@ function build_users_table(result) {
     console.log(result)
     //清空table表格
     $("#user_table tbody").empty();
-    var videos = result.extend.pageInfo.list;
-    $("#courseId_add_input").val(result.o);
-    $("#courseId_modify_input").val(result.o);
-    $.each(videos, function (index, item) {
-        var checkBoxTd = $("<td width='4%'><input type='checkbox' class='check_item'/></td>");
-        var tId = $("<td width='4%'></td>").append(item.id);
-        var tName = $("<td width='6%'></td>").append(item.tname);
-        var tIntroduction = $("<td width='12%'></td>").append(item.introduction);
-        var focus = $("<td width='4%'></td>").append(item.focus);
-        var avatar = $("<td width='12%'></td>").append("<img src='/pic/avatar/" + item.avatar + "' width='80px' height='100px'>");
-        var courseDirection = $("<td width='6%'></td>").append(item.major.courseDirection);
+    var orders = result.extend.pageInfo.list;
+    $.each(orders, function (index, item) {
+        var checkBoxTd = $("<td width='6%'><input type='checkbox' class='check_item'/></td>");
+        var Id = $("<td width='6%'></td>").append(item.id);
+        var courseCount = $("<td width='10%'></td>").append(item.courseCount);
+        var content = $("<td width='8%'></td>").append("<a href='/known/displayChapterAdmin?courseId=" + item.id + "' target='_self'>查看订单内容</a>");
+        var status;
+        if (item.status == true) {
+            status = "已支付"
+        } else {
+            status = "未支付"
+        }
+        var payStatus = $("<td width='10%'></td>").append(status);
+        var priceTotal = $("<td width='10%'></td>").append(item.priceTotal);
+        var user = $("<td width='10%' name='" + item.user.id + "'></td>").append(item.user.username);
+        var userStatus;
+        if (item.degree == false) {
+            userStatus = "用户可见"
+        } else {
+            userStatus = "用户不可见";
+        }
+        var degree = $("<td width='10%'></td>").append(userStatus);
+        var time = $("<td width='10%'></td>").append(item.createTime);
+
         var editBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
             .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑");
         //为编辑按钮添加一个自定义的属性，来表示当前员工id
@@ -65,16 +78,18 @@ function build_users_table(result) {
             .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("删除");
         //为删除按钮添加一个自定义的属性来表示当前删除的员工id
         delBtn.attr("del-id", item.id);
-        var btnTd = $("<td width='12%'></td>").append(editBtn).append(" ").append(delBtn);
+        var btnTd = $("<td width='20%'></td>").append(editBtn).append(" ").append(delBtn);
         //var delBtn =
         //append方法执行完成以后还是返回原来的元素
         $("<tr></tr>").append(checkBoxTd)
-            .append(tId)
-            .append(avatar)
-            .append(tName)
-            .append(focus)
-            .append(courseDirection)
-            .append(tIntroduction)
+            .append(Id)
+            .append(courseCount)
+            .append(content)
+            .append(payStatus)
+            .append(priceTotal)
+            .append(user)
+            .append(degree)
+            .append(time)
             .append(btnTd)
             .appendTo("#user_table tbody");
     });
@@ -166,10 +181,10 @@ function reset_form(ele) {
 //点击新增按钮弹出模态框。
 $("#addChapter").click(function () {
     //清除表单数据（表单完整重置（表单的数据，表单的样式））
-    $("#teacherAddModel img").attr("src", "");
-    reset_form("#teacherAddModel form");
+    $("#orderAddModel img").attr("src", "");
+    reset_form("#orderAddModel form");
     //弹出模态框
-    $("#teacherAddModel").modal({
+    $("#orderAddModel").modal({
         backdrop: "static"
     });
 });
@@ -213,13 +228,13 @@ $("#blog_delete_all_btn").click(function () {
 //单个删除
 $(document).on("click", ".delete_btn", function () {
     //1、弹出是否确认删除对话框
-    var empName = $(this).parents("tr").find("td:eq(3)").text();
-    var teacherId = $(this).attr("del-id");
+    var empName = $(this).parents("tr").find("td:eq(1)").text();
+    var orderId = $(this).attr("del-id");
 
-    if (confirm("确认删除【" + empName + "】吗？")) {
+    if (confirm("确认删除【" + empName + "号订单】吗？")) {
         //确认，发送ajax请求删除即可
         $.ajax({
-            url: getRootPath() + "deleteTeacherAdmin?teacherId=" + teacherId,
+            url: getRootPath() + "deleteOrderAdmin?orderId=" + orderId,
             type: "POST",
             success: function (result) {
                 // alert(result.msg);
@@ -240,11 +255,9 @@ $(document).on("click", ".delete_btn", function () {
 
 
 $(document).on("click", ".edit_btn", function () {
-    $(".input-file").val("");
-    $("#uploadfile2").val("");
-    var teacherId = $(this).attr("edit-id");
+    var orderId = $(this).attr("edit-id");
     $.ajax({
-        url: getRootPath() + "editTeacherAdmin?id=" + teacherId,
+        url: getRootPath() + "editOrderAdmin?id=" + orderId,
         type: "GET",
         success: function (result) {
             // alert(result.msg);
@@ -252,26 +265,23 @@ $(document).on("click", ".edit_btn", function () {
             // to_page(1);
             if (result.code == 100) {
                 //1.放回编辑对象的信息
-                $("#id_modify_input").val(result.o.id);
-                $("#name_modify_input").val(result.o.tname);
-                $("#face").attr("src", "/pic/avatar/" + result.o.avatar);
-                $("#direction option").each(function () {
-                    if ($(this).text() == result.o.major.courseDirection) {
+                $("#payStatus option").each(function () {
+                    if ($(this).attr("name") == String(result.o.status)) {
                         $(this).attr("selected", "selected");
                     }
                 });
 
-                $("#recommend option").each(function () {
-                    if ($(this).attr("name") == result.o.teacherStatus) {
+                $("#user_look option").each(function () {
+                    if ($(this).attr("name") == String(result.o.degree)) {
                         $(this).attr("selected", "selected");
                     }
                 });
 
-                $("#introduction").text(result.o.introduction);
+                $("#order_price").val(result.o.priceTotal);
 
-
+                $("#order_id").val(result.o.id);
                 //弹出模态框
-                $("#teacherModifyModel1").modal({
+                $("#orderModifyModel1").modal({
                     backdrop: "static"
                 });
             } else {
@@ -282,12 +292,13 @@ $(document).on("click", ".edit_btn", function () {
     });
 })
 
-function editTeacher() {
+function editOrder() {
     //获取表单数据
-    var formData = new FormData($('#teacherEdit')[0]);
+    var formData = new FormData($('#orderEdit')[0]);
+    console.log(formData);
     //2、发送ajax请求保存员工
     $.ajax({
-        url: getRootPath() + "modifyTeacherAdmin",
+        url: getRootPath() + "modifyOrderAdmin",
         type: "POST",
         data: formData,
         async: false,
@@ -298,7 +309,7 @@ function editTeacher() {
             if (result.code == 100) {
                 //员工保存成功；
                 //1、关闭模态框
-                $("#teacherModifyModel1").modal('hide');
+                $("#orderModifyModel1").modal('hide');
 
                 //2、显示刚才保存的数据
                 to_page(currentPage);
@@ -310,11 +321,11 @@ function editTeacher() {
     });
 }
 
-function addTeacher() {
-    var formData = new FormData($('#teacherAdd')[0]);
+function addOrder() {
+    var formData = new FormData($('#orderAdd')[0]);
     //2、发送ajax请求保存员工
     $.ajax({
-        url: getRootPath() + "addTeacherAdmin",
+        url: getRootPath() + "addOrderAdmin",
         type: "POST",
         data: formData,
         async: false,
@@ -325,16 +336,24 @@ function addTeacher() {
             if (result.code == 100) {
                 //员工保存成功；
                 //1、关闭模态框
-                $("#teacherAddModel").modal('hide');
+                $("#orderAddModel").modal('hide');
 
                 //2、显示刚才保存的数据
                 to_page(totalRecord);
             } else {
                 //显示失败信息
-                console.log(result);
+                $("#orderAddModel").modal('hide');
+                alert(result.msg);
             }
         }
     });
+}
+
+function update() {
+    var reg = /^[1-9]\d*$/;
+    if (!reg.test($(".input").val())) {
+        $(".input").val(null);
+    }
 }
 
 

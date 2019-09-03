@@ -6,7 +6,10 @@
         <result column="course_count" property="courseCount" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="price_total" property="priceTotal" jdbcType="DOUBLE"/>
-        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="degree" property="degree" jdbcType="INTEGER"/>
+        <association property="user" column="user_id" javaType="entity.User"
+                     select="dao.UserMapper.selectByPrimaryKey"/>
         <collection property="courses" javaType="ArrayList" ofType="Course">
             <id column="courseid" property="id" jdbcType="INTEGER"/>
             <result column="cname" property="cname" jdbcType="VARCHAR"/>
@@ -31,12 +34,15 @@
         <result column="course_count" property="courseCount" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="price_total" property="priceTotal" jdbcType="DOUBLE"/>
-        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="degree" property="degree" jdbcType="INTEGER"/>
+        <association property="user" column="user_id" javaType="entity.User"
+                     select="dao.UserMapper.selectByPrimaryKey"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
-        from order
-        where id = #{id,jdbcType=INTEGER}
+        from `order`
+        WHERE id = #{id}
     </delete>
 
     <!--        <selectKey keyProperty="id" order="AFTER" resultType="int">-->
@@ -53,8 +59,8 @@
         <selectKey keyProperty="id" order="AFTER" resultType="int">
             select last_insert_id() as id;
         </selectKey>
-        INSERT INTO `order`(course_count, STATUS, price_total, user_id)
-        VALUES (#{courseCount}, #{status}, #{priceTotal}, #{userId})
+        INSERT INTO `order`(course_count, STATUS, price_total, user_id,createTime)
+        VALUES (#{courseCount}, #{status}, #{priceTotal}, ${user.id},#{createTime})
     </insert>
 
 
@@ -64,16 +70,17 @@
         set course_count = #{courseCount,jdbcType=INTEGER},
             status       = #{status},
             price_total  = #{priceTotal,jdbcType=DOUBLE},
-            user_id      = #{userId,jdbcType=INTEGER}
+            user_id      = ${user.id},
+            createTime   = #{createTime}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap1" parameterType="java.lang.Integer">
-        select id, course_count, status, price_total, user_id
-        from order
+        select id, course_count, status, price_total, user_id, degree, createTime
+        from `order`
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectAll" resultMap="BaseResultMap1">
-        select id, course_count, status, price_total, user_id
+        select id, course_count, status, price_total, user_id, createTime
         from order
     </select>
 
@@ -95,8 +102,36 @@
                buy_num
         FROM `order` o
                  INNER JOIN order_course m ON o.id = m.oid
-                 INNER JOIN course c ON c.id = m.cid AND o.user_id = #{id} AND o.`right` = FALSE
+                 INNER JOIN course c ON c.id = m.cid AND o.user_id = #{id} AND o.degree = FALSE
             and o.status = #{status};
+    </select>
+
+    <select id="selectAllOrderAdminByTime" resultMap="BaseResultMap">
+        select o.*,
+               c.id AS courseid,
+               cname,
+               course_path,
+               direction_id,
+               isfress,
+               course_status,
+               price,
+               pic,
+               tid,
+               focus,
+               start_time,
+               time,
+               introduction,
+               buy_num
+        FROM `order` o
+                 INNER JOIN order_course m ON o.id = m.oid
+                 INNER JOIN course c ON c.id = m.cid
+        order BY STR_TO_DATE(createTime, '%Y-%m-%d %H:%i:%s') DESC
+    </select>
+
+    <select id="selectAllOrderAdminByTime2" resultMap="BaseResultMap">
+        select *
+        FROM `order`
+        order BY STR_TO_DATE(createTime, '%Y-%m-%d %H:%i:%s') DESC
     </select>
 
 
@@ -112,7 +147,7 @@
         select COUNT(*)
         FROM `order` o
                  INNER JOIN order_course m
-                            ON o.id = m.oid and o.user_id = #{uid} AND m.cid = #{cid} AND o.`right` = FALSE;
+                            ON o.id = m.oid and o.user_id = #{uid} AND m.cid = #{cid} AND o.degree = FALSE;
     </select>
 
 
@@ -125,7 +160,7 @@
 
     <update id="changeOrderRightByAdmin" parameterType="int">
         update `order`
-        set `right`= true
+        set degree= true
         where id = #{oid}
     </update>
 
@@ -162,6 +197,120 @@
         where user_id = #{uid}
           and course_id = #{cid}
     </update>
+
+
+    <update id="updateOrder" parameterType="entity.Order">
+        update
+        `order`
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="courseCount != null">tname = #{courseCount},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="priceTotal != null">price_total=#{priceTotal},</if>
+            <if test="user != null">
+                <if test="user.id != null">user_id=${user.id},</if>
+            </if>
+            <if test="degree != null">degree=#{degree},</if>
+            <if test="createTime != null and createTime !=''">createTime=#{createTime},</if>
+        </trim>
+    </update>
+
+
+    <insert id="insertOrder" parameterType="entity.Order">
+        insert into `order`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="courseCount != null">
+                course_count,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="priceTotal != null">
+                price_total,
+            </if>
+            <if test="user.id != null">
+                user_id,
+            </if>
+            <if test="degree != null">
+                degree,
+            </if>
+            <if test="createTime != null and createTime !=''">
+                createTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="courseCount != null">
+                #{courseCount},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="priceTotal != null">
+                #{priceTotal},
+            </if>
+            <if test="user.id != null">
+                ${user.id},
+            </if>
+            <if test="degree != null">
+                #{degree},
+            </if>
+            <if test="createTime != null and createTime !=''">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+
+    <select id="selectMiddleInOrderWithCourse" parameterType="int" resultType="Course">
+        SELECT *
+        FROM order_course oc,
+             course c
+        WHERE oc.cid = c.id
+          AND oc.oid = #{oid}
+    </select>
+
+
+    <update id="updateOrderContentByOidAndCid">
+        UPDATE order_course
+        SET cid=10
+        WHERE oid = #{oid}
+          and cid = #{cid};
+    </update>
+
+
+    <select id="selectMiddleInOrderWithCourseTotalPrice" parameterType="int" resultType="int">
+        SELECT SUM(c.price)
+        FROM order_course oc,
+             course c
+        WHERE oc.cid = c.id
+          AND oc.oid = #{oid};
+    </select>
+
+    <select id="selectMiddleInOrderWithCourseNum" parameterType="int" resultType="int">
+        SELECT count(*)
+        FROM order_course oc,
+             course c
+        WHERE oc.cid = c.id
+          AND oc.oid = #{oid};
+    </select>
+
+    <insert id="insertMiddleInOrderWithCourse">
+        insert into order_course
+        values (#{oid}, #{cid});
+    </insert>
+
+
+    <select id="selectCourseInOrder2" resultType="int">
+        select COUNT(*)
+        FROM `order` o
+                 INNER JOIN order_course m
+                            ON o.id = m.oid and m.cid = #{cid} and o.id = #{oid}
+    </select>
 
 
 </mapper>

@@ -27,7 +27,7 @@ $(function () {
 
 function to_page(pn) {
     $.ajax({
-        url: getRootPath() + "displayTeacherPage",
+        url: getRootPath() + "displayUserPage",
         data: "pn=" + pn,
         type: "GET",
         success: function (result) {
@@ -47,16 +47,26 @@ function build_users_table(result) {
     //清空table表格
     $("#user_table tbody").empty();
     var videos = result.extend.pageInfo.list;
-    $("#courseId_add_input").val(result.o);
-    $("#courseId_modify_input").val(result.o);
     $.each(videos, function (index, item) {
-        var checkBoxTd = $("<td width='4%'><input type='checkbox' class='check_item'/></td>");
-        var tId = $("<td width='4%'></td>").append(item.id);
-        var tName = $("<td width='6%'></td>").append(item.tname);
-        var tIntroduction = $("<td width='12%'></td>").append(item.introduction);
-        var focus = $("<td width='4%'></td>").append(item.focus);
-        var avatar = $("<td width='12%'></td>").append("<img src='/pic/avatar/" + item.avatar + "' width='80px' height='100px'>");
-        var courseDirection = $("<td width='6%'></td>").append(item.major.courseDirection);
+        var checkBoxTd = $("<td width='2%'><input type='checkbox' class='check_item'/></td>");
+        var Id = $("<td width='3%'></td>").append(item.id);
+        var avatar = $("<td width='8%'></td>").append("<img src='/pic/avatar/" + item.avatar + "' width='80px' height='100px'>");
+        var username = $("<td width='10%'></td>").append(item.username);
+        var password = $("<td width='8%'></td>").append(item.password);
+        var sex = $("<td width='3%'></td>").append(item.sex);
+        var age = $("<td width='3%'></td>").append(item.age);
+        var address = $("<td width='12%'></td>").append(item.address);
+        var studyDirection = $("<td width='4%'></td>").append(item.studyDirection);
+        var phone = $("<td width='6%'></td>").append(item.phone);
+        var email = $("<td width='17%'></td>").append(item.email);
+        var account = $("<td width='8%'></td>").append(item.account);
+        var identify;
+        if (item.degree == false) {
+            identify = "普通用户"
+        } else {
+            identify = "管理员"
+        }
+        var degree = $("<td width='6%'></td>").append(identify);
         var editBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
             .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑");
         //为编辑按钮添加一个自定义的属性，来表示当前员工id
@@ -65,16 +75,22 @@ function build_users_table(result) {
             .append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("删除");
         //为删除按钮添加一个自定义的属性来表示当前删除的员工id
         delBtn.attr("del-id", item.id);
-        var btnTd = $("<td width='12%'></td>").append(editBtn).append(" ").append(delBtn);
+        var btnTd = $("<td width='10%'></td>").append(editBtn).append(" ").append(delBtn);
         //var delBtn =
         //append方法执行完成以后还是返回原来的元素
         $("<tr></tr>").append(checkBoxTd)
-            .append(tId)
+            .append(Id)
             .append(avatar)
-            .append(tName)
-            .append(focus)
-            .append(courseDirection)
-            .append(tIntroduction)
+            .append(username)
+            .append(password)
+            .append(sex)
+            .append(age)
+            .append(address)
+            .append(studyDirection)
+            .append(phone)
+            .append(email)
+            .append(account)
+            .append(degree)
             .append(btnTd)
             .appendTo("#user_table tbody");
     });
@@ -166,10 +182,10 @@ function reset_form(ele) {
 //点击新增按钮弹出模态框。
 $("#addChapter").click(function () {
     //清除表单数据（表单完整重置（表单的数据，表单的样式））
-    $("#teacherAddModel img").attr("src", "");
-    reset_form("#teacherAddModel form");
+    $("#userAddModel img").attr("src", "");
+    reset_form("#userAddModel form");
     //弹出模态框
-    $("#teacherAddModel").modal({
+    $("#userAddModel").modal({
         backdrop: "static"
     });
 });
@@ -214,12 +230,12 @@ $("#blog_delete_all_btn").click(function () {
 $(document).on("click", ".delete_btn", function () {
     //1、弹出是否确认删除对话框
     var empName = $(this).parents("tr").find("td:eq(3)").text();
-    var teacherId = $(this).attr("del-id");
+    var userId = $(this).attr("del-id");
 
     if (confirm("确认删除【" + empName + "】吗？")) {
         //确认，发送ajax请求删除即可
         $.ajax({
-            url: getRootPath() + "deleteTeacherAdmin?teacherId=" + teacherId,
+            url: getRootPath() + "deleteUserAdmin?userId=" + userId,
             type: "POST",
             success: function (result) {
                 // alert(result.msg);
@@ -242,9 +258,9 @@ $(document).on("click", ".delete_btn", function () {
 $(document).on("click", ".edit_btn", function () {
     $(".input-file").val("");
     $("#uploadfile2").val("");
-    var teacherId = $(this).attr("edit-id");
+    var userId = $(this).attr("edit-id");
     $.ajax({
-        url: getRootPath() + "editTeacherAdmin?id=" + teacherId,
+        url: getRootPath() + "editUserAdmin?id=" + userId,
         type: "GET",
         success: function (result) {
             // alert(result.msg);
@@ -253,25 +269,42 @@ $(document).on("click", ".edit_btn", function () {
             if (result.code == 100) {
                 //1.放回编辑对象的信息
                 $("#id_modify_input").val(result.o.id);
-                $("#name_modify_input").val(result.o.tname);
+                $("#name_modify_input").val(result.o.username);
+                $("#password_modify_input").val(result.o.password);
                 $("#face").attr("src", "/pic/avatar/" + result.o.avatar);
+                $("#age_modify_input").val(result.o.age);
+                $("#address_modify_input").val(result.o.address);
+                $("#sex_modify_input option").each(function () {
+                    if ($(this).text() == result.o.sex) {
+                        $(this).attr("selected", "selected");
+                    }
+                });
+
                 $("#direction option").each(function () {
-                    if ($(this).text() == result.o.major.courseDirection) {
+                    if ($(this).text() == result.o.studyDirection) {
                         $(this).attr("selected", "selected");
                     }
                 });
 
-                $("#recommend option").each(function () {
-                    if ($(this).attr("name") == result.o.teacherStatus) {
+                $("#phone_modify_input").val(result.o.phone);
+                $("#email_modify_input").val(result.o.email);
+                $("#account_modify_input").val(result.o.account);
+
+                $("#degree_modify_input option").each(function () {
+                    if ($(this).attr("name") == String(result.o.degree)) {
                         $(this).attr("selected", "selected");
                     }
                 });
 
-                $("#introduction").text(result.o.introduction);
-
+                if (result.o.motto == null) {
+                    var motto = '';
+                } else {
+                    var motto = result.o.motto;
+                }
+                $("#motto").text(motto);
 
                 //弹出模态框
-                $("#teacherModifyModel1").modal({
+                $("#userModifyModel1").modal({
                     backdrop: "static"
                 });
             } else {
@@ -282,12 +315,14 @@ $(document).on("click", ".edit_btn", function () {
     });
 })
 
-function editTeacher() {
+function editUser() {
     //获取表单数据
-    var formData = new FormData($('#teacherEdit')[0]);
+    var formData = new FormData($('#userEdit')[0]);
+    console.log("提交时候email为:" + $("#email_modify_input").val());
+    console.log(formData);
     //2、发送ajax请求保存员工
     $.ajax({
-        url: getRootPath() + "modifyTeacherAdmin",
+        url: getRootPath() + "modifyUserAdmin",
         type: "POST",
         data: formData,
         async: false,
@@ -298,7 +333,7 @@ function editTeacher() {
             if (result.code == 100) {
                 //员工保存成功；
                 //1、关闭模态框
-                $("#teacherModifyModel1").modal('hide');
+                $("#userModifyModel1").modal('hide');
 
                 //2、显示刚才保存的数据
                 to_page(currentPage);
@@ -310,11 +345,11 @@ function editTeacher() {
     });
 }
 
-function addTeacher() {
-    var formData = new FormData($('#teacherAdd')[0]);
+function addUser() {
+    var formData = new FormData($('#userAdd')[0]);
     //2、发送ajax请求保存员工
     $.ajax({
-        url: getRootPath() + "addTeacherAdmin",
+        url: getRootPath() + "addUserAdmin",
         type: "POST",
         data: formData,
         async: false,
@@ -325,7 +360,7 @@ function addTeacher() {
             if (result.code == 100) {
                 //员工保存成功；
                 //1、关闭模态框
-                $("#teacherAddModel").modal('hide');
+                $("#userAddModel").modal('hide');
 
                 //2、显示刚才保存的数据
                 to_page(totalRecord);
@@ -335,6 +370,13 @@ function addTeacher() {
             }
         }
     });
+}
+
+function update() {
+    var reg = /^[1-9]\d*$/;
+    if (!reg.test($(".input").val())) {
+        $(".input").val(null);
+    }
 }
 
 

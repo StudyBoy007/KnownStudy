@@ -1,86 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="dao.VideoMapper" >
-  <resultMap id="BaseResultMap" type="entity.Video" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="chapterid" property="chapterid" jdbcType="INTEGER" />
-    <result column="video_name" property="videoName" jdbcType="VARCHAR" />
-    <result column="path" property="path" jdbcType="VARCHAR" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from video
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="entity.Video" >
-    insert into video (id, chapterid, video_name, 
-      path)
-    values (#{id,jdbcType=INTEGER}, #{chapterid,jdbcType=INTEGER}, #{videoName,jdbcType=VARCHAR}, 
-      #{path,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="entity.Video" >
-    update video
-    set chapterid = #{chapterid,jdbcType=INTEGER},
-      video_name = #{videoName,jdbcType=VARCHAR},
-      path = #{path,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, chapterid, video_name, path
-    from video
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, chapterid, video_name, path
-    from video
-  </select>
+<mapper namespace="dao.VideoMapper">
+    <resultMap id="BaseResultMap" type="entity.Video">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="chapterid" property="chapterid" jdbcType="INTEGER"/>
+        <result column="video_name" property="videoName" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from video
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="entity.Video">
+        insert into video (id, chapterid, video_name,
+                           path)
+        values (#{id,jdbcType=INTEGER}, #{chapterid,jdbcType=INTEGER}, #{videoName,jdbcType=VARCHAR},
+                #{path,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="entity.Video">
+        update video
+        set chapterid  = #{chapterid,jdbcType=INTEGER},
+            video_name = #{videoName,jdbcType=VARCHAR},
+            path       = #{path,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, chapterid, video_name, path
+        from video
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, chapterid, video_name, path
+        from video
+    </select>
 
-  <select id="selectByChapterID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, chapterid, video_name, path
-    from video
-    where chapterid = #{chapterid,jdbcType=INTEGER}
-  </select>
-
-
-  <update id="updateVideo" parameterType="entity.Video">
-    update
-    video
-    <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
-      <if test="chapterid != null">chapterid = #{chapterid},</if>
-      <if test="videoName != null">video_name = #{videoName},</if>
-      <if test="path != null">path=#{path},</if>
-    </trim>
-  </update>
+    <select id="selectByChapterID" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, chapterid, video_name, path
+        from video
+        where chapterid = #{chapterid,jdbcType=INTEGER}
+    </select>
 
 
-  <insert id="insertVideo" parameterType="entity.Video">
-    insert into video
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="chapterid != null">
-        chapterid,
-      </if>
-      <if test="videoName != null">
-        video_name,
-      </if>
-      <if test="path != null">
-        path,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id},
-      </if>
-      <if test="chapterid != null">
-        #{chapterid},
-      </if>
-      <if test="videoName != null">
-        #{videoName},
-      </if>
-      <if test="path != null">
-        #{path},
-      </if>
-    </trim>
-  </insert>
+    <update id="updateVideo" parameterType="entity.Video">
+        update
+        video
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="chapterid != null">chapterid = #{chapterid},</if>
+            <if test="videoName != null and videoName !=''">video_name = #{videoName},</if>
+            <if test="path != null and path !=''">path=#{path},</if>
+        </trim>
+    </update>
+
+
+    <insert id="insertVideo" parameterType="entity.Video">
+        insert into video
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="chapterid != null">
+                chapterid,
+            </if>
+            <if test="videoName != null and videoName !=''">
+                video_name,
+            </if>
+            <if test="path != null and path !=''">
+                path,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="chapterid != null">
+                #{chapterid},
+            </if>
+            <if test="videoName != null and videoName !=''">
+                #{videoName},
+            </if>
+            <if test="path != null and path !=''">
+                #{path},
+            </if>
+        </trim>
+    </insert>
 </mapper>

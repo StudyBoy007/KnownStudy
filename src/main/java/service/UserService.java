@@ -37,4 +37,8 @@ public interface UserService {
 
     int selectIsOrNotCollect(Integer uid, Integer cid);
 
+    int insertUser(User user);
+
+    int updateUser(User user);
+
 }

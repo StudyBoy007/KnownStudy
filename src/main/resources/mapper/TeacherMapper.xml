@@ -115,4 +115,69 @@
         set focus=focus - 1
         where id = #{tid}
     </update>
+
+
+    <update id="updateTeacher" parameterType="entity.Teacher">
+        update
+        teacher
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="tname != null and tname !=''">tname = #{tname},</if>
+            <if test="introduction != null and introduction !=''">introduction = #{introduction},</if>
+            <if test="teacherStatus != null">teacher_status=#{teacherStatus},</if>
+            <if test="avatar != null and avatar !=''">avatar=#{avatar},</if>
+            <if test="major.id != null">major=${major.id},</if>
+            <if test="focus != null">focus=#{focus},</if>
+        </trim>
+    </update>
+
+
+    <insert id="insertTeacher" parameterType="entity.Teacher">
+        insert into teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="tname != null and tname !=''">
+                tname,
+            </if>
+            <if test="introduction != null and introduction !=''">
+                introduction,
+            </if>
+            <if test="teacherStatus != null">
+                teacher_status,
+            </if>
+            <if test="avatar != null and avatar !=''">
+                avatar,
+            </if>
+            <if test="major.id != null">
+                major,
+            </if>
+            <if test="focus != null">
+                focus,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="tname != null and tname !=''">
+                #{tname},
+            </if>
+            <if test="introduction != null and introduction !=''">
+                #{introduction},
+            </if>
+            <if test="teacherStatus != null">
+                #{teacherStatus},
+            </if>
+            <if test="avatar != null and avatar !=''">
+                #{avatar},
+            </if>
+            <if test="major.id != null">
+                ${major.id},
+            </if>
+            <if test="focus != null">
+                #{focus},
+            </if>
+        </trim>
+    </insert>
 </mapper>
