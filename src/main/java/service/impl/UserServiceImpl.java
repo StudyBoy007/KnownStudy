@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import service.UserService;
 import util.Msg;
 
+import javax.swing.*;
 import java.util.List;
 
 /**
@@ -110,5 +111,11 @@ public class UserServiceImpl implements UserService {
     public int updateUser(User user) {
         int i = userMapper.updateUser(user);
         return i;
+    }
+
+    @Override
+    public User selectUsernameIsOrNotExitService(String username, Integer id) {
+        User user = userMapper.selectUsernameIsOrNotExit(username, id);
+        return user;
     }
 }

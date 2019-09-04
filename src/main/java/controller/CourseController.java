@@ -5,6 +5,7 @@ import entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import service.CourseClassService;
 import service.CourseService;
@@ -118,7 +119,7 @@ public class CourseController {
 
     @RequestMapping("/showVideo")
     @RequireRole("guest")
-    public ModelAndView showVideo(int courseId, int chapter, int video) {
+    public ModelAndView showVideo(int courseId, int chapter, int video, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         //获取展示的课程信息
         Course course = courseService.selectByPrimaryKeyService(courseId);
@@ -129,6 +130,8 @@ public class CourseController {
         String coursePath = course.getCourse_path();
         String chapterPath = chapter1.getPath();
         String videoPath = chapter1.getVideos().get(video).getPath();
+        int videoId = chapter1.getVideos().get(video).getId();
+        request.getSession().setAttribute("videoId", videoId);
         //推荐课程
         List<Course> recommends = courseService.selectCourseByDirectionRecommendService(course.getId(), course.getCourseDirection().getId());
         mv.addObject("recommends", recommends);
@@ -137,4 +140,14 @@ public class CourseController {
         mv.setViewName("video");
         return mv;
     }
+
+
+    @ResponseBody
+    @RequestMapping("/recordVideoTime")
+    public void recordVideoTime(double time, HttpServletRequest request) {
+        int videoId = (int) request.getSession().getAttribute("videoId");
+        User user = (User) request.getSession().getAttribute("user");
+    }
+
+
 }

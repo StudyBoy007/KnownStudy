@@ -54,6 +54,9 @@ public interface CourseService {
     Msg juifyCourseIsOrNotBuyService(int uid, int cid);
 
 
+    Msg juifyCourseIsOrNotBuyOrInOrder(int uid, int cid);
+
+
     Course juifyCondition(int tid, int direction_id, int condition);
 
 
@@ -63,7 +66,7 @@ public interface CourseService {
 
     int insertCourseService(Course course);
 
-    List<Chapter>selectChapterByCourseId(Integer courseId);
+    List<Chapter> selectChapterByCourseId(Integer courseId);
 
     List<Video> selectVideoByChapterId(Integer chapterId);
 
@@ -83,5 +86,7 @@ public interface CourseService {
 
     int deleteVideo(int videoId);
 
+    void updateVideoHistory(int uid,int vid,double time);
 
+    double selectVideoHistory(int uid,int vid);
 }

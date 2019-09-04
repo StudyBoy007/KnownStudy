@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+
 /**
  * Create by czq
  * time on 2019/9/1  12:47
@@ -487,7 +488,10 @@ public class AdminController {
     @ResponseBody
     @RequestMapping("/modifyUserAdmin")
     public Msg modifyUserAdmin(User user, @RequestParam("file-2") MultipartFile multipartFile) {
-        System.out.println(user.getEmail());
+        User user2 = userService.selectUsernameIsOrNotExitService(user.getUsername(), user.getId());
+        if (user2 != null) {
+            return new Msg(405, "该用户名已经存在，修改失败", null);
+        }
         if (multipartFile.getSize() > 0) {
             User user1 = userService.selectByPrimaryKeyService(user.getId());
             String oldFileName = user1.getAvatar();
@@ -523,7 +527,10 @@ public class AdminController {
     @ResponseBody
     @RequestMapping("/addUserAdmin")
     public Msg addUserAdmin(User user, @RequestParam("file-2") MultipartFile multipartFile) {
-
+        Msg msg = userService.selectByUsernameService(user.getUsername());
+        if (msg.getCode() == 200) {
+            return msg;
+        }
         String fileName = multipartFile.getOriginalFilename(); //得到文件的名字
         //获取文件原名的后缀
         String substring = fileName.substring(fileName.lastIndexOf("."));
@@ -606,7 +613,7 @@ public class AdminController {
             return Msg.result(405, "该用户编号不存在", null);
         } else {
             order.setCreateTime(DateDefine.getStringDate2());
-            int i = orderService.insertService(order);
+            int i = orderService.insertOrderService(order);
             if (i > 0) {
                 return new Msg(100, "添加订单成功", null);
             } else {
@@ -622,6 +629,117 @@ public class AdminController {
         int i = orderService.deleteByPrimaryKeyService(orderId);
         if (i > 0) {
             return new Msg(100, "删除订单成功", null);
+        } else {
+            return new Msg(405, "删除订单失败", null);
+        }
+    }
+
+
+    @RequestMapping("/displayContentAdmin")
+    public String displayContentAdmin(HttpServletRequest request, int orderId) {
+        request.getSession().setAttribute("orderId", orderId);
+        return "admin/content-list";
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/displayContentPage")
+    public Msg displayContentPage(@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpServletRequest request) {
+        int orderId = (int) request.getSession().getAttribute("orderId");
+        // 引入PageHelper分页插件
+        // 在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn, 3);
+        List<Course> courses = orderService.selectMiddleInOrderWithCourseService(orderId);
+        // 使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就行了。
+        // 封装了详细的分页信息,包括有我们查询出来的数据，传入连续显示的页数
+        PageInfo page = new PageInfo(courses, 3);
+        return Msg.result(100, "老师信息", orderId).add("pageInfo", page);
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/editContentAdmin")
+    public Msg editContentAdmin(int id, HttpServletRequest request) {
+        request.getSession().setAttribute("oldCid", id);
+        return new Msg(100, "展示该订单商品信息", id);
+    }
+
+    @ResponseBody
+    @RequestMapping("/modifyContentAdmin")
+    public Msg modifyContentAdmin(int courseId, HttpServletRequest request) {
+        int orderId = (int) request.getSession().getAttribute("orderId");
+        Course course = courseService.selectByPrimaryKeyService(courseId);
+        if (course == null) {
+            return new Msg(405, "该课程不存在，修改订单内容失败", null);
+        } else {
+            int i = orderService.selectCourseInOrder2Service(orderId, courseId);
+            if (i > 0) {
+                return new Msg(405, "该课程已经存在该订单中，修改订单失败", null);
+            }
+            int oldCid = (int) request.getSession().getAttribute("oldCid");
+            int i1 = orderService.updateOrderContentByOidAndCidService(orderId, courseId, oldCid);
+            if (i1 > 0) {
+                int courseNum = orderService.selectMiddleInOrderWithCourseNumService(orderId);
+                double totalPrice = orderService.selectMiddleInOrderWithCourseTotalPriceService(orderId);
+                Order order = new Order(orderId, courseNum, totalPrice);
+                int i2 = orderService.updateOrder(order);
+               if(i2>0){
+                   return new Msg(100, "更新订单商品成功", null);
+               }else {
+                   return new Msg(405, "更新订单商品失败", null);
+               }
+            } else {
+                return new Msg(405, "更新订单商品失败", null);
+            }
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/addContentAdmin")
+    public Msg addContentAdmin(int courseId, HttpServletRequest request) {
+        int orderId = (int) request.getSession().getAttribute("orderId");
+        Course course = courseService.selectByPrimaryKeyService(courseId);
+        if (course == null) {
+            return new Msg(405, "该课程不存在，添加订单内容失败", null);
+        } else {
+            int i = orderService.selectCourseInOrder2Service(orderId, courseId);
+            if (i > 0) {
+                return new Msg(405, "该课程已经存在该订单中，添加订单失败", null);
+            }
+            int i1 = orderService.insertMiddleInOrderWithCourseService(orderId, courseId);
+            if (i1 > 0) {
+                int courseNum = orderService.selectMiddleInOrderWithCourseNumService(orderId);
+                double totalPrice = orderService.selectMiddleInOrderWithCourseTotalPriceService(orderId);
+                Order order = new Order(orderId, courseNum, totalPrice);
+                int i2 = orderService.updateOrder(order);
+                if(i2>0){
+                    return new Msg(100, "添加订单商品成功", null);
+                }else {
+                    return new Msg(405, "添加订单商品失败", null);
+                }
+            } else {
+                return new Msg(405, "添加更新订单商品失败", null);
+            }
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/deleteContentAdmin")
+    public Msg deleteContentAdmin(int contentId,HttpServletRequest request) {
+        int orderId = (int) request.getSession().getAttribute("orderId");
+        int i = orderService.deleteMiddleByOidAndCid(orderId, contentId);
+        if (i > 0) {
+            int courseNum = orderService.selectMiddleInOrderWithCourseNumService(orderId);
+            double totalPrice = orderService.selectMiddleInOrderWithCourseTotalPriceService(orderId);
+            Order order = new Order(orderId, courseNum, totalPrice);
+            int i2 = orderService.updateOrder(order);
+            if(i2>0){
+                return new Msg(100, "删除订单商品成功", null);
+            }else {
+                return new Msg(405, "删除订单商品失败", null);
+            }
         } else {
             return new Msg(405, "删除订单失败", null);
         }

@@ -371,4 +371,22 @@
         </trim>
     </insert>
 
+
+    <select id="selectVideoHistoryTime" resultType="double">
+        select time from video_history where uid=#{uid} and vid=#{vid}
+    </select>
+
+    <select id="selectVideoHistoryIsOrNotExist" resultType="int">
+        select count(*) from video_history where uid=#{uid} and vid=#{vid}
+    </select>
+    
+    <insert id="insertVideoHistory">
+        insert into video_history values(#{uid},#{vid},#{time})
+    </insert>
+    
+    <update id="updateVideoHistory">
+        update video_history set time=#{time} where uid=#{uid} and vid=#{vid}
+    </update>
+
+
 </mapper>

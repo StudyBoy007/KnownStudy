@@ -2,6 +2,7 @@ package service.impl;
 
 import dao.OrderMapper;
 import dao.UserMapper;
+import entity.Course;
 import entity.Order;
 import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int insertService(Order record) {
+        int insert = mapper.insert(record);
+        return insert;
+    }
+
+    @Override
+    public int insertOrderService(Order record) {
         int insert = mapper.insertOrder(record);
         return insert;
     }
@@ -64,7 +71,6 @@ public class OrderServiceImpl implements OrderService {
 
         String[] coursesId = courseIds.split(",");
 
-        //将
         List<Integer> courses = new ArrayList<>();
         for (String courseId : coursesId) {
             courses.add(Integer.parseInt(courseId));
@@ -72,6 +78,15 @@ public class OrderServiceImpl implements OrderService {
         int i = mapper.insertMiddle(courses, oid);
         return i;
     }
+
+    @Override
+    public int insertMiddleService2(Integer cid, Integer oid) {
+        List<Integer> courses = new ArrayList<>();
+        courses.add(cid);
+        int i = mapper.insertMiddle(courses, oid);
+        return i;
+    }
+
 
     @Override
     public int deleteOrderBatchService(String ordersId) {
@@ -148,6 +163,48 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int insertOrder(Order order) {
         int i = mapper.insertOrder(order);
+        return i;
+    }
+
+    @Override
+    public List<Course> selectMiddleInOrderWithCourseService(int oid) {
+        List<Course> courses = mapper.selectMiddleInOrderWithCourse(oid);
+        return courses;
+    }
+
+    @Override
+    public int updateOrderContentByOidAndCidService(Integer oid, Integer cid, Integer oldCid) {
+        int i = mapper.updateOrderContentByOidAndCid(oid, cid, oldCid);
+        return i;
+    }
+
+    @Override
+    public double selectMiddleInOrderWithCourseTotalPriceService(int oid) {
+        double v = mapper.selectMiddleInOrderWithCourseTotalPrice(oid).orElse(0.0);
+        return v;
+    }
+
+    @Override
+    public int selectMiddleInOrderWithCourseNumService(int oid) {
+        int i = mapper.selectMiddleInOrderWithCourseNum(oid).orElse(0);
+        return i;
+    }
+
+    @Override
+    public int insertMiddleInOrderWithCourseService(Integer oid, Integer cid) {
+        int i = mapper.insertMiddleInOrderWithCourse(oid, cid);
+        return i;
+    }
+
+    @Override
+    public int selectCourseInOrder2Service(Integer oid, Integer cid) {
+        int i = mapper.selectCourseInOrder2(oid, cid);
+        return i;
+    }
+
+    @Override
+    public int deleteMiddleByOidAndCid(Integer oid, Integer cid) {
+        int i = mapper.deleteMiddleByOidAndCid(oid, cid);
         return i;
     }
 }

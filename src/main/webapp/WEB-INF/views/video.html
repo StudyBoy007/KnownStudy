@@ -71,10 +71,11 @@
                     </a>
                     <div class="my-cart" id="js-my-cart"></div>
                 </li>
-                    <li class="set_btn user-card-box" id="header-user-card">
-                <a id="header-avator" th:href="@{/userInfo}">
-                    <img th:src="|/pic/avatar/${session.user.avatar}|" width="40" height="40" style="object-fit: cover">
-                </a>
+                <li class="set_btn user-card-box" id="header-user-card">
+                    <a id="header-avator" th:href="@{/userInfo}">
+                        <img th:src="|/pic/avatar/${session.user.avatar}|" width="40" height="40"
+                             style="object-fit: cover">
+                    </a>
                 </li>
             </ul>
         </div>
@@ -102,7 +103,7 @@
             <div class="button agileinfo"></div>
         </div>
         <div id="video">
-            <video th:src="|/pic/video/${videoName}|"></video>
+            <video th:src="|/pic/video/${videoName}|" id="videoDis"></video>
             <p>Your user agent does not support this Video element.</p>
         </div>
         <div id="controls">
@@ -1005,4 +1006,15 @@
 <script th:src="@{/static/js/jquery.js}"></script>
 <script th:src="@{/static/js/bootstrap.min.js}"></script>
 <script th:src="@{/static/js/video.js}"></script>
+<script>
+    window.onbeforeunload = function () {
+        var time=document.getElementById("videoDis").currentTime;
+        $.ajax({
+            type: "POST",
+            data: {"time":Number(time)},
+            url: `[[${#servletContext.contextPath}]]/recordVideoTime`,
+            async: false
+        });
+    };
+</script>
 </html>

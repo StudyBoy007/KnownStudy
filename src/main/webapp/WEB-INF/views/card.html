@@ -64,7 +64,7 @@
             <div class="Xcontent16"><p th:text="${course.introduction}">充电5分钟，温暖2小时</p></div>
             <div class="Xcontent17">
                 <p class="Xcontent18">售价</p>
-                <p class="Xcontent19">$<span th:text="${course.price}">69.00</span></p>
+                <p class="Xcontent19">$<span th:text="${course.price}" id="price">69.00</span></p>
                 <div class="Xcontent20">
                     <p class="Xcontent21">促销</p>
                     <img th:src="@{/static/images/shangpinxiangqing/X12.png}">
@@ -95,9 +95,9 @@
                                                                                        width="30px"><span>已收藏</span>
                 </div>
             </div>
-            <div class="Xcontent34"><a href="#"><img class="buy"
+            <div class="Xcontent34"><a><img class="buy" th:name="${course.id}"
                                                      th:src="@{/static/images/shangpinxiangqing/X17.png}"></a></div>
-            <div class="Xcontent35"><a href="#"><img class="collectCar" th:name="${course.id}"
+            <div class="Xcontent35"><a><img class="collectCar" th:name="${course.id}"
                                                      th:src="@{/static/images/shangpinxiangqing/X18.png}"></a>
             </div>
         </ol>

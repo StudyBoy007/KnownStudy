@@ -9,6 +9,7 @@ import util.DateDefine;
 import util.Msg;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Create by czq
@@ -134,6 +135,29 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Msg juifyCourseIsOrNotBuyOrInOrder(int uid, int cid) {
+        //判断是否购买了课程
+        int i = courseMapper.juifyCourseIsOrNotBuy(uid, cid);
+        if (i != 0) {
+            return Msg.result(101, "尊贵的用户，该课程您已经购买，是否前往观看", null);
+        }
+
+        ///判断该课程是否存在订单中
+        int i2 = orderMapper.selectCourseInOrder(uid, cid);
+        if (i2 != 0) {
+            return Msg.result(103, "尊贵的客户，该课程已经存在订单中,是否查看订单", null);
+        }
+
+        //该课程在购物车中则删除，去生成订单
+        Cart cart = cartMapper.selectCartByUserIdAndCourseId2(uid, cid);
+        if (cart != null) {
+            cartMapper.deleteByPrimaryKey(cart.getId());
+        }
+
+        return Msg.result(100, "添加订单成功，是否查看订单", null);
+    }
+
+    @Override
     public Course juifyCondition(int tid, int direction_id, int condition) {
         Course course = new Course(new CourseClass(direction_id), new Teacher(tid));
         if (condition == 1) {
@@ -238,5 +262,19 @@ public class CourseServiceImpl implements CourseService {
         return i;
     }
 
+    @Override
+    public void updateVideoHistory(int uid, int vid, double time) {
+        int i = courseMapper.selectVideoHistoryIsOrNotExist(uid, vid);
+        if(i>0){
+            int i1 = courseMapper.updateVideoHistory(uid, vid, time);
+        }else {
+            courseMapper.insertVideoHistory(uid, vid, time);
+        }
+    }
 
+    @Override
+    public double selectVideoHistory(int uid, int vid) {
+        Double videoTime = courseMapper.selectVideoHistoryTime(uid, vid).orElse(0d);
+        return videoTime;
+    }
 }

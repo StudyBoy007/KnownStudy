@@ -51,7 +51,7 @@ function build_users_table(result) {
         var checkBoxTd = $("<td width='6%'><input type='checkbox' class='check_item'/></td>");
         var Id = $("<td width='6%'></td>").append(item.id);
         var courseCount = $("<td width='10%'></td>").append(item.courseCount);
-        var content = $("<td width='8%'></td>").append("<a href='/known/displayChapterAdmin?courseId=" + item.id + "' target='_self'>查看订单内容</a>");
+        var content = $("<td width='8%'></td>").append("<a href='/known/displayContentAdmin?orderId=" + item.id + "' target='_self'>查看订单内容</a>");
         var status;
         if (item.status == true) {
             status = "已支付"
@@ -349,12 +349,17 @@ function addOrder() {
     });
 }
 
+
 function update() {
-    var reg = /^[1-9]\d*$/;
-    if (!reg.test($(".input").val())) {
-        $(".input").val(null);
+        var reg = /^[1-9]\d*$/;
+            if (!reg.test($("#order_price").val())) {
+                $("#order_price").val(null);
+            }
+    if (!reg.test($("#add_user_id").val())) {
+        $("#add_user_id").val(null);
     }
-}
+    }
+
 
 
 

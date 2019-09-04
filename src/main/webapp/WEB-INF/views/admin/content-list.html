@@ -19,68 +19,37 @@
     <!--[if IE 6]>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>图片列表</title>
+    <title>订单商品列表</title>
     <style>
-        #uploadfile {
-            margin-left: 15px;
-        }
 
-        #uploadfile2 {
-            margin-left: 15px;
-        }
-
-        #fileUpload {
-            margin-left: 16px;
-        }
-
-        .form-control {
-            border-radius: 16px;
-        }
     </style>
 </head>
 <body>
+
 <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
-<div class="modal fade" id="orderModifyModel1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="contentModifyModel1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="modifyUser">订单信息修改</h4>
+                <h4 class="modal-title" id="modifyUser">订单商品修改</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="orderEdit" target="nm_iframe" onsubmit="editOrder()"
+                <form class="form-horizontal" id="contentEdit" target="nm_iframe" onsubmit="editContent()"
                       enctype="multipart/form-data" method="post">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">订单id</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="order_id"
-                                   placeholder="订单id" name="id" readonly>
+                                   placeholder="订单id" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">支付状态</label>
+                        <label class="col-sm-3 control-label">课程id</label>
                         <div class="col-sm-9">
-                            <select name="status" class="form-control" required id="payStatus">
-                                <option name="false" value="0">未支付</option>
-                                <option name="true" value="1">已支付</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">用户是否可见</label>
-                        <div class="col-sm-9">
-                            <select name="degree" class="form-control" required id="user_look">
-                                <option name="false" value="0">用户可见</option>
-                                <option name="true" value="1">用户不可见</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">订单价格</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control input" id="order_price"
-                                   placeholder="价格" name="priceTotal" required oninput="update()">
+                            <input type="text" class="form-control input" id="order_content"
+                                   placeholder="价格" name="courseId" oninput="update1()" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -93,7 +62,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="orderAddModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="contentAddModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -102,31 +71,13 @@
                 <h4 class="modal-title" id="myModalLabel">订单添加</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="orderAdd" target="nm_iframe" onsubmit="addOrder()"
+                <form class="form-horizontal" id="contentAdd" target="nm_iframe" onsubmit="addContent()"
                       enctype="multipart/form-data" method="post">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">用户id</label>
+                        <label class="col-sm-3 control-label">课程id</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="add_user_id"
-                                   placeholder="用户id" name="user.id" required oninput="update()">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">支付状态</label>
-                        <div class="col-sm-9">
-                            <select name="status" class="form-control" required id="add_payStatus">
-                                <option name="false" value="0">未支付</option>
-                                <option name="true" value="1">已支付</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">用户是否可见</label>
-                        <div class="col-sm-9">
-                            <select name="degree" class="form-control" required id="add_user_look">
-                                <option name="false" value="0">用户可见</option>
-                                <option name="true" value="1">用户不可见</option>
-                            </select>
+                            <input type="text" class="form-control input" id="order_add_content"
+                                   placeholder="价格" name="courseId" oninput="update1()" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -138,9 +89,8 @@
         </div>
     </div>
 </div>
-
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 订单管理 <span
-        class="c-gray en">&gt;</span> 订单列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 课程管理 <span
+        class="c-gray en">&gt;</span> 课程列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                                               href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
@@ -156,24 +106,25 @@
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a href="javascript:;"
                                                                class="btn btn-danger radius"><i
             class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-        <a class="btn btn-primary radius" id="addChapter"><i
-                class="Hui-iconfont">&#xe600;</i> 添加订单</a></span>
+        <a  class="btn btn-primary radius" id="addChapter"><i
+                class="Hui-iconfont">&#xe600;</i> 添加订单课程</a></span>
     </div>
     <div class="mt-20">
         <table id="user_table" rules="rows">
             <thead>
             <tr>
-                <th width="10%">
+                <th width="4%">
                 </th>
-                <th width="10%">#</th>
-                <th width="10%">订单课程数</th>
-                <th width="8%">订单内容</th>
-                <th width="10%">支付状态</th>
-                <th width="10%">价格</th>
-                <th width="10%">用户名</th>
-                <th width="10%">用户是否可见</th>
-                <th width="10%">生成时间</th>
-                <th width="20%">操作</th>
+                <th width="6%">订单id</th>
+                <th width="4%">课程id</th>
+                <th width="12%">名称</th>
+                <th width="12%">封面</th>
+                <th width="8%">老师</th>
+                <th width="8%">等级</th>
+                <th width="8%">类别</th>
+                <th width="8%">价格</th>
+                <th width="20%">简介</th>
+                <th width="16%">操作</th>
             </tr>
             </thead>
             <tbody>
@@ -186,6 +137,7 @@
         <div class="col-md-6" id="page_info_area"></div>
         <!-- 分页条信息 -->
         <div class="col-md-6" id="page_nav_area">
+
         </div>
     </div>
 </div>
@@ -194,10 +146,15 @@
 </body>
 <script type="text/javascript" th:src="@{/static/js/jquery.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin/content.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/lib/jquery/1.9.1/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/h-ui/js/H-ui.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/h-ui.admin/js/H-ui.admin.js}"></script> <!--/_footer 作为公共模版分离出去-->
-<script type="text/javascript" th:src="@{/static/js/admin/order.js}"></script>
+
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" th:src="@{/static/js/lib/jquery.contextmenu/jquery.contextmenu.r2.js}"></script>
+<script type="text/javascript">
+    /*个人信息*/
+
+</script>
 </html>

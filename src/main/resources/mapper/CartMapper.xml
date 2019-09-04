@@ -47,6 +47,13 @@
           and course_id = #{cid};
     </select>
 
+    <select id="selectCartByUserIdAndCourseId2" resultMap="BaseResultMap">
+        select *
+        from cart
+        where uid = #{uid}
+          and course_id = #{cid};
+    </select>
+
 
     <delete id="deleteCart" parameterType="list">
         delete from cart where id in

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import service.CartService;
+import service.CourseService;
 import service.OrderService;
 import util.DateDefine;
 import util.Msg;
@@ -31,6 +32,9 @@ public class OrderController {
     @Autowired
     CartService cartService;
 
+    @Autowired
+    CourseService courseService;
+
     @ResponseBody
     @RequestMapping("/createOrder")
     @RequireRole("guest")
@@ -45,9 +49,30 @@ public class OrderController {
         //生成订单
         orderService.insertService(order);
 
+        System.out.println(order.getId());
+
         //订单商品中间表
         orderService.insertMiddleService(strid, order.getId());
         return new Msg(100, "订单生成成功", null);
+    }
+
+    @ResponseBody
+    @RequestMapping("/createOrder2")
+    @RequireRole("guest")
+    public Msg createOrder2(int courseId, double price, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        Msg msg = courseService.juifyCourseIsOrNotBuyOrInOrder(user.getId(), courseId);
+        if (msg.getCode() != 100) {
+            return msg;
+        }
+        Order order = new Order(1, false, price, user, DateDefine.getStringDate2());
+
+        orderService.insertService(order);
+
+        orderService.insertMiddleService2(courseId, order.getId());
+
+        msg.setO(order.getId());
+        return msg;
     }
 
 
@@ -76,7 +101,7 @@ public class OrderController {
 
     @RequestMapping("/displayOrder")
     @RequireRole("guest")
-    public ModelAndView displayOrder(HttpServletRequest request) {
+    public ModelAndView displayOrder(HttpServletRequest request, int id) {
         User user = (User) request.getSession().getAttribute("user");
 
         //得到为付款的订单
@@ -87,6 +112,9 @@ public class OrderController {
         ModelAndView mv = new ModelAndView();
         mv.addObject("orders", orders);
         mv.addObject("historyOrders", ordersHistory);
+        if (id != 0) {
+            mv.addObject("activeOrder", id);
+        }
         mv.setViewName("order");
         return mv;
     }

@@ -80,7 +80,7 @@ $(function () {
                 } else if (result.code == 103) {
                     $("#buttonContent").text("查看订单")
                     $("#buttonContent").click(function () {
-                        window.location.href = getRootPath() + "displayOrder";
+                        window.location.href = getRootPath() + "displayOrder?id=0";
                     })
                 }
                 $("#carModal").modal({
@@ -88,6 +88,44 @@ $(function () {
                 });
             }
         });
+    })
+
+
+    $(".buy").click(function () {
+        //获取商品id
+        var courseId = Number($(this).attr("name"));
+        var price = Number($("#price").text());
+        //把加入购物车的物品添加
+        $.ajax({
+            url: getRootPath() + "createOrder2",
+            type: "POST",
+            data: {
+                "courseId": courseId,
+                "price": price
+            },
+            success: function (result) {
+                $("#replay").text(result.msg);
+                if (result.code == 200) {
+                    $("#buttonContent").remove();
+                } else if (result.code == 101) {
+                    $("#buttonContent").text("前往观看")
+                    $("#buttonContent").click(function () {
+                        window.location.href = getRootPath() + "displayCourse?id=" + courseId;
+                    })
+                } else if (result.code == 103) {
+                    $("#buttonContent").text("查看订单")
+                    $("#buttonContent").click(function () {
+                        window.location.href = getRootPath() + "displayOrder?id=0";
+                    })
+                } else if (result.code == 100) {
+                    window.location.href = getRootPath() + "displayOrder?id=" + result.o;
+                }
+                $("#carModal").modal({
+                    backdrop: "static"
+                });
+            }
+        });
+
     })
 })
 

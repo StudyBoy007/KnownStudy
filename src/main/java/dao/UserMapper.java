@@ -47,4 +47,6 @@ public interface UserMapper {
 
     int deleteConnection(@Param("uid") Integer uid, @Param("cid") Integer cid);
 
+    User selectUsernameIsOrNotExit(@Param("username") String username, @Param("id") Integer id);
+
 }

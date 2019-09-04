@@ -5,6 +5,7 @@ import entity.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CourseMapper {
     int deleteByPrimaryKey(Integer id);
@@ -47,7 +48,7 @@ public interface CourseMapper {
     List<Course> selectCourseByDirectionRecommend(@Param("mid") Integer mid, @Param("oid") Integer oid);
 
 
-    int juifyCourseIsOrNotBuy(@Param("uid") int uid, @Param("cid") int cid);
+    int juifyCourseIsOrNotBuy(@Param("uid") Integer uid, @Param("cid") Integer cid);
 
     int coursefocusDel(Integer cid);
 
@@ -55,5 +56,11 @@ public interface CourseMapper {
 
     int insertCourse(Course course);
 
+    int selectVideoHistoryIsOrNotExist(@Param("uid") Integer uid, @Param("vid") Integer vid);
 
+    Optional<Double> selectVideoHistoryTime(@Param("uid") Integer uid, @Param("vid") Integer vid);
+
+    int insertVideoHistory(@Param("uid") Integer uid, @Param("vid") Integer vid,@Param("time") Double time);
+
+    int updateVideoHistory(@Param("uid") Integer uid, @Param("vid") Integer vid,@Param("time") Double time);
 }

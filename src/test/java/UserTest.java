@@ -59,6 +59,14 @@ public class UserTest {
         System.out.println(i);
     }
 
+    @Test
+    public void testUserName() {
+        SqlSession session = factory.openSession();
+        UserMapper mapper = session.getMapper(UserMapper.class);
+        User tom456 = mapper.selectUsernameIsOrNotExit("tom456", 2);
+        System.out.println(tom456);
+    }
+
 
     @Test
     public void testGetUserByPrimaryKey() {

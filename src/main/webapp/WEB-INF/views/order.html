@@ -180,4 +180,19 @@
 <script type="text/javascript" th:src="@{/static/js/jquery.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/order.js}"></script>
+<script th:inline="javascript">
+    $(function () {
+        var activeOrder = [[${activeOrder}]];
+        if (activeOrder != null) {
+            $(".hook").each(function () {
+                if ($(this).attr("name") == activeOrder) {
+                    $(this).attr("my-icon", "select01");
+                }
+            })
+            var sum = totalMoney();
+            $("#js-pay-price").text(sum);
+            $("#js-actual-price").text(sum);
+        }
+    })
+</script>
 </html>

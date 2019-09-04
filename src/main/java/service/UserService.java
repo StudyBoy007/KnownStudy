@@ -41,4 +41,6 @@ public interface UserService {
 
     int updateUser(User user);
 
+    User selectUsernameIsOrNotExitService(String username,Integer id);
+
 }

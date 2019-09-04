@@ -39,6 +39,29 @@
         <association property="user" column="user_id" javaType="entity.User"
                      select="dao.UserMapper.selectByPrimaryKey"/>
     </resultMap>
+
+
+
+    <resultMap id="BaseResultMap2" type="entity.Course">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="cname" property="cname" jdbcType="VARCHAR"/>
+        <!--        <result column="direction_id" property="directionId" jdbcType="INTEGER"/>-->
+        <result column="isfress" property="isfress" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="DOUBLE"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR"/>
+        <result column="course_path" property="course_path" jdbcType="VARCHAR"/>
+        <result column="course_status" property="courseStatus" jdbcType="INTEGER"/>
+        <result column="start_time" property="start_time" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="VARCHAR"/>
+        <result column="degree" property="degree" jdbcType="VARCHAR"/>
+        <result column="focus" property="focus" jdbcType="INTEGER"/>
+        <result column="buy_num" property="buy_num" jdbcType="INTEGER"/>
+        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <association property="teacher" column="tid" javaType="entity.Teacher"
+                     select="dao.TeacherMapper.selectByPrimaryKey"/>
+        <association property="courseDirection" column="direction_id" javaType="entity.CourseClass"
+                     select="dao.CourseClassMapper.selectByPrimaryKey"/>
+    </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from `order`
@@ -203,7 +226,7 @@
         update
         `order`
         <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
-            <if test="courseCount != null">tname = #{courseCount},</if>
+            <if test="courseCount != null">course_count = #{courseCount},</if>
             <if test="status != null">status = #{status},</if>
             <if test="priceTotal != null">price_total=#{priceTotal},</if>
             <if test="user != null">
@@ -266,7 +289,7 @@
     </insert>
 
 
-    <select id="selectMiddleInOrderWithCourse" parameterType="int" resultType="Course">
+    <select id="selectMiddleInOrderWithCourse" parameterType="int" resultMap="BaseResultMap2">
         SELECT *
         FROM order_course oc,
              course c
@@ -277,13 +300,13 @@
 
     <update id="updateOrderContentByOidAndCid">
         UPDATE order_course
-        SET cid=10
+        SET cid=#{cid}
         WHERE oid = #{oid}
-          and cid = #{cid};
+          and cid = #{oldCid};
     </update>
 
 
-    <select id="selectMiddleInOrderWithCourseTotalPrice" parameterType="int" resultType="int">
+    <select id="selectMiddleInOrderWithCourseTotalPrice" parameterType="int" resultType="double">
         SELECT SUM(c.price)
         FROM order_course oc,
              course c
@@ -312,5 +335,9 @@
                             ON o.id = m.oid and m.cid = #{cid} and o.id = #{oid}
     </select>
 
-
+    <delete id="deleteMiddleByOidAndCid" parameterType="java.lang.Integer">
+        delete
+        from order_course
+        WHERE oid = #{oid} and cid=#{cid}
+    </delete>
 </mapper>

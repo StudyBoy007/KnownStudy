@@ -126,6 +126,8 @@ function pay() {
                 });
 
                 if (result.code == 100) {
+                    $("#js-actual-price").text(0);
+                    $("#js-pay-price").text(0);
                     $(".hook").each(function () {
                         if ($(this).attr("my-icon") == "select01") {
                             $(this).closest(".noPay").remove();

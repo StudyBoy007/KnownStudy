@@ -310,5 +310,10 @@
             </if>
         </trim>
     </insert>
+    
+    
+    <select id="selectUsernameIsOrNotExit" resultType="User">
+        select * from user where username=#{username} and id!=#{id};
+    </select>
 
 </mapper>

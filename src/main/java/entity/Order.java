@@ -24,6 +24,12 @@ public class Order {
     public Order() {
     }
 
+    public Order(Integer id, Integer courseCount, Double priceTotal) {
+        this.id = id;
+        this.courseCount = courseCount;
+        this.priceTotal = priceTotal;
+    }
+
     public Order(Integer courseCount, boolean status, Double priceTotal, User user, boolean degree) {
         this.courseCount = courseCount;
         this.status = status;
