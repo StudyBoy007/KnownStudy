@@ -1,16 +1,18 @@
 package controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import dao.CommentMapper;
 import dao.CourseClassMapper;
 import entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import service.CourseClassService;
-import service.CourseService;
-import service.TeacherService;
-import service.UserService;
+import service.*;
+import util.Msg;
 import util.auth.RequireRole;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +38,9 @@ public class CourseController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CommentService commentService;
 
 
     //二级菜单显示
@@ -155,6 +160,21 @@ public class CourseController {
         int videoId = (int) request.getSession().getAttribute("videoId");
         User user = (User) request.getSession().getAttribute("user");
         courseService.updateVideoHistory(user.getId(), videoId, time);
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/displayVideoComment")
+    public Msg displayComment(@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpServletRequest request) {
+        int videoId = (int) request.getSession().getAttribute("videoId");
+        // 引入PageHelper分页插件
+        // 在查询之前只需要调用，传入页码，以及每页的大小
+        PageHelper.startPage(pn, 3);
+        List<Comment> comments = commentService.selectCommentByVideoId(videoId);
+        // 使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就行了。
+        // 封装了详细的分页信息,包括有我们查询出来的数据，传入连续显示的页数
+        PageInfo page = new PageInfo(comments, 3);
+        return Msg.result(100, "老师信息", comments).add("pageInfo", page);
     }
 
 

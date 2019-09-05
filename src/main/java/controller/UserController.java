@@ -157,6 +157,19 @@ public class UserController {
         return mv;
     }
 
+    //展示用户信息
+    @RequestMapping("/otherInfo")
+    @RequireRole("guest")
+    public ModelAndView displayOtherInfo(HttpServletRequest request, int uid) {
+        List<Course> coursesCollect = courseService.selectUerCourseCollectService(uid);
+        List<Course> coursesBuy = courseService.selectUserCourseBuyService(uid);
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("collects", coursesCollect);
+        mv.addObject("buys", coursesBuy);
+        mv.setViewName("otherInfo");
+        return mv;
+    }
+
     @RequestMapping("/userAccountCharge")
     @RequireRole("guest")
     public String userAccountRecharge() {

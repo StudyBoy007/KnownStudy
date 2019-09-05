@@ -45,3 +45,21 @@
     background-size: cover;
     z-index: 99;
 }
+
+[my-icon="good"] {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url("../images/icon/点赞.png");
+    background-size: cover;
+    z-index: 99;
+}
+
+[my-icon="replay"] {
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: url("../images/icon/回复.png");
+    background-size: cover;
+    z-index: 99;
+}

@@ -1,38 +1,133 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="dao.CommentMapper" >
-  <resultMap id="BaseResultMap" type="entity.Comment" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="course_id" property="courseId" jdbcType="INTEGER" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="time" property="time" jdbcType="VARCHAR" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from comment
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="entity.Comment" >
-    insert into comment (id, user_id, course_id, 
-      content, time)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="entity.Comment" >
-    update comment
-    set user_id = #{userId,jdbcType=INTEGER},
-      course_id = #{courseId,jdbcType=INTEGER},
-      content = #{content,jdbcType=VARCHAR},
-      time = #{time,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, user_id, course_id, content, time
-    from comment
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, user_id, course_id, content, time
-    from comment
-  </select>
+<mapper namespace="dao.CommentMapper">
+    <resultMap id="BaseResultMap" type="entity.Comment">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="video_id" property="videoId" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="VARCHAR"/>
+        <result column="focus" property="focus" jdbcType="INTEGER"/>
+        <association property="user" column="user_id" jdbcType="INTEGER" javaType="entity.User"
+                     select="dao.UserMapper.selectByPrimaryKey">
+        </association>
+        <collection property="replays" column="id" javaType="ArrayList" ofType="entity.Replay"
+                    select="dao.ReplayMapper.selectAllByCommentId">
+        </collection>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from comment
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="entity.Comment">
+        insert into comment (id, user_id, video_id,
+                             content, time, focus)
+        values (#{id,jdbcType=INTEGER}, ${user.id}, #{videoId,jdbcType=INTEGER},
+                #{content,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, #{focus,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="entity.Comment">
+        update comment
+        set user_id  = ${user.id},
+            video_id = #{videoId,jdbcType=INTEGER},
+            content  = #{content,jdbcType=VARCHAR},
+            time     = #{time,jdbcType=VARCHAR},
+            focus    = #{focus,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id,
+               user_id,
+               video_id,
+               content,
+               time,
+               focus,
+               CASE
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()) > 31104000 THEN concat(
+                           TIMESTAMPDIFF(YEAR, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()), '年前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()) > 2592000 THEN concat(
+                           TIMESTAMPDIFF(MONTH, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()), '个月前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()) > 86400 THEN concat(
+                           TIMESTAMPDIFF(DAY, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()), '天前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()) > 3600 THEN concat(
+                           TIMESTAMPDIFF(HOUR, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()), '小时前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()) > 60 THEN concat(
+                           TIMESTAMPDIFF(MINUTE, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()), '分钟前')
+                   ELSE concat('刚刚')
+                   END AS "timeInterval"
+        from comment
+        where id = #{id}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, user_id, video_id, content, time, focus
+        from comment
+    </select>
+
+    <select id="selectCommentByVideoId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id,
+               user_id,
+               video_id,
+               content,
+               time,
+               focus,
+               CASE
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()) > 31104000 THEN concat(
+                           TIMESTAMPDIFF(YEAR, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()), '年前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()) > 2592000 THEN concat(
+                           TIMESTAMPDIFF(MONTH, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()), '个月前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()) > 86400 THEN concat(
+                           TIMESTAMPDIFF(DAY, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()), '天前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()) > 3600 THEN concat(
+                           TIMESTAMPDIFF(HOUR, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()), '小时前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()) > 60 THEN concat(
+                           TIMESTAMPDIFF(MINUTE, STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s'), NOW()), '分钟前')
+                   ELSE concat('刚刚')
+                   END AS "timeInterval"
+        from comment
+        where video_id = #{vid}
+    </select>
+
+
+    <insert id="insertComment" parameterType="Comment">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="user.id != null">
+                user_id,
+            </if>
+            <if test="courseId != null">
+                course_id,
+            </if>
+            <if test="content != null and content !=''">
+                content,
+            </if>
+            <if test="time != null and time!=''">
+                time,
+            </if>
+            <if test="focus != null">
+                focus,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{commentId},
+            </if>
+            <if test="user.id != null">
+                ${answer.id},
+            </if>
+            <if test="courseId != null">
+                ${replay.id},
+            </if>
+            <if test="content != null and content !=''">
+                #{content},
+            </if>
+            <if test="time != null and time!=''">
+                #{time},
+            </if>
+            <if test="focus != null">
+                ${focus},
+            </if>
+        </trim>
+    </insert>
 </mapper>

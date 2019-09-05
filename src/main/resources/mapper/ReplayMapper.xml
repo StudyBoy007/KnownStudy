@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.ReplayMapper">
+    <resultMap id="BaseResultMap" type="entity.Replay">
+        <result column="comment_id" property="commentId" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="focus" property="focus" jdbcType="INTEGER"/>
+        <association property="answer" column="answer_id" jdbcType="INTEGER" javaType="entity.User"
+                     select="dao.UserMapper.selectByPrimaryKey">
+        </association>
+        <association property="replay" column="replayed_id" jdbcType="INTEGER" javaType="entity.User"
+                     select="dao.UserMapper.selectByPrimaryKey">
+        </association>
+    </resultMap>
+    <insert id="insert" parameterType="entity.Replay">
+        insert into replay_comment (comment_id, answer_id, replayed_id,
+                                    content, focus)
+        values (#{commentId,jdbcType=INTEGER}, ${answer.id}, ${replay.id},
+                #{content,jdbcType=VARCHAR}, #{focus,jdbcType=INTEGER})
+    </insert>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select comment_id, answer_id, replayed_id, content, focus
+        from replay_comment
+    </select>
+
+    <select id="selectAllByCommentId" parameterType="int" resultMap="BaseResultMap">
+        select *,
+               CASE
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(date, '%Y-%m-%d %H:%i:%s'), NOW()) > 31104000 THEN concat(
+                           TIMESTAMPDIFF(YEAR, STR_TO_DATE(date, '%Y-%m-%d %H:%i:%s'), NOW()), '年前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(date, '%Y-%m-%d %H:%i:%s'), NOW()) > 2592000 THEN concat(
+                           TIMESTAMPDIFF(MONTH, STR_TO_DATE(date, '%Y-%m-%d %H:%i:%s'), NOW()), '个月前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(date, '%Y-%m-%d %H:%i:%s'), NOW()) > 86400 THEN concat(
+                           TIMESTAMPDIFF(DAY, STR_TO_DATE(date, '%Y-%m-%d %H:%i:%s'), NOW()), '天前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(date, '%Y-%m-%d %H:%i:%s'), NOW()) > 3600 THEN concat(
+                           TIMESTAMPDIFF(HOUR, STR_TO_DATE(date, '%Y-%m-%d %H:%i:%s'), NOW()), '小时前')
+                   WHEN TIMESTAMPDIFF(SECOND, STR_TO_DATE(date, '%Y-%m-%d %H:%i:%s'), NOW()) > 60 THEN concat(
+                           TIMESTAMPDIFF(MINUTE, STR_TO_DATE(date, '%Y-%m-%d %H:%i:%s'), NOW()), '分钟前')
+                   ELSE concat('刚刚')
+                   END AS "timeInterval"
+        from replay_comment
+        where comment_id = #{id}
+    </select>
+
+
+    <insert id="insertReplayComment" parameterType="Replay">
+        insert into replay_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">
+                comment_id,
+            </if>
+            <if test="answer.id != null">
+                answer_id,
+            </if>
+            <if test="replay.id != null">
+                replayed_id,
+            </if>
+            <if test="content != null and content !=''">
+                content,
+            </if>
+            <if test="focus != null">
+                focus,
+            </if>
+            <if test="date != null and date!=''">
+                date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">
+                #{commentId},
+            </if>
+            <if test="answer.id != null">
+                ${answer.id},
+            </if>
+            <if test="replay.id != null">
+                ${replay.id},
+            </if>
+            <if test="content != null and content !=''">
+                #{content},
+            </if>
+            <if test="focus != null">
+                ${focus},
+            </if>
+            <if test="date != null and date!=''">
+                #{date},
+            </if>
+        </trim>
+    </insert>
+</mapper>

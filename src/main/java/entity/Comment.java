@@ -1,15 +1,23 @@
 package entity;
 
+import java.util.List;
+
 public class Comment {
     private Integer id;
 
-    private Integer userId;
+    private User user;
 
-    private Integer courseId;
+    private Integer videoId;
 
     private String content;
 
     private String time;
+
+    private Integer focus;
+
+    private List<Replay> replays;
+
+    private String timeInterval;
 
     public Integer getId() {
         return id;
@@ -19,20 +27,28 @@ public class Comment {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getCourseId() {
-        return courseId;
+    public List<Replay> getReplays() {
+        return replays;
     }
 
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
+    public void setReplays(List<Replay> replays) {
+        this.replays = replays;
+    }
+
+    public Integer getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(Integer videoId) {
+        this.videoId = videoId;
     }
 
     public String getContent() {
@@ -49,5 +65,36 @@ public class Comment {
 
     public void setTime(String time) {
         this.time = time == null ? null : time.trim();
+    }
+
+    public Integer getFocus() {
+        return focus;
+    }
+
+    public void setFocus(Integer focus) {
+        this.focus = focus;
+    }
+
+
+    public String getTimeInterval() {
+        return timeInterval;
+    }
+
+    public void setTimeInterval(String timeInterval) {
+        this.timeInterval = timeInterval;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", user=" + user +
+                ", videoId=" + videoId +
+                ", content='" + content + '\'' +
+                ", time='" + time + '\'' +
+                ", focus=" + focus +
+                ", replays=" + replays +
+                ", timeInterval='" + timeInterval + '\'' +
+                '}';
     }
 }

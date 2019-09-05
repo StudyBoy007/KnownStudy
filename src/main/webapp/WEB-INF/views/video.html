@@ -643,15 +643,23 @@
                         <span class="js-pub-btn moco-btn moco-btn-gray-l" id="send">我要发布</span>
                     </div>
                     <div id="commentContainer" class="answertabcon">
-                        <div class="course_quescon mod-post">
-                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="602734">
+                        <div class="course_quescon mod-post" id="comment">
+
+
+                            <div class="wenda-listcon mod-qa-list post-row clearfix parentComment" data-id="602734">
                                 <div class="headslider qa-medias l">
                                     <a href="" class="media" target="_blank" title="Olivlia">
-                                        <img th:src="@{/static/images/avatar08.jpg}" width="40" height="40"></a>
+                                        <img src="images/avatar08.jpg" width="40" height="40"></a>
                                 </div>
                                 <div class="wendaslider qa-content">
                                     <div class="tit">
-                                        <a href="" target="_blank">Olivlia</a>
+                                        <div class="replayName" style="float: left;width: 90%">
+                                            <a href="" target="_blank">Olivlia</a>
+                                        </div>
+                                        <div class="replayIcon" style="float: left;width: 10%"><span my-icon="replay"
+                                                                                                     style="float: right;position: relative;top: 4px"></span>
+                                        </div>
+                                        <div style="clear: both"></div>
                                     </div>
                                     <div class="cnt">不错，很适合新手入门</div>
                                     <div class="replymegfooter qa-footer clearfix">
@@ -664,151 +672,18 @@
                                         </div>
                                         <span class="r timeago">4天前</span></div>
                                 </div>
-                            </div>
-                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="602634">
-                                <div class="headslider qa-medias l">
-                                    <a href="https://www.imooc.com/u/5569489/courses" class="media" target="_blank"
-                                       title="慕雪2089261"><img th:src="@{/static/images/avatar09.jpg}" width="40"
-                                                              height="40"></a>
-                                </div>
-                                <div class="wendaslider qa-content">
-                                    <div class="tit">
-                                        <a href="https://www.imooc.com/u/5569489/courses" target="_blank">慕雪2089261</a>
-                                    </div>
-                                    <div class="cnt">老师讲的很细</div>
-                                    <div class="replymegfooter qa-footer clearfix">
-                                        <div class="l-box l">
-                                            <a title="赞" href="javascript:;"
-                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="602634">
-                                                <span my-icon="thumb01"></span><em>3</em></a>
-                                            <a href="javascript:;" data-id="602634" data-type="4" data-uid="5569489"
-                                               class="js-tip-off" data-src="/video/6160">举报</a>
-                                        </div>
-                                        <span class="r timeago">5天前</span></div>
-                                </div>
-                            </div>
-                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="602344">
-                                <div class="headslider qa-medias l">
-                                    <a href="https://www.imooc.com/u/7580529/courses" class="media" target="_blank"
-                                       title="IMUHERO"><img th:src="@{/static/images/avatar10.jpg}" width="40"
-                                                            height="40"></a>
-                                </div>
-                                <div class="wendaslider qa-content">
-                                    <div class="tit">
-                                        <a href="https://www.imooc.com/u/7580529/courses" target="_blank">IMUHERO</a>
-                                    </div>
-                                    <div class="cnt">老师真的讲的很好，把我很多疑惑都点通了</div>
-                                    <div class="replymegfooter qa-footer clearfix">
-                                        <div class="l-box l">
-                                            <a title="赞" href="javascript:;"
-                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="602344">
-                                                <span my-icon="thumb01"></span><em>1</em></a>
-                                            <a href="javascript:;" data-id="602344" data-type="4" data-uid="7580529"
-                                               class="js-tip-off" data-src="/video/6160">举报</a>
-                                        </div>
-                                        <span class="r timeago">2019-08-08</span></div>
-                                </div>
-                            </div>
-                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="598912">
-                                <div class="headslider qa-medias l">
-                                    <a href="https://www.imooc.com/u/2110967/courses" class="media" target="_blank"
-                                       title="weibo_微天下微生活_0"><img th:src="@{/static/images/avatar11.jpg}" width="40"
-                                                                   height="40"></a>
-                                </div>
-                                <div class="wendaslider qa-content">
-                                    <div class="tit">
-                                        <a href="https://www.imooc.com/u/2110967/courses"
-                                           target="_blank">weibo_微天下微生活_0</a>
-                                    </div>
-                                    <div class="cnt">讲的真好，直击每一个疑问，好老师</div>
-                                    <div class="replymegfooter qa-footer clearfix">
-                                        <div class="l-box l">
-                                            <a title="赞" href="javascript:;"
-                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="598912">
-                                                <span my-icon="thumb01"></span><em>4</em></a>
-                                            <a href="javascript:;" data-id="598912" data-type="4" data-uid="2110967"
-                                               class="js-tip-off" data-src="/video/6160">举报</a>
-                                        </div>
-                                        <span class="r timeago">2019-06-05</span></div>
-                                </div>
-                            </div>
-                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="597588">
-                                <div class="headslider qa-medias l">
-                                    <a href="https://www.imooc.com/u/3009866/courses" class="media" target="_blank"
-                                       title="假蛙工程师"><img th:src="@{/static/images/avatar12.jpg}" width="40"
-                                                          height="40"></a>
-                                </div>
-                                <div class="wendaslider qa-content">
-                                    <div class="tit">
-                                        <a href="https://www.imooc.com/u/3009866/courses" target="_blank">假蛙工程师</a>
-                                    </div>
-                                    <div class="cnt">学完了。是“名称/值”对。不是“名称/值对”。嘿嘿</div>
-                                    <div class="replymegfooter qa-footer clearfix">
-                                        <div class="l-box l">
-                                            <a title="赞" href="javascript:;"
-                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="597588">
-                                                <span my-icon="thumb01"></span><em>5</em></a>
-                                            <a href="javascript:;" data-id="597588" data-type="4" data-uid="3009866"
-                                               class="js-tip-off" data-src="/video/6160">举报</a>
-                                        </div>
-                                        <span class="r timeago">2019-05-14</span></div>
-                                </div>
-                            </div>
-                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="595847">
-                                <div class="headslider qa-medias l">
-                                    <a href="https://www.imooc.com/u/7004930/courses" class="media" target="_blank"
-                                       title="慕神1111125"><img th:src="@{/static/images/avatar13.jpg}" width="40"
-                                                              height="40"></a>
-                                </div>
-                                <div class="wendaslider qa-content">
-                                    <div class="tit">
-                                        <a href="https://www.imooc.com/u/7004930/courses" target="_blank">慕神1111125</a>
-                                    </div>
-                                    <div class="cnt">讲解很好！</div>
-                                    <div class="replymegfooter qa-footer clearfix">
-                                        <div class="l-box l">
-                                            <a title="赞" href="javascript:;"
-                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="595847">
-                                                <span my-icon="thumb01"></span><em>2</em></a>
-                                            <a href="javascript:;" data-id="595847" data-type="4" data-uid="7004930"
-                                               class="js-tip-off" data-src="/video/6160">举报</a>
-                                        </div>
-                                        <span class="r timeago">2019-04-13</span></div>
-                                </div>
-                            </div>
-                            <div class="wenda-listcon mod-qa-list post-row clearfix" data-id="594985">
-                                <div class="headslider qa-medias l">
-                                    <a href="https://www.imooc.com/u/7717646/courses" class="media" target="_blank"
-                                       title="慕沐风"><img th:src="@{/static/images/avatar14.jpg}" width="40" height="40"></a>
-                                </div>
-                                <div class="wendaslider qa-content">
-                                    <div class="tit">
-                                        <a href="https://www.imooc.com/u/7717646/courses" target="_blank">慕沐风</a>
-                                    </div>
-                                    <div class="cnt">谢谢老师</div>
-                                    <div class="replymegfooter qa-footer clearfix">
-                                        <div class="l-box l">
-                                            <a title="赞" href="javascript:;"
-                                               class="js-pl-praise moco-btn moco-btn-gray-l" data-id="594985">
-                                                <span my-icon="thumb01"></span><em>2</em></a>
-                                            <a href="javascript:;" data-id="594985" data-type="4" data-uid="7717646"
-                                               class="js-tip-off" data-src="/video/6160">举报</a>
-                                        </div>
-                                        <span class="r timeago">2019-04-06</span></div>
-                                </div>
+                                <!--                                子回复-->
+
                             </div>
                         </div>
                     </div>
                     <div class="paginationwrap">
-                        <div class="pagination"><span class="current prev disabled">首页</span><span
-                                class="current prevclass prev">上一页</span>
-                            <span class="current p_interval">1</span>
-                            <a href="javascript:;" class="p_interval">2</a>
-                            <a href="javascript:;" class="p_interval">3</a>
-                            <span class="p_interval">...</span>
-                            <a href="javascript:;" class="p_interval">27</a>
-                            <a href="javascript:;" class="nextclass next">下一页</a>
-                            <a href="javascript:;" class="prev disabled lastclass">尾页</a>
+                        <div class="row">
+                            <!--分页文字信息  -->
+                            <div class="col-md-6" id="page_info_area"></div>
+                            <!-- 分页条信息 -->
+                            <div class="col-md-6" id="page_nav_area">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1036,6 +911,7 @@
 <script th:src="@{/static/js/jquery.js}"></script>
 <script th:src="@{/static/js/bootstrap.min.js}"></script>
 <script th:src="@{/static/js/video.js}"></script>
+<script th:src="@{/static/js/video2.js}"></script>
 <script>
     window.onbeforeunload = function () {
         var time = document.getElementById("videoDis").currentTime;
@@ -1069,6 +945,14 @@
             $(".agileinfo").click();
             $("#videoDis").attr("autoplay", "autoplay").attr("muted", "muted");
             document.getElementById("videoDis").currentTime = history;
+        })
+
+
+        var user = [[${session.user}]];
+        $(".replay").each(function () {
+            if ($(this).attr("data-id") == user.id) {
+                $(this).hide();
+            }
         })
     })
 
