@@ -120,6 +120,7 @@ public class CourseController {
     @RequestMapping("/showVideo")
     @RequireRole("guest")
     public ModelAndView showVideo(int courseId, int chapter, int video, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
         ModelAndView mv = new ModelAndView();
         //获取展示的课程信息
         Course course = courseService.selectByPrimaryKeyService(courseId);
@@ -132,6 +133,12 @@ public class CourseController {
         String videoPath = chapter1.getVideos().get(video).getPath();
         int videoId = chapter1.getVideos().get(video).getId();
         request.getSession().setAttribute("videoId", videoId);
+
+        //查看视频是否有历史记录
+        double v = courseService.selectVideoHistory(user.getId(), videoId);
+        if (v > 0) {
+            mv.addObject("currentTime", v);
+        }
         //推荐课程
         List<Course> recommends = courseService.selectCourseByDirectionRecommendService(course.getId(), course.getCourseDirection().getId());
         mv.addObject("recommends", recommends);
@@ -147,6 +154,7 @@ public class CourseController {
     public void recordVideoTime(double time, HttpServletRequest request) {
         int videoId = (int) request.getSession().getAttribute("videoId");
         User user = (User) request.getSession().getAttribute("user");
+        courseService.updateVideoHistory(user.getId(), videoId, time);
     }
 
 

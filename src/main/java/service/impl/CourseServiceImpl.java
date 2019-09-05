@@ -265,9 +265,9 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void updateVideoHistory(int uid, int vid, double time) {
         int i = courseMapper.selectVideoHistoryIsOrNotExist(uid, vid);
-        if(i>0){
-            int i1 = courseMapper.updateVideoHistory(uid, vid, time);
-        }else {
+        if (i > 0) {
+            courseMapper.updateVideoHistory(uid, vid, time);
+        } else {
             courseMapper.insertVideoHistory(uid, vid, time);
         }
     }
