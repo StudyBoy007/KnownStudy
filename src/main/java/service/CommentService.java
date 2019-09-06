@@ -2,6 +2,7 @@ package service;
 
 import entity.Comment;
 import entity.Replay;
+import util.Msg;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ import java.util.List;
  * time on 2019/9/5  19:34
  */
 public interface CommentService {
-    int insertCommentService(Comment comment);
+    Msg insertCommentService(Comment comment);
 
-    int insertReplayComment(Replay replay);
+    Msg insertReplayComment(Replay replay);
 
     List<Comment> selectCommentByVideoId(Integer vid);
 }

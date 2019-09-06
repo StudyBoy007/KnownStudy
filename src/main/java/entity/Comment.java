@@ -1,5 +1,6 @@
 package entity;
 
+import java.lang.ref.PhantomReference;
 import java.util.List;
 
 public class Comment {
@@ -18,6 +19,8 @@ public class Comment {
     private List<Replay> replays;
 
     private String timeInterval;
+
+    private boolean userIsOrNot;
 
     public Integer getId() {
         return id;
@@ -49,6 +52,14 @@ public class Comment {
 
     public void setVideoId(Integer videoId) {
         this.videoId = videoId;
+    }
+
+    public boolean isUserIsOrNot() {
+        return userIsOrNot;
+    }
+
+    public void setUserIsOrNot(boolean userIsOrNot) {
+        this.userIsOrNot = userIsOrNot;
     }
 
     public String getContent() {
@@ -95,6 +106,7 @@ public class Comment {
                 ", focus=" + focus +
                 ", replays=" + replays +
                 ", timeInterval='" + timeInterval + '\'' +
+                ", userIsOrNot=" + userIsOrNot +
                 '}';
     }
 }

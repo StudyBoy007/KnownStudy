@@ -163,19 +163,5 @@ public class CourseController {
     }
 
 
-    @ResponseBody
-    @RequestMapping("/displayVideoComment")
-    public Msg displayComment(@RequestParam(value = "pn", defaultValue = "1") Integer pn, HttpServletRequest request) {
-        int videoId = (int) request.getSession().getAttribute("videoId");
-        // 引入PageHelper分页插件
-        // 在查询之前只需要调用，传入页码，以及每页的大小
-        PageHelper.startPage(pn, 3);
-        List<Comment> comments = commentService.selectCommentByVideoId(videoId);
-        // 使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就行了。
-        // 封装了详细的分页信息,包括有我们查询出来的数据，传入连续显示的页数
-        PageInfo page = new PageInfo(comments, 3);
-        return Msg.result(100, "老师信息", comments).add("pageInfo", page);
-    }
-
 
 }

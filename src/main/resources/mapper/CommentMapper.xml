@@ -84,6 +84,7 @@
                    END AS "timeInterval"
         from comment
         where video_id = #{vid}
+        order BY STR_TO_DATE(time, '%Y-%m-%d %H:%i:%s') DESC
     </select>
 
 
@@ -96,8 +97,8 @@
             <if test="user.id != null">
                 user_id,
             </if>
-            <if test="courseId != null">
-                course_id,
+            <if test="videoId != null">
+                video_id,
             </if>
             <if test="content != null and content !=''">
                 content,
@@ -111,13 +112,13 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
-                #{commentId},
+                #{id},
             </if>
             <if test="user.id != null">
-                ${answer.id},
+                ${user.id},
             </if>
-            <if test="courseId != null">
-                ${replay.id},
+            <if test="videoId != null">
+                #{videoId},
             </if>
             <if test="content != null and content !=''">
                 #{content},

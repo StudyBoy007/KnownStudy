@@ -1,6 +1,8 @@
 package entity;
 
 public class Replay {
+    private Integer id;
+
     private Integer commentId;
 
     private User answer;
@@ -14,6 +16,8 @@ public class Replay {
     private String timeInterval;
 
     private String date;
+
+    private boolean userIsOrNot;
 
     public Integer getCommentId() {
         return commentId;
@@ -72,16 +76,34 @@ public class Replay {
         this.date = date;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public boolean isUserIsOrNot() {
+        return userIsOrNot;
+    }
+
+    public void setUserIsOrNot(boolean userIsOrNot) {
+        this.userIsOrNot = userIsOrNot;
+    }
+
     @Override
     public String toString() {
         return "Replay{" +
-                "commentId=" + commentId +
+                "id=" + id +
+                ", commentId=" + commentId +
                 ", answer=" + answer +
                 ", replay=" + replay +
                 ", content='" + content + '\'' +
                 ", focus=" + focus +
                 ", timeInterval='" + timeInterval + '\'' +
                 ", date='" + date + '\'' +
+                ", userIsOrNot=" + userIsOrNot +
                 '}';
     }
 }

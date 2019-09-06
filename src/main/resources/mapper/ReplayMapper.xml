@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="dao.ReplayMapper">
     <resultMap id="BaseResultMap" type="entity.Replay">
+        <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="comment_id" property="commentId" jdbcType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="focus" property="focus" jdbcType="INTEGER"/>
@@ -13,13 +14,13 @@
         </association>
     </resultMap>
     <insert id="insert" parameterType="entity.Replay">
-        insert into replay_comment (comment_id, answer_id, replayed_id,
+        insert into replay_comment (id, comment_id, answer_id, replayed_id,
                                     content, focus)
-        values (#{commentId,jdbcType=INTEGER}, ${answer.id}, ${replay.id},
+        values (#{id}, #{commentId,jdbcType=INTEGER}, ${answer.id}, ${replay.id},
                 #{content,jdbcType=VARCHAR}, #{focus,jdbcType=INTEGER})
     </insert>
     <select id="selectAll" resultMap="BaseResultMap">
-        select comment_id, answer_id, replayed_id, content, focus
+        select id, comment_id, answer_id, replayed_id, content, focus
         from replay_comment
     </select>
 

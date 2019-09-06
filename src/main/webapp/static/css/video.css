@@ -63,3 +63,11 @@
     background-size: cover;
     z-index: 99;
 }
+
+.replay {
+    transition: all 0.2s ease 0s;
+}
+
+.replay:hover {
+    transform: scale(1.1);
+}

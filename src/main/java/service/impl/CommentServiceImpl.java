@@ -7,6 +7,7 @@ import entity.Replay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.CommentService;
+import util.Msg;
 
 import java.util.List;
 
@@ -26,17 +27,25 @@ public class CommentServiceImpl implements CommentService {
     //插入评论
 
     @Override
-    public int insertCommentService(Comment comment) {
+    public Msg insertCommentService(Comment comment) {
         int i = commentMapper.insertComment(comment);
-        return i;
+        if (i > 0) {
+            return Msg.result(100, "评论添加成功", null);
+        } else {
+            return Msg.result(405, "评论添加失败", null);
+        }
     }
 
     //插入回复评论
 
     @Override
-    public int insertReplayComment(Replay replay) {
+    public Msg insertReplayComment(Replay replay) {
         int i = replayMapper.insertReplayComment(replay);
-        return i;
+        if (i > 0) {
+            return Msg.result(100, "评论添加成功", null);
+        } else {
+            return Msg.result(405, "评论添加失败", null);
+        }
     }
 
     @Override
