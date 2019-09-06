@@ -133,8 +133,8 @@ function bulidComment(result) {
                 "                                                                                                             target='_blank'>" + item.replay.username + "</a>\n" +
                 "                                            </div>" +
                 "                                            <div class='replayIcon' style='float: left;width: 14%'><span\n" +
-                "                                                    style='float: left'></span><span\n" +
-                "                                                    my-icon='good' style='float: left'></span><span class='replay' my-icon='replay' data-id='" + item.answer.id + "' data-title='" + item.answer.username + "' \n" +
+                "                                                    style='float: left'></span>" +
+                "                                                  <span class='replay' my-icon='replay' data-id='" + item.answer.id + "' data-title='" + item.answer.username + "' \n" +
                 "                                                                                                    style='float: right;position: relative;top: 4px'></span>\n" +
                 "                                            </div>\n" +
                 "                                        <div style='clear: both'></div>\n" +
