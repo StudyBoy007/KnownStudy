@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import service.CourseService;
 import service.TeacherService;
 import service.UserService;
+import util.MD5Util;
 import util.Msg;
 import util.RandomNum;
 import util.auth.AuthUtils;
@@ -117,7 +118,7 @@ public class UserController {
             return Msg.result(400, "验证码错误", null);
         }
         if (picCode.toLowerCase().equals(code.toLowerCase())) {
-            Msg msg = userService.selectByUsernameAndPwdService(loginName, loginPwd);
+            Msg msg = userService.selectByUsernameAndPwdService(loginName, MD5Util.md5(loginPwd));
             User user = (User) msg.getO();
             request.getSession().setAttribute("user", user);
             AuthUtils.setRole("guest");
@@ -132,6 +133,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/regUser")
     public Msg reg(User user) {
+        user.setPassword(MD5Util.md5(user.getPassword()));
         Msg msg = userService.selectByUsernameService(user.getUsername());
         if (msg.getCode() == 100) {
             Msg msg1 = userService.saveUserService(user);

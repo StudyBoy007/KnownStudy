@@ -683,7 +683,7 @@
                         <li th:each="recommend:${recommends}">
                             <div class="aside-course-img"><img
                                     th:src="|/pic/course/${recommend.courseDirection.courseDirection}/${recommend.pic}|">
-                                <p class="aside-course-type">实战</p>
+                                <p class="aside-course-type" th:if="${recommend.isfress==1}">实战</p>
                             </div>
                             <div class="aside-course-content" th:switch="${recommend.isfress}">
                                 <div th:case="0">
@@ -691,13 +691,13 @@
                                        class="aside-course-name"
                                        target="_blank" th:text="${recommend.cname}">Vue.js2.5+cube-ui重构饿了么App（经典再升级）</a>
                                     <p class="aside-course-price"><span>免费</span></p>
-                                    <p class="aside-course-grade margin_left">中级</p>
+                                    <p class="aside-course-grade margin_left" th:text="${recommend.degree}">中级</p>
                                     <p class="aside-course-people margin_left"><span
                                             th:text="${recommend.focus+recommend.buy_num}+'人在学'">8496人在学</span>
                                     </p>
                                 </div>
                                 <div th:case="1">
-                                    <a href="#"
+                                    <a th:href="@{/shopCart(courseId=${recommend.id})}"
                                        class="aside-course-name"
                                        target="_blank" th:text="${recommend.cname}">Vue.js2.5+cube-ui重构饿了么App（经典再升级）</a>
                                     <p class="aside-course-price"><span

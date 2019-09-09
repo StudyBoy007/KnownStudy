@@ -49,11 +49,10 @@ public class OrderController {
         //生成订单
         orderService.insertService(order);
 
-        System.out.println(order.getId());
 
         //订单商品中间表
         orderService.insertMiddleService(strid, order.getId());
-        return new Msg(100, "订单生成成功", null);
+        return new Msg(100, "订单生成成功", order.getId());
     }
 
     @ResponseBody

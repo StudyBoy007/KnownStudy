@@ -107,7 +107,7 @@
                     </a>
                 </div>
                 <div th:case="1">
-                    <a href="#">
+                    <a th:href="@{/shopCart(courseId=${recommend.id})}">
                         <div class="courseImg"><img
                                 th:src="|/pic/course/${recommend.courseDirection.courseDirection}/${recommend.pic}|"
                                 alt="" width="150px"></div>

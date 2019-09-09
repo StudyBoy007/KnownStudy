@@ -128,7 +128,7 @@ function createOrder() {
                 "cartIds": cartStr.substring(0, cartStr.length - 1)
             },
             success: function (result) {
-                window.location.href = getRootPath() + "displayOrder";
+                window.location.href = getRootPath() + "displayOrder?id=" + result.o;
             }
         });
     }
