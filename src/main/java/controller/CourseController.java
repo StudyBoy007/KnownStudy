@@ -132,10 +132,10 @@ public class CourseController {
 
 //        获取视频信息
         Chapter chapter1 = course.getChapters().get(chapter);
-        String chapterName = chapter1.getChapterName();
         String coursePath = course.getCourse_path();
         String chapterPath = chapter1.getPath();
         String videoPath = chapter1.getVideos().get(video).getPath();
+        String videoName = chapter1.getVideos().get(video).getVideoName();
         int videoId = chapter1.getVideos().get(video).getId();
         request.getSession().setAttribute("videoId", videoId);
 
@@ -147,7 +147,7 @@ public class CourseController {
         //推荐课程
         List<Course> recommends = courseService.selectCourseByDirectionRecommendService(course.getId(), course.getCourseDirection().getId());
         mv.addObject("recommends", recommends);
-        mv.addObject("chapter", (chapter + 1) + "-" + (video + 1) + " " + chapterName);
+        mv.addObject("chapter", (chapter + 1) + "-" + (video + 1) + " " + videoName);
         mv.addObject("videoName", course.getCourseDirection().getCourseDirection() + "/" + coursePath + "/" + chapterPath + "/" + videoPath);
         mv.setViewName("video");
         return mv;
