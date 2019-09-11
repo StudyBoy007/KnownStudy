@@ -48,7 +48,7 @@
     <!--    配置文件类型解析器，id名称不能修改，规定好了的-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!--约定文件传输的最大位数，下面约为10M，单位是 （位）-->
-        <property name="maxUploadSize" value="10240000"></property>
+        <property name="maxUploadSize" value="102400000"></property>
     </bean>
 
     <!--静态文件被前端控制器拦截-->

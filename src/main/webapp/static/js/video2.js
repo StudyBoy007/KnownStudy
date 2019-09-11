@@ -57,7 +57,7 @@ $(function () {
             success: function (result) {
                 $("#commendReplayModal").modal('hide');
                 if (result.code == 100) {
-                    to_page(1);
+                    to_page(currentPage);
                 } else {
                     alert(result.msg)
                 }

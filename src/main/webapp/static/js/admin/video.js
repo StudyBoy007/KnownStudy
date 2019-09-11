@@ -11,17 +11,29 @@ $(function () {
 
 
 //改变事件
-    $(".input-file").change(function () {
-        var filePath = $(".input-file").val();
+    $("#videoUpload1").change(function () {
+        var filePath = $("#videoUpload1").val();
         var fileType = filePath.substring(filePath.lastIndexOf("."));
-        if (fileType == ".mp4" || fileType == ".avi" || fileType == ".wma"|| fileType == ".rm"|| fileType == ".flash"|| fileType == ".mid") {
+        if (fileType == ".mp4" || fileType == ".avi" || fileType == ".wma" || fileType == ".rm" || fileType == ".flash" || fileType == ".mid") {
             alert("文件选择完毕")
         } else {
             var flag = confirm("上传视频格式不正确，请重新选择(如.mp4或.avi..)");
-            $(".input-file").val("");
+            $("#videoUpload1").val("");
+        }
+    });
+
+    $("#videoUpload2").change(function () {
+        var filePath = $("#videoUpload2").val();
+        var fileType = filePath.substring(filePath.lastIndexOf("."));
+        if (fileType == ".mp4" || fileType == ".avi" || fileType == ".wma" || fileType == ".rm" || fileType == ".flash" || fileType == ".mid") {
+            alert("文件选择完毕")
+        } else {
+            var flag = confirm("上传视频格式不正确，请重新选择(如.mp4或.avi..)");
+            $("#videoUpload2").val("");
         }
     });
 });
+
 
 function to_page(pn) {
     $.ajax({
@@ -40,8 +52,6 @@ function to_page(pn) {
 }
 
 
-
-
 function build_users_table(result) {
     console.log(result)
     //清空table表格
@@ -51,9 +61,9 @@ function build_users_table(result) {
     $("#courseId_modify_input").val(result.o);
     $.each(videos, function (index, item) {
         var checkBoxTd = $("<td width='4%'><input type='checkbox' class='check_item'/></td>");
-        var cId= $("<td width='4%'></td>").append(item.id);
-        var courseId= $("<td width='4%' class='courseId'></td>").append(result.o);
-        var chapterId= $("<td width='4%' class='chapterId'></td>").append(item.chapterid);
+        var cId = $("<td width='4%'></td>").append(item.id);
+        var courseId = $("<td width='4%' class='courseId'></td>").append(result.o);
+        var chapterId = $("<td width='4%' class='chapterId'></td>").append(item.chapterid);
         var videoName = $("<td width='12%'></td>").append(item.videoName);
         var videoPath = $("<td width='12%'></td>").append(item.path);
         var editBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
@@ -217,7 +227,7 @@ $(document).on("click", ".delete_btn", function () {
     if (confirm("确认删除【" + empName + "】吗？")) {
         //确认，发送ajax请求删除即可
         $.ajax({
-            url: getRootPath()+"deleteVideoAdmin?videoId=" + videoId,
+            url: getRootPath() + "deleteVideoAdmin?videoId=" + videoId,
             type: "POST",
             success: function (result) {
                 // alert(result.msg);
@@ -239,9 +249,9 @@ $(document).on("click", ".delete_btn", function () {
 
 $(document).on("click", ".edit_btn", function () {
     var videoId = $(this).attr("edit-id");
-    var courseId=$(this).parent().siblings(".courseId").text();
+    var courseId = $(this).parent().siblings(".courseId").text();
     $.ajax({
-        url: getRootPath()+ "editVideoAdmin?videoId=" + videoId,
+        url: getRootPath() + "editVideoAdmin?videoId=" + videoId,
         type: "GET",
         success: function (result) {
             // alert(result.msg);
@@ -265,17 +275,17 @@ $(document).on("click", ".edit_btn", function () {
     });
 })
 
-function editVideo(){
+function editVideo() {
     //获取表单数据
     var formData = new FormData($('#videoEdit')[0]);
     //2、发送ajax请求保存员工
     $.ajax({
-        url: getRootPath()+"modifyVideoAdmin",
+        url: getRootPath() + "modifyVideoAdmin",
         type: "POST",
         data: formData,
         async: false,
-        processData : false, // 使数据不做处理
-        contentType : false, // 不要设置Content-Type请求头
+        processData: false, // 使数据不做处理
+        contentType: false, // 不要设置Content-Type请求头
         success: function (result) {
             //alert(result.msg);
             if (result.code == 100) {
@@ -297,12 +307,12 @@ function addVideo() {
     var formData = new FormData($('#videoAdd')[0]);
     //2、发送ajax请求保存员工
     $.ajax({
-        url: getRootPath()+"addVideoAdmin",
+        url: getRootPath() + "addVideoAdmin",
         type: "POST",
         data: formData,
         async: false,
-        processData : false, // 使数据不做处理
-        contentType : false, // 不要设置Content-Type请求头
+        processData: false, // 使数据不做处理
+        contentType: false, // 不要设置Content-Type请求头
         success: function (result) {
             //alert(result.msg);
             if (result.code == 100) {

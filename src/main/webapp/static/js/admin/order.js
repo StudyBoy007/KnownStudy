@@ -339,7 +339,7 @@ function addOrder() {
                 $("#orderAddModel").modal('hide');
 
                 //2、显示刚才保存的数据
-                to_page(totalRecord);
+                to_page(1);
             } else {
                 //显示失败信息
                 $("#orderAddModel").modal('hide');

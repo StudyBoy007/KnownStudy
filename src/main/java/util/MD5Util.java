@@ -27,7 +27,7 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        System.out.println(md5("999999"));
+        System.out.println(md5("456"));
         System.out.println(md5("980114"));
     }
 }

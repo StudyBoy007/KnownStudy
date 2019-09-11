@@ -73,7 +73,7 @@ function deleteOrder() {
         });
     } else {
         $("#replay").text("是否确认删除该订单");
-        $(".modal-footer").append("<button type='button' class='btn btn-default modal_modify' id='buttonContent' ONCLICK='delOrderAJAX()'>确认</button>")
+        $(".modal-footer").append("<button type='button' class='btn btn-default modal_modify' id='buttonContent1' ONCLICK='delOrderAJAX()'>确认</button>")
         $("#orderModal").modal({
             //点击背景不关闭
             backdrop: "static",
@@ -192,4 +192,9 @@ function delOrderAJAX() {
 
 function goRecharge() {
     window.location.href = getRootPath() + "userAccountCharge";
+}
+
+function deleteButton() {
+    $("#buttonContent").remove();
+    $("#buttonContent1").remove();
 }

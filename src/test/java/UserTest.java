@@ -44,7 +44,7 @@ public class UserTest {
     public void testGetUserByUsername() {
         SqlSession sqlSession = factory.openSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        User tom = mapper.selectByUsername("tom");
+        User tom = mapper.selectByUsername("蔡球球");
         System.out.println(tom);
     }
 

@@ -28,7 +28,6 @@ $(function () {
 function reloadCode() {
     var date = new Date().getTime();
     var str = getRootPath();
-    console.log(str);
     document.getElementById("safeCode").src = str + "/getJuifyCode?date=" + date;
 }
 
@@ -53,7 +52,6 @@ function getRootPath() {
 function registerUser() {
     //获取项目根路径
     var str = getRootPath();
-    alert(123);
     console.log($("#tab form").serialize());
     //发送ajax请求到后台去进行校验
     $.ajax({
@@ -98,7 +96,7 @@ function Userlogin() {
                 $("#login").modal('hide');
                 // window.location.reload();
             } else {
-                //显示失败信信息
+                // //显示失败信信息
                 $("#login").modal('hide');
                 var error = result.msg;
                 // $("#login_info").val(error);
@@ -133,6 +131,7 @@ function oneMore() {
 
     reset_form("#login #user_form");
     reset_form("#login #register_user_form");
+    reloadCode();
     $("#login").modal({
         backdrop: "static"
     });
